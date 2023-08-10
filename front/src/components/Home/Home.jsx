@@ -8,6 +8,7 @@ const Home = () => {
       <div className={styles.homeContainer}>
         <Banner />
         <h1>Bienvenido a la Página de Inicio</h1>
+        <h1>Bienvenido a la Página de Inicio</h1>
       </div>
     );
   };
