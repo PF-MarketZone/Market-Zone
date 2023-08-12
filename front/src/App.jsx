@@ -1,4 +1,4 @@
-import MainButton from './Component/Buttons/MainButton'
+import MainButton from './components/Buttons/MainButton'
 import './App.css'
 
 function App() {
