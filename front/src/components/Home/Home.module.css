@@ -8,3 +8,17 @@
   
 }
 
+.ContainerTienda {
+    background-color: rgb(255, 252, 239);
+    width: 95%;
+    padding: 20px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    max-width: 1500px;
+    margin: 0 auto
+  }
+  
+  .ContainerTienda h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }

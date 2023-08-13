@@ -3,7 +3,7 @@
   border: none;
   border-radius: 4px;
   margin-right: 10px;
-  
+  width: 450px;
 }
 
 .searchButton {
@@ -19,3 +19,4 @@
   background-color: #929292;
   color: #ffffff;
 }
+

@@ -1,0 +1,9 @@
+.cardsContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 0px;
+  justify-items: center;
+  padding: 86px;
+  margin-top: -80px;
+ 
+}
