@@ -1,11 +1,14 @@
 const { Router } = require('express');
-// const { getAllStore } = require('../handlers/getStore');
+const {
+  getAllStoreHandler,
+  getByIdStoreHandlere,
+} = require('../handlers/getStoreHandler');
+const { createStoreHandler } = require('../handlers/postStoreHandler');
 
 const storeRouter = Router();
 
-storeRouter.get('/all', (req, res) => {
-  res.status(200).send('endpoint /store/all');
-  //   console.log('StoreRouter funcionando');
-});
+storeRouter.get('/', getAllStoreHandler);
+storeRouter.get('/:id', getByIdStoreHandlere);
+storeRouter.post('/create', createStoreHandler);
 
 module.exports = storeRouter;
