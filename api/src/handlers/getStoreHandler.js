@@ -10,11 +10,11 @@ const getAllStoreHandler = async (req, res) => {
     // Si la ruta trae name por Query que haga la busqueda correspondiente de lo contrario que traiga todas las tiendas
 
     const { name } = req.query;
+    console.log(name);
     const res = name ? await storeByName(name) : await storeListDb();
     res.status(200).json(responseMaper(false, 'Estas son las tiendas', res));
-    console.log('llegando al handler getStore');
   } catch (error) {
-    const { name } = res.query;
+    const { name } = req.query;
     res
       .status(404)
       .json(

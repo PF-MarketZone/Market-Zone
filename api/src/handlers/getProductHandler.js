@@ -27,17 +27,18 @@ const getProductByIdHandler = (req, res) => {
       .json(
         responseMaper(
           false,
-          'Aqui tienes el producto solicitado por el parametro id',
+          `Aqui tienes el producto solicitado por el id ${id}`,
           res
         )
       );
   } catch (error) {
+    const { id } = req.params;
     res
-      .status(200)
+      .status(400)
       .json(
         responseMaper(
           true,
-          'No se encotro el producto solicitado por el parametro id',
+          `No se encotro el producto solicitado por el id ${id}`,
           null
         )
       );
