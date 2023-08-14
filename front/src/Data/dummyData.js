@@ -151,7 +151,7 @@ const tiendas = [
     ],
   },
   {
-    id: 1,
+    id: 2,
     name: "Tienda Carla 2",
     logo: "https://images.pexels.com/photos/176837/pexels-photo-176837.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     categories: ["Comidas", "Ropa"],
@@ -302,7 +302,7 @@ const tiendas = [
     ],
   },
   {
-    id: 1,
+    id: 3,
     name: "Tienda Carla 3",
     logo: "https://images.pexels.com/photos/176837/pexels-photo-176837.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     categories: ["Ropa"],
@@ -453,7 +453,7 @@ const tiendas = [
     ],
   },
   {
-    id: 1,
+    id: 4,
     name: "Tienda Carla 4",
     logo: "https://images.pexels.com/photos/176837/pexels-photo-176837.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     categories: ["Celulares", "Hogar"],
@@ -604,7 +604,7 @@ const tiendas = [
     ],
   },
   {
-    id: 1,
+    id: 5,
     name: "Tienda Carla 5",
     logo: "https://images.pexels.com/photos/176837/pexels-photo-176837.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     categories: ["Celulares", "Ropa"],
@@ -755,7 +755,7 @@ const tiendas = [
     ],
   },
   {
-    id: 1,
+    id: 6,
     name: "Tienda Carla 6",
     logo: "https://images.pexels.com/photos/176837/pexels-photo-176837.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     categories: ["Celulares", "Comidas", "Ropa"],

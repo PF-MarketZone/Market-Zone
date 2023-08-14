@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import tiendaData from "../../tiendaData";
+import tiendaData from "../../Data/dummyData";
 import CardsProductos from "../CardsProductos/CardsProductos";
 import {
   setCategoriaFiltro,

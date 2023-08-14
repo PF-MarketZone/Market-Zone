@@ -1,7 +1,7 @@
 import React from "react";
 import Banner from "../Banner/Banner";
 import styles from "./Home.module.css";
-import tiendaData from "../../tiendaData";
+import tiendaData from "../../Data/dummyData";
 import Cards from "../CardsTienda/CardsTienda";
 
 const Home = ({ categoriaFiltrada }) => {
