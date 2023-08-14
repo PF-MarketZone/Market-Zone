@@ -5,6 +5,7 @@
 // ---Creamos la funcion que nos traera la info de los modelos de la BD
 
 const storeListDb = async () => {
+  console.log('entramos en la bdd');
   // Solicitamos la info a la BD
   // const listOfStore = await modeloEjemplo.
 };
@@ -18,6 +19,7 @@ const storeById = async (id) => {
 };
 
 const storeCreate = async (name, image, categories) => {
+  console.log(name);
   // Creamos una tienda nuevo con los parametros recibidos
 };
 

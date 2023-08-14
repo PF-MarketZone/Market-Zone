@@ -1,0 +1,27 @@
+// use("mz_store");
+
+const allProductsList = db.product.find();
+
+const createNewProduct = async (
+  name,
+  description,
+  image,
+  color,
+  price,
+  tags
+) => {
+  //   const db = client.db("mz_store");
+  //   const collection = db.collection("product");
+  const productData = {
+    name: name,
+    description: description,
+    image: image,
+    color: color,
+    price: price,
+    tags: tags,
+  };
+  const newProduct = await db.product.insertMany([productData]);
+  return newProduct;
+};
+
+module.exports = { createNewProduct, allProductsList };

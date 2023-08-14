@@ -4,6 +4,7 @@ const { responseMaper } = require('../helpers/responseMaper');
 const createStoreHandler = async (req, res) => {
   try {
     const { name, image, categories } = req.body;
+    console.log(name);
     if (!name || !image || !categories) {
       res
         .status(400)
