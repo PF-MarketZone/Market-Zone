@@ -1,0 +1,13 @@
+.bannerContainer {
+    position: relative;
+    width: 90%;
+    max-height: 60vh;
+    overflow: hidden;
+  }
+  
+  .bannerImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  

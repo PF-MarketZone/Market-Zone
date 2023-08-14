@@ -1,0 +1,24 @@
+.homeContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    width: 100%
+  
+}
+
+.ContainerTienda {
+    background-color: rgb(255, 255, 255);
+    width: 95%;
+    padding: 20px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    max-width: 1500px;
+    margin: 0 auto
+  }
+  
+  .ContainerTienda h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
