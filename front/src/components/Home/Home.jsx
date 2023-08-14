@@ -1,19 +1,21 @@
 import React from "react";
 import Banner from "../Banner/Banner";
 import styles from "./Home.module.css";
-import tiendasData from "../../tiendaData";
+import tiendaData from "../../tiendaData";
 import Cards from "../CardsTienda/CardsTienda";
 
 const Home = ({ categoriaFiltrada }) => {
-    const tiendasFiltradas = categoriaFiltrada
-    ? tiendasData.filter((tienda) => tienda.CategoriaTienda === categoriaFiltrada)
-    : tiendasData;
+  const tiendasFiltradas = categoriaFiltrada
+    ? tiendaData.filter((tienda) =>
+        tienda.categories.some((cat) => cat === categoriaFiltrada)
+      )
+    : tiendaData;
 
   return (
     <div className={styles.homeContainer}>
       <Banner />
       <div className={styles.ContainerTienda}>
-        <h1>Tiendas Destacadas</h1>
+        <h1>Conoce nuestras Tiendas</h1>
         <Cards tiendas={tiendasFiltradas} />
       </div>
     </div>
@@ -21,4 +23,3 @@ const Home = ({ categoriaFiltrada }) => {
 };
 
 export default Home;
-

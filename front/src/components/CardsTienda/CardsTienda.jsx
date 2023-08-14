@@ -7,10 +7,10 @@ const Cards = ({ tiendas }) => {
     <div className={styles.cardsContainer}>
       {tiendas.map((tienda) => (
         <Card
-          key={tienda.idTienda}
-          nombreTienda={tienda.NombreTienda}
-          logoTienda={tienda.logoTienda}
-          categoriaTienda={tienda.CategoriaTienda}
+          key={tienda.id}
+          name={tienda.name}
+          logo={tienda.logo}
+          categories={tienda.categories.join(", ")}
         />
       ))}
     </div>
