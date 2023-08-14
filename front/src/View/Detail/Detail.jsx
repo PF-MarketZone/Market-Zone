@@ -41,7 +41,7 @@ const Detail = (props) => {
     return (
         <Div>
             <div>
-                <Nav />
+                {/* <Nav /> */}
                 <CardDetail>
                     <ImgGrupD />
                     <InfoD />
