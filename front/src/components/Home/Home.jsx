@@ -7,10 +7,14 @@ import Cards from "../CardsTienda/CardsTienda";
 const Home = ({ categoriaFiltrada }) => {
   const tiendasFiltradas = categoriaFiltrada
     ? tiendaData.filter((tienda) =>
-        tienda.categories.some((cat) => cat === categoriaFiltrada)
+        tienda.categories.some((cat) =>
+          cat.toLowerCase().includes(categoriaFiltrada.toLowerCase())
+        )
       )
     : tiendaData;
 
+
+    
   return (
     <div className={styles.homeContainer}>
       <Banner />

@@ -16,7 +16,7 @@ function App() {
     <div className="App">
       <Nav onSearch={handleSearch} />
       <Routes>
-        <Route path="/" element={<Home categoriaFiltrada={categoriaFiltrada} />} />
+        <Route path="/home" element={<Home categoriaFiltrada={categoriaFiltrada} />} />
         <Route path="/:name" element={<TiendaDetalle />} />
       </Routes>
     </div>
