@@ -9,4 +9,3 @@ conn.sync({ alter: true }).then(() => {
     console.log(`Sever raised on port: ${PORT_SERVER}. Enjoy It!`); // eslint-disable-line no-console
   });
 });
-
