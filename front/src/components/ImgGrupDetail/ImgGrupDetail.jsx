@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import tiendas from './../../Data/dummyData'
+//import tiendas from './../../Data/dummyData';
+import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { getProductById } from '../../redux/actions'
+
 
 const Img1G = styled.img`
     width: 30vw; 
@@ -27,7 +31,18 @@ const Div = styled.div`
 
 const ImgGrupD = (props) => {
 
-    const details = tiendas[0].products[0];
+    const dispatch = useDispatch();
+    const { detailId } = useParams();
+
+    useEffect(() => {
+        dispatch(getProductById(detailId))
+    }, [dispatch, detailId]);
+
+    const details = useSelector(state => state.detail);
+
+    if (!details.images || details.images.length < 3) {
+        return <p>No hay suficientes imágenes disponibles.</p>;
+    }
     
     return (
         <Div>
@@ -39,7 +54,7 @@ const ImgGrupD = (props) => {
                 </div>
             </Div>
         </Div>
-    )
+    );    
 };
 
 export default ImgGrupD;
