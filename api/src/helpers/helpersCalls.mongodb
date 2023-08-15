@@ -1,6 +1,21 @@
 // use("mz_store");
+const { connectToDatabase } = require('../dbMongodb');
+const { responseMaper} = require("./responseMaper")
+// const allProductsList = db.product.find();
 
-const allProductsList = db.product.find();
+
+const allProducts = async () => {
+  const db = await connectToDatabase();
+  const collection = db.collection('product');
+
+ try{
+    const products = await collection.find().toArray();
+    return responseMaper(false, 'Lista de productos obtenida con éxito', products);
+  } catch (error) {
+    console.error('Error al obtener la lista de productos:', error);
+    return responseMaper(true, 'No se pudo obtener la lista de productos', null);
+  }
+};
 
 const createNewProduct = async (
   name,
@@ -10,8 +25,8 @@ const createNewProduct = async (
   price,
   tags
 ) => {
-  //   const db = client.db("mz_store");
-  //   const collection = db.collection("product");
+  const db = await connectToDatabase();
+  const collection = db.collection('product');
   const productData = {
     name: name,
     description: description,
@@ -20,8 +35,14 @@ const createNewProduct = async (
     price: price,
     tags: tags,
   };
-  const newProduct = await db.product.insertMany([productData]);
-  return newProduct;
+  const newProduct = await collection.insertOne(productData);
+  
+  if (newProduct.insertedCount === 1) {
+    return  newProduct;
+  } else {
+    return responseMaper(true, 'No se pudo crear el producto', null);
+  }
+  
 };
 
-module.exports = { createNewProduct, allProductsList };
+module.exports = { createNewProduct, allProducts };

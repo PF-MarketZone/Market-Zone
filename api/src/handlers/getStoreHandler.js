@@ -35,7 +35,7 @@ const getByIdStoreHandler = async (req, res) => {
       .json(
         responseMaper(
           false,
-          'Esta es la tienda referida al id que nos enviaste',
+          `Esta es la tienda referida al id ${id}`,
           findStoreById
         )
       );

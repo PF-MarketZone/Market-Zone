@@ -12,8 +12,8 @@
 const responseMaper = (hasAnError, message, data) => {
   return {
     error: hasAnError,
-    message,
-    data,
+    message: message,
+    data: data,
   };
 };
 

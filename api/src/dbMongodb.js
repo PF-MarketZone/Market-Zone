@@ -1,8 +1,8 @@
 require('dotenv').config();
 const MongoClient = require('mongodb').MongoClient;
-const { MONGO_URI } = process.env;
 
-const url = MONGO_URI;
+
+const url =  'mongodb://127.0.0.1:27017';
 
 const dbName = 'mz_store';
 

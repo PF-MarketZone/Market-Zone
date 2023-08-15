@@ -1,6 +1,6 @@
-const allProducts = async () => {
-  // Debe devolver todeos los productos que se encuentren
-};
+// const allProducts = async () => {
+//   // Debe devolver todeos los productos que se encuentren
+// };
 
 const nameProducts = (name) => {
   // Debe devolver el o los productos con el nombre solicitado por parametro

@@ -1,14 +1,16 @@
 const {
-  allProducts,
+  
   productById,
-  nameProducts,
+  
 } = require('../controllers/productController');
+const { allProducts} = require("../helpers/helpersCalls.mongodb")
+
 const { responseMaper } = require('../helpers/responseMaper');
 
 const getProductHandler = async (req, res) => {
   try {
     const { name } = req.query;
-    const res = name ? await nameProducts(name) : await allProducts();
+    const res =  await allProducts();
     res.status(200).json(responseMaper(false, 'Estos son los productos', res));
     console.log('llegando al handler getProduct');
   } catch (error) {
@@ -38,7 +40,7 @@ const getProductByIdHandler = (req, res) => {
       .json(
         responseMaper(
           true,
-          `No se encotro el producto solicitado por el id ${id}`,
+          `No se encontró el producto solicitado por el id ${id}`,
           null
         )
       );
