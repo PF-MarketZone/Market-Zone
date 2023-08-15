@@ -113,7 +113,7 @@ const tiendas = [
       {
         id: 4,
         idStore: 1,
-        name: "Pantalon 1",
+        name: "Pantaloneta",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus iaculis non libero in ullamcorper. Proin lacinia arcu id ante porta, eu tincidunt leo luctus. Vivamus bibendum risus nec fermentum rhoncus. Sed a turpis mauris. Nunc vulputate erat et ante ullamcorper mattis. Etiam ut mi est. Cras tincidunt semper elit, vel.",
         images: [
@@ -264,7 +264,7 @@ const tiendas = [
       {
         id: 4,
         idStore: 1,
-        name: "Pantalon 1",
+        name: "Pantaloneta",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus iaculis non libero in ullamcorper. Proin lacinia arcu id ante porta, eu tincidunt leo luctus. Vivamus bibendum risus nec fermentum rhoncus. Sed a turpis mauris. Nunc vulputate erat et ante ullamcorper mattis. Etiam ut mi est. Cras tincidunt semper elit, vel.",
         images: [

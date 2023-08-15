@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import tiendaData from "../../Data/dummyData";
@@ -7,6 +7,7 @@ import {
   setCategoriaFiltro,
   setPrecioMinFiltro,
   setPrecioMaxFiltro,
+  setOrdenAlfabetico,
 } from "../../redux/actions";
 import styles from "./TiendaDetalle.module.css";
 
@@ -20,6 +21,11 @@ const TiendaDetalle = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [priceRange, setPriceRange] = useState([0, 1000]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedOrder, setSelectedOrder] = useState("");
+
+  useEffect(() => {
+    dispatch(setOrdenAlfabetico(selectedOrder));
+  }, []);
 
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
@@ -30,6 +36,11 @@ const TiendaDetalle = () => {
     setPriceRange(values);
     dispatch(setPrecioMinFiltro(values[0]));
     dispatch(setPrecioMaxFiltro(values[1]));
+  };
+
+  const handleOrderChange = (e) => {
+    setSelectedOrder(e.target.value);
+    dispatch(setOrdenAlfabetico(e.target.value));
   };
 
   const minPriceValue = tienda.products.reduce(
@@ -54,7 +65,17 @@ const TiendaDetalle = () => {
       (producto) =>
         searchQuery === "" ||
         producto.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    )
+    .sort((a, b) => {
+      if (selectedOrder === "asc") {
+        return a.name.localeCompare(b.name);
+      } else if (selectedOrder === "desc") {
+        return b.name.localeCompare(a.name);
+      } else {
+        return 0;
+      }
+    });
+
   return (
     <div className={styles.tiendaDetalleContainer}>
       <div className={styles.filtrosContainer}>
@@ -68,6 +89,11 @@ const TiendaDetalle = () => {
               {category}
             </option>
           ))}
+        </select>
+        <select value={selectedOrder} onChange={handleOrderChange}>
+          <option value="">Sin Orden</option>
+          <option value="asc">A-Z</option>
+          <option value="desc">Z-A</option>
         </select>
         <div className={styles.precioFiltro}>
           <label>Rango de Precio</label>

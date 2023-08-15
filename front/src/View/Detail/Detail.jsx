@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useParams, useNavigate } from 'react-router-dom';
 import React, { useEffect } from 'react';
-import MainButton from '../../components/Buttons/MainButton'
+import MyButton from '../../components/Buttons/MainButton'
 import ImgGrupD from '../../components/ImgGrupDetail/ImgGrupDetail.jsx';
 import Nav from '../../components/Nav/Nav'
 import InfoD from '../../components/InfoDetail/InfoDetail'
@@ -21,11 +21,12 @@ const DivdReviewsRating = styled.div`
 `
 const Div = styled.div`
 font-family: 'Montserrat', sans-serif;
+background-color: white;
 `
 
 const Detail = (props) => {
-    /* const dispatch = useDispatch();
     const { detailId } = useParams();
+    /* const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getRecipeById(detailId))
@@ -41,7 +42,6 @@ const Detail = (props) => {
     return (
         <Div>
             <div>
-                {/* <Nav /> */}
                 <CardDetail>
                     <ImgGrupD />
                     <InfoD />
@@ -52,7 +52,7 @@ const Detail = (props) => {
                 </DivdReviewsRating>
 
             </div>
-            <MainButton text="Regresar al Home" route="/" />
+            <MyButton text="Ir a la página de inicio" route="/home" variant="primary" />
         </Div>
 
     )

@@ -5,6 +5,8 @@ import Home from "./components/Home/Home";
 import { Routes, Route } from "react-router-dom";
 import TiendaDetalle from "./components/TiendaDetalle/TiendaDetalle";
 import Detail from './View/Detail/Detail'
+import Landing from "./View/Landing/Landing";
+import Add from "./View/addProduct/AddProduct";
 
 function App() {
   const [categoriaFiltrada, setCategoriaFiltrada] = useState();
@@ -22,7 +24,11 @@ function App() {
       
       <Nav onSearch={handleSearch} />
       <Routes>
+        <Route path="/" element={<Landing />} />
+        
+ 
         <Route path="/home" element={<Home categoriaFiltrada={categoriaFiltrada} />} />
+        <Route path="/add" element={<Add />} />
         <Route path="/:name" element={<TiendaDetalle />} />
         <Route path="/detail/:detailId" element={<Detail />} />
       </Routes>
@@ -31,6 +37,5 @@ function App() {
   );
   
 }
-
 export default App;
 

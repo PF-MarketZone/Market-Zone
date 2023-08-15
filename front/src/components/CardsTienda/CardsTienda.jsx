@@ -10,7 +10,6 @@ const Cards = ({ tiendas, categoriaFiltrada }) => {
       )
     : tiendas;
 
-  // Asegurémonos de que haya tiendas para mostrar
   if (tiendasFiltradas.length === 0) {
     return <p>No hay tiendas disponibles para la categoría seleccionada.</p>;
   }

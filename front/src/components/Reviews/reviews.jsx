@@ -6,11 +6,8 @@ import tiendas from './../../Data/dummyData'
 const MainDiv = styled.div`
 width: 50%;
 margin: 3vw;
+color: black;
 `
-/* const Star = styled.span`
-  font-size: 1.5rem; 
-  color: ${props => (props.Filled ? 'gold' : 'gray')};  
-`; */
 
 const DivNameUser = styled.div`
 display: flex;
@@ -22,12 +19,13 @@ margin: 1vw;
 const H1Title = styled.h1`
 margin: 1vw;
 font-size: 1.3vw;
-
+color: black;
 `
 const H1Description = styled.h1`
 margin: 1vw;
 font-size: 1.2vw;
 font-weight: lighter;
+color: black;
 `
 
 const ReviewsDiv = styled.div`
