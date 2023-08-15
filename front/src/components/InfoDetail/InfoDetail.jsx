@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import tiendas from './../../Data/dummyData';
+//import tiendas from './../../Data/dummyData';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faTimes, faHeart } from '@fortawesome/free-solid-svg-icons';
-
+import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { getProductById } from '../../redux/actions'
 const InputNum = styled.input`
     //-webkit-appearance: none;
     margin: 0;
@@ -45,6 +47,7 @@ const H3Categories = styled.h3`
     font-size: 1.2vw;
     margin: 1.0vw;
     font-weight: 700;
+    color: black;
 `
 
 const H1Name = styled.h1`
@@ -111,6 +114,7 @@ const DivPrincipal = styled.div`
 margin: 1vw;
 width: 50%;
 font-family: 'Montserrat', sans-serif;
+color: black;
 `
 
 const ButtonAddToCart = styled.button`
@@ -151,8 +155,15 @@ const LineaDelgada = styled.hr`
 
 const InfoD = (props) => {
 
-    const details = tiendas[0].products[0];
+    const dispatch = useDispatch();
+    const { detailId } = useParams();
 
+    useEffect(() => {
+        dispatch(getProductById(detailId))
+    }, [dispatch, detailId]);
+
+    const details = useSelector(state => state.detail);
+    
     const [quantity, setQuantity] = useState(0);
 
     const handleDecrease = () => {
@@ -165,6 +176,7 @@ const InfoD = (props) => {
         setQuantity(quantity + 1);
     };
 
+    
     return (
         <>
             <DivPrincipal>
