@@ -10,7 +10,7 @@ const Nav = ({ onSearch }) => {
         <div className={styles.searchBarContainer}>
           <SearchBar onSearch={onSearch} />
         </div>
-        <Link to="/login">
+        <Link to="/add">
           <button className={styles.button1}>Crear Producto</button>
         </Link>
       </div>
