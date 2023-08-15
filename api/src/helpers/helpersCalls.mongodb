@@ -1,20 +1,48 @@
 // use("mz_store");
-const { connectToDatabase } = require('../dbMongodb');
-const { responseMaper} = require("./responseMaper")
+const { responseMaper } = require("./responseMaper");
+const Product = require("../models/product");
 // const allProductsList = db.product.find();
 
+//=============================================
+// Busca todos los productos
+//=============================================
 
 const allProducts = async () => {
-  const db = await connectToDatabase();
-  const collection = db.collection('product');
+  // const db = await connectToDatabase();
+  // const collection = db.collection("product");
 
- try{
-    const products = await collection.find().toArray();
-    return responseMaper(false, 'Lista de productos obtenida con éxito', products);
+  try {
+    const products = await Product.find();
+    return responseMaper(
+      false,
+      "Lista de productos obtenida con éxito",
+      products
+    );
   } catch (error) {
-    console.error('Error al obtener la lista de productos:', error);
-    return responseMaper(true, 'No se pudo obtener la lista de productos', null);
+    console.error("Error al obtener la lista de productos:", error);
+    return responseMaper(
+      true,
+      "No se pudo obtener la lista de productos",
+      null
+    );
   }
+};
+
+//=============================================
+// Busca todos los productos con el nombre recibido por parametro
+//=============================================
+
+const searchByNameProduct = async (name) => {
+  // const products = await Product.find({ name: name }, (error, data) => {
+  //   if (error) {
+  //     console.log(error);
+  //   } else {
+  //     console.log(data);
+  //   }
+  // });
+  // Product.find()
+  //   .then((data) => console.log(data))
+  //   .catch((err) => console.log(err));
 };
 
 const createNewProduct = async (
@@ -23,26 +51,27 @@ const createNewProduct = async (
   image,
   color,
   price,
+  stock,
   tags
 ) => {
-  const db = await connectToDatabase();
-  const collection = db.collection('product');
-  const productData = {
+  const productData = new Product({
     name: name,
     description: description,
     image: image,
     color: color,
     price: price,
+    stock: stock,
     tags: tags,
-  };
-  const newProduct = await collection.insertOne(productData);
-  
-  if (newProduct.insertedCount === 1) {
-    return  newProduct;
-  } else {
-    return responseMaper(true, 'No se pudo crear el producto', null);
-  }
-  
+  });
+
+  await productData
+    .save()
+    .then((result) => {
+      console.log(result);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
-module.exports = { createNewProduct, allProducts };
+module.exports = { createNewProduct, allProducts, searchByNameProduct };

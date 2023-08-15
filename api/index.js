@@ -5,8 +5,7 @@ const port = process.env.PORT_SERVER || 3004;
 
 async function startServer() {
   try {
-    const db = await connectToDatabase();
-    console.log('Database connected:', db.databaseName);
+    await connectToDatabase();
 
     server.listen(port, () => {
       console.log(`Server listening on port ${port}`);
@@ -17,4 +16,3 @@ async function startServer() {
 }
 
 startServer();
-

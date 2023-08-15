@@ -4,7 +4,7 @@ const { responseMaper } = require('../helpers/responseMaper');
 const createProductHandler = async (req, res) => {
   console.log(req.body);
   try {
-    const { name, description, image, color, price, tags } = req.body;
+    const { name, description, image, color, price, stock, tags } = req.body;
     // if (!name || !description || !image || !price || !tags) {
     //   res.status(404).json(true, 'Completa los campos requeridos', null);
     // }
@@ -14,6 +14,7 @@ const createProductHandler = async (req, res) => {
       image,
       color,
       price,
+      stock,
       tags
     );
     res

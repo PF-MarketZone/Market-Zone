@@ -1,25 +1,10 @@
 require('dotenv').config();
-const MongoClient = require('mongodb').MongoClient;
-
-
-const url =  'mongodb://127.0.0.1:27017';
-
-const dbName = 'mz_store';
-
-const client = new MongoClient(url, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
+var mongoose = require('mongoose');
 async function connectToDatabase() {
-  try {
-    await client.connect();
-    console.log('Connected to the database');
-    return client.db(dbName);
-  } catch (error) {
-    console.error('Error connecting to the database:', error);
-    throw error;
-  }
+  await mongoose
+    .connect('mongodb+srv://luis:admin@cluster0.fyv03ie.mongodb.net/mz_store')
+    .then(() => console.log('Base de datos: \x1b[32m%s\x1b[0m', 'online'))
+    .catch((e) => console.log('Error de conexion ', e));
 }
 
 module.exports = { connectToDatabase };
