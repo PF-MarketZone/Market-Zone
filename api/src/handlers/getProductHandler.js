@@ -1,14 +1,15 @@
 const { productById } = require('../controllers/productController');
-const { searchByNameProduct } = require('../helpers/helpersCalls.mongodb');
+// const { searchByNameProduct } = require('../helpers/helpersCalls.mongodb');
 const { allProducts } = require('../helpers/helpersCalls.mongodb');
 
 const { responseMaper } = require('../helpers/responseMaper');
 
 const getProductHandler = async (req, res) => {
   try {
-    const { name } = req.query;
-    const res = name ? await searchByNameProduct(name) : await allProducts();
-    res.status(200).json(responseMaper(false, 'Estos son los productos', res));
+    const result = await allProducts();
+    res
+      .status(200)
+      .json(responseMaper(false, 'Estos son los productos', result));
     console.log('llegando al handler getProduct');
   } catch (error) {
     res
