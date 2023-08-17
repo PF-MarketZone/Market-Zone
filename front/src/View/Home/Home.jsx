@@ -1,8 +1,8 @@
 import React from "react";
-import Banner from "../Banner/Banner";
+import Banner from "../../components/Banner/Banner";
 import styles from "./Home.module.css";
 import tiendaData from "../../Data/dummyData";
-import Cards from "../CardsTienda/CardsTienda";
+import Cards from "../../components/CardsTienda/CardsTienda";
 
 const Home = ({ categoriaFiltrada }) => {
   const tiendasFiltradas = categoriaFiltrada

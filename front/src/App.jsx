@@ -1,9 +1,9 @@
 import React, { useState,useEffect  } from "react";
 import "./App.css";
 import Nav from "./components/Nav/Nav";
-import Home from "./components/Home/Home";
+import Home from "./View/Home/Home";
 import { Routes, Route } from "react-router-dom";
-import TiendaDetalle from "./components/TiendaDetalle/TiendaDetalle";
+import TiendaDetalle from "./View/TiendaDetalle/TiendaDetalle";
 import Detail from "./View/Detail/Detail";
 import Landing from "./View/Landing/Landing";
 import Add from "./View/addProduct/AddProduct";
@@ -38,14 +38,10 @@ function App() {
           {location.pathname === '/' ? null : <Nav onSearch={handleSearch} />}
         </div>
 
-        <Nav onSearch={handleSearch} />
         <Routes>
           <Route path="/" element={<Landing />} />
 
-          <Route
-            path="/home"
-            element={<Home categoriaFiltrada={categoriaFiltrada} />}
-          />
+          <Route path="/home" element={<Home categoriaFiltrada={categoriaFiltrada} />}/>
           <Route path="/add" element={<Add />} />
           <Route path="/:name" element={<TiendaDetalle />} />
           <Route path="/cart" element={<Cart />} />
