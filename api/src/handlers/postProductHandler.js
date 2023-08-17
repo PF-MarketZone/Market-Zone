@@ -1,4 +1,4 @@
-const { createNewProduct } = require('../helpers/helpersCalls.mongodb');
+const { createNewProduct } = require('../controllers/productController');
 const { responseMaper } = require('../helpers/responseMaper');
 
 const createProductHandler = async (req, res) => {
