@@ -5,6 +5,7 @@ const Product = require('../models/product');
 //=================================================================
 
 const allProducts = async () => {
+  // Solicitamos la info a la BD
   const products = await Product.find();
   return products;
 };
@@ -24,7 +25,6 @@ const searchByNameProduct = async (name) => {
 
 const searchByIdProduct = async (id) => {
   const productById = await Product.findById(id);
-  // console.log(productById);
   return productById;
 };
 

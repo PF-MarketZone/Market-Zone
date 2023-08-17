@@ -3,14 +3,13 @@ const { responseMaper } = require('../helpers/responseMaper');
 
 const createStoreHandler = async (req, res) => {
   try {
-    const { name, image, categories } = req.body;
-    console.log(name);
-    if (!name || !image || !categories) {
+    const { name, image, description } = req.body;
+    if (!name || !image || !description) {
       res
         .status(400)
         .json(responseMaper(true, 'Completa todos los campos', null));
     }
-    const newStore = storeCreate(name, image, categories);
+    const newStore = storeCreate(name, image, description);
     res
       .status(200)
       .json(
