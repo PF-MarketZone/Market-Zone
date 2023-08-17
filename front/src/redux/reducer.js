@@ -175,11 +175,20 @@ const filtersReducer = (state = initialState, action) => {
       return { ...state, ordenAlfabetico: action.payload };
     case GET_PRODUCT_BY_ID:
       return { ...state, detail: action.payload };
-    case AGREGAR_AL_CARRITO:
-      return {
-        ...state,
-        cart: [...state.cart, action.payload],
-      };
+      case AGREGAR_AL_CARRITO:
+        const newItem = action.payload;
+        const existingItemIndex = state.cart.findIndex(
+          (item) => item.id === newItem.id
+        );
+  
+        if (existingItemIndex !== -1) {
+          const updatedCart = [...state.cart];
+          const existingItem = updatedCart[existingItemIndex];
+          existingItem.quantity += newItem.quantity;
+          return { ...state, cart: updatedCart };
+        } else {
+          return { ...state, cart: [...state.cart, newItem] };
+        }
     case ELIMINAR_DEL_CARRITO:
       return {
         ...state,
