@@ -5,6 +5,10 @@ export const SET_PRECIO_MIN_FILTRO = "SET_PRECIO_MIN_FILTRO";
 export const SET_PRECIO_MAX_FILTRO = "SET_PRECIO_MAX_FILTRO";
 export const SET_ORDEN_ALFABETICO = "SET_ORDEN_ALFABETICO";
 export const GET_PRODUCT_BY_ID = "GET_PRODUCT_BY_ID";
+export const AGREGAR_AL_CARRITO = "AGREGAR_AL_CARRITO";
+export const ELIMINAR_DEL_CARRITO = "ELIMINAR_DEL_CARRITO";
+export const SET_INITIAL_CART = "SET_INITIAL_CART";
+
 
 
 export const setCategoriaFiltro = (categories) => ({
@@ -26,6 +30,27 @@ export const setOrdenAlfabetico = (orden) => ({
   type: SET_ORDEN_ALFABETICO,
   payload: orden,
 });
+
+export const agregarAlCarrito = (producto) => {
+  return (dispatch, getState) => {
+    dispatch({ type: AGREGAR_AL_CARRITO, payload: producto });
+    
+    const state = getState();
+    const carrito = state.cart;
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+  };
+};
+export const eliminarDelCarrito = (productoId) => {
+  return (dispatch, getState) => {
+    dispatch({ type: ELIMINAR_DEL_CARRITO, payload: productoId });
+
+    const state = getState();
+    const carrito = state.cart;
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+  };
+};
+
+
 export const getProductById = (id) => {
   return function (dispatch, getState) {
     const state = getState(); // Obtener el estado actual
