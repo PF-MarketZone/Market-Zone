@@ -1,10 +1,14 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { eliminarDelCarrito } from "../../redux/actions";
+import {
+  eliminarDelCarrito,
+  aumentarCantidad,
+  disminuirCantidad,
+} from "../../redux/actions";
 import styles from "./Cart.module.css";
 
 const Cart = () => {
-  const carrito = useSelector((state) => state.cart);
+  const cartItems = useSelector((state) => state.cart);
   const details = useSelector((state) => state.details);
   const dispatch = useDispatch();
 
@@ -12,37 +16,72 @@ const Cart = () => {
     dispatch(eliminarDelCarrito(id));
   };
 
+  const handleAumentarCantidad = (itemId) => {
+    dispatch(aumentarCantidad(itemId));
+  };
+
+  const handleDisminuirCantidad = (itemId) => {
+    dispatch(disminuirCantidad(itemId));
+  };
+  const totalPrecio = cartItems.reduce((total, item) => {
+    const detail = details.find((detail) => detail.id === item.id);
+    if (detail && detail.price) {
+      return total + detail.price * item.quantity;
+    }
+    return total;
+  }, 0);
+
   return (
     <div className={styles["cart-container"]}>
       <h2>Carrito de Compras</h2>
-      {carrito.length === 0 ? (
+      {cartItems.length === 0 ? (
         <p>El carrito está vacío.</p>
       ) : (
-        <ul>
-          {carrito.map((item) => {
-            const detail = details.find((detail) => detail.id === item.id);
-            return (
-              <li key={item.id} className={styles["cart-item"]}>
-                {detail && <img src={detail.images[0]} alt={detail.name} />}
-                <div className={styles["cart-item-content"]}>
-                  <p className={styles["cart-item-title"]}>{item.name}</p>
-                  <p className={styles["cart-item-price"]}>
-                    Precio: ${item.price}
-                  </p>
-                  <p className={styles["cart-item-quantity"]}>
-                    Cantidad: {item.quantity}
-                  </p>
-                  <button
-                    className={styles["cart-item-delete"]}
-                    onClick={() => eliminarProducto(item.id)}
-                  >
-                    Eliminar
-                  </button>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
+        <div className={styles["cart-list-container"]}>
+          <ul className={styles["cart-list"]}>
+            {cartItems.map((item) => {
+              const detail = details.find((detail) => detail.id === item.id);
+              return (
+                <li key={item.id} className={styles["cart-item"]}>
+                  {detail && <img src={detail.images[0]} alt={detail.name} />}
+                  <div className={styles["cart-item-content"]}>
+                    <p className={styles["cart-item-title"]}>{item.name}</p>
+                    <p className={styles["cart-item-price"]}>
+                      Precio: $
+                      {detail && detail.price ? detail.price.toFixed(2) : "N/A"}
+                    </p>
+                    <div className={styles["cart-item-quantity"]}>
+                      <button
+                        className={styles["quantity-button"]}
+                        onClick={() => handleDisminuirCantidad(item.id)}
+                      >
+                        -
+                      </button>
+                      <span>{item.quantity}</span>
+                      <button
+                        className={styles["quantity-button"]}
+                        onClick={() => handleAumentarCantidad(item.id)}
+                      >
+                        +
+                      </button>
+                    </div>
+                    <button
+                      className={styles["cart-item-delete"]}
+                      onClick={() => eliminarProducto(item.id)}
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+          <div className={styles["cart-total"]}>
+            <p>
+              Total: <span>${totalPrecio.toFixed(2)}</span>
+            </p>
+          </div>
+        </div>
       )}
     </div>
   );

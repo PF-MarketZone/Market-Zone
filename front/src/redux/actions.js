@@ -8,6 +8,8 @@ export const GET_PRODUCT_BY_ID = "GET_PRODUCT_BY_ID";
 export const AGREGAR_AL_CARRITO = "AGREGAR_AL_CARRITO";
 export const ELIMINAR_DEL_CARRITO = "ELIMINAR_DEL_CARRITO";
 export const SET_INITIAL_CART = "SET_INITIAL_CART";
+export const AUMENTAR_CANTIDAD = "AUMENTAR_CANTIDAD";
+export const DISMINUIR_CANTIDAD = "DISMINUIR_CANTIDAD";
 
 
 
@@ -47,6 +49,19 @@ export const eliminarDelCarrito = (productoId) => {
     const state = getState();
     const carrito = state.cart;
     localStorage.setItem('carrito', JSON.stringify(carrito));
+  };
+};
+export const aumentarCantidad = (itemId) => {
+  return {
+    type: AUMENTAR_CANTIDAD,
+    payload: itemId,
+  };
+};
+
+export const disminuirCantidad = (itemId) => {
+  return {
+    type: DISMINUIR_CANTIDAD,
+    payload: itemId,
   };
 };
 

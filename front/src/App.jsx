@@ -7,6 +7,7 @@ import TiendaDetalle from "./View/TiendaDetalle/TiendaDetalle";
 import Detail from "./View/Detail/Detail";
 import Landing from "./View/Landing/Landing";
 import Add from "./View/addProduct/AddProduct";
+import CartSidebar from "./components/CartSidebar/CartSidebar";
 import { useLocation } from "react-router-dom";
 import Cart from "./components/Cart/Cart";
 import { useDispatch } from "react-redux";
@@ -14,6 +15,11 @@ import { useDispatch } from "react-redux";
 function App() {
   const location = useLocation();
   const [categoriaFiltrada, setCategoriaFiltrada] = useState();
+  const [isCartSidebarVisible, setCartSidebarVisible] = useState(false);
+
+  const handleCartButtonClick = () => {
+    setCartSidebarVisible(!isCartSidebarVisible);
+  };
 
   const handleSearch = (categoria) => {
     setCategoriaFiltrada(categoria);
@@ -40,7 +46,6 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Landing />} />
-
           <Route path="/home" element={<Home categoriaFiltrada={categoriaFiltrada} />}/>
           <Route path="/add" element={<Add />} />
           <Route path="/:name" element={<TiendaDetalle />} />
@@ -48,6 +53,7 @@ function App() {
           <Route path="/detail/:detailId" element={<Detail />} />
         </Routes>
       </div>
+      {isCartSidebarVisible && <CartSidebar />}
     </>
   );
 }
