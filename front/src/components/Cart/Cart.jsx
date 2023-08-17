@@ -1,6 +1,10 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { eliminarDelCarrito } from "../../redux/actions";
+import {
+  eliminarDelCarrito,
+  aumentarCantidad,
+  disminuirCantidad,
+} from "../../redux/actions";
 import styles from "./Cart.module.css";
 
 const Cart = () => {
@@ -12,10 +16,20 @@ const Cart = () => {
     dispatch(eliminarDelCarrito(id));
   };
 
-  const totalPrecio = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
+  const handleAumentarCantidad = (itemId) => {
+    dispatch(aumentarCantidad(itemId));
+  };
+
+  const handleDisminuirCantidad = (itemId) => {
+    dispatch(disminuirCantidad(itemId));
+  };
+  const totalPrecio = cartItems.reduce((total, item) => {
+    const detail = details.find((detail) => detail.id === item.id);
+    if (detail && detail.price) {
+      return total + detail.price * item.quantity;
+    }
+    return total;
+  }, 0);
 
   return (
     <div className={styles["cart-container"]}>
@@ -33,11 +47,24 @@ const Cart = () => {
                   <div className={styles["cart-item-content"]}>
                     <p className={styles["cart-item-title"]}>{item.name}</p>
                     <p className={styles["cart-item-price"]}>
-                      Precio: ${item.price.toFixed(2)}
+                      Precio: $
+                      {detail && detail.price ? detail.price.toFixed(2) : "N/A"}
                     </p>
-                    <p className={styles["cart-item-quantity"]}>
-                      Cantidad: {item.quantity}
-                    </p>
+                    <div className={styles["cart-item-quantity"]}>
+                      <button
+                        className={styles["quantity-button"]}
+                        onClick={() => handleDisminuirCantidad(item.id)}
+                      >
+                        -
+                      </button>
+                      <span>{item.quantity}</span>
+                      <button
+                        className={styles["quantity-button"]}
+                        onClick={() => handleAumentarCantidad(item.id)}
+                      >
+                        +
+                      </button>
+                    </div>
                     <button
                       className={styles["cart-item-delete"]}
                       onClick={() => eliminarProducto(item.id)}
@@ -50,7 +77,9 @@ const Cart = () => {
             })}
           </ul>
           <div className={styles["cart-total"]}>
-            <p>Total: <span>${totalPrecio.toFixed(2)}</span></p>
+            <p>
+              Total: <span>${totalPrecio.toFixed(2)}</span>
+            </p>
           </div>
         </div>
       )}
@@ -59,6 +88,3 @@ const Cart = () => {
 };
 
 export default Cart;
-
-
-
