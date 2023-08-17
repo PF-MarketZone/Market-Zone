@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "@reduxjs/toolkit": "^1.9.5",
-    "rc-slider": "^10.2.1",
-    "react-redux": "^8.1.2"
-  }
-}

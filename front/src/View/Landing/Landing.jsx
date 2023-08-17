@@ -6,7 +6,7 @@ import videoSourceWebm from '../../images/animationLanding.webm';
 import Logo from '../../images/Logo.png'
 import TiendaOnline from '../../images/tiendaenlinea.png'
 
-const VideoBackground = styled.video`
+const VideoBackground = styled(({ videoPlayed, ...rest }) => <video {...rest} />)`
   position: fixed;
   top: 0;
   left: 0;
@@ -14,10 +14,10 @@ const VideoBackground = styled.video`
   height: 100%;
   object-fit: cover;
   z-index: -1;
-  display: ${props => props.isPlaying ? 'block' : 'none'};
+  display: ${props => props.videoPlayed ? 'none' : 'block'};
 `;
 
-const ContentContainer = styled.div`
+const ContentContainer = styled(({ showContent, ...rest }) => <div {...rest} />)`
   display: ${props => props.showContent ? 'block' : 'none'};
   text-align: center;
   position: absolute;
@@ -79,7 +79,7 @@ const Landing = (props) => {
 
     return (
         <>
-            <VideoBackground id="video-background" autoPlay muted isPlaying={!videoPlayed}>
+            <VideoBackground id="video-background" autoPlay muted videoPlayed={videoPlayed}>
                 <source src={videoSourceMp4} type="video/mp4" />
                 <source src={videoSourceWebm} type="video/webm" />
                 Tu navegador no admite el elemento de video.

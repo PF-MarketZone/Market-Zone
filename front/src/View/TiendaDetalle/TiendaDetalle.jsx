@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import tiendaData from "../../Data/dummyData";
-import CardsProductos from "../CardsProductos/CardsProductos";
+import CardsProductos from "../../components/CardsProductos/CardsProductos";
 import {
   setCategoriaFiltro,
   setPrecioMinFiltro,
