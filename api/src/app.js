@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const mainRouter = require('./routes');
 
-require('./db.js');
+
 
 const server = express();
 server.use(express.json());

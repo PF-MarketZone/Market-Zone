@@ -1,4 +1,34 @@
-// use("mz_store");
+
+
+const mongoose = require('mongoose');
+
+const productSchema = new mongoose.Schema({
+  storeId: {type: mongoose.Schema.Types.ObjectId, required: true,},
+  name: {type: String, required: true,},
+  price: {type: Number, required: true,},
+  image: [{url: {type: String, required: true,},},],
+  description: {type: String,maxLength: 2500,},
+  stock: Number,
+  tags: [{tag: {type: String, required: true,},},],
+  color: String,
+}, {collection: 'product',});
+
+const Product = mongoose.model('Product', productSchema);
+
+module.exports = Product;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // db.product.drop();
 // db.createCollection("product", {
@@ -67,24 +97,26 @@
 //   },
 // });
 
-var mongoose = require('mongoose');
 // var uniqueValidator = require('mongoose-unique-validator');
 
-var Schema = mongoose.Schema;
+// var Schema = mongoose.Schema;
 
-var productSchema = new Schema(
-  {
-    // _id: { type: 'objectId' },
-    name: { type: String, required: true },
-    image: { type: Array, required: true },
-    description: { type: String, required: true },
-    color: { type: String, required: true },
-    price: { type: String, required: true },
-    stock: { type: Number, required: true },
-    tags: { type: Array, required: true },
-  },
-  { timestamps: true }
-);
+// var productSchema = new Schema(
+//   {
+//     // _id: { type: 'objectId' },
+//     name: { type: String, required: true },
+//     image: { type: Array, required: true },
+//     description: { type: String, required: true },
+//     color: { type: String, required: true },
+//     price: { type: String, required: true },
+//     stock: { type: Number, required: true },
+//     tags: { type: Array, required: true },
+//   },
+//   { timestamps: true }
+// );
 
-const Product = mongoose.model('Product', productSchema);
-module.exports = Product;
+// const Product = mongoose.model('Product', productSchema);
+
+
+
+
