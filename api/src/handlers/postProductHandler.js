@@ -1,8 +1,11 @@
-const { createNewProduct } = require('../controllers/productController');
+const {
+  createNewProduct,
+  updateProduct,
+  searchByIdProduct,
+} = require('../controllers/productController');
 const { responseMaper } = require('../helpers/responseMaper');
 
 const createProductHandler = async (req, res) => {
-  console.log(req.body);
   try {
     const { name, description, image, color, price, stock, tags } = req.body;
     // if (!name || !description || !image || !price || !tags) {
@@ -24,9 +27,36 @@ const createProductHandler = async (req, res) => {
       );
   } catch (error) {
     res
-      .status(404)
+      .status(500)
       .json(responseMaper(true, 'No se pudo crear el producto', null));
   }
 };
 
-module.exports = { createProductHandler };
+const updateProductHandler = async (req, res) => {
+  try {
+    const { id, name, description, image, color, price, stock, tags } =
+      req.body;
+    if (!id) {
+      return res
+        .status(404)
+        .json(responseMaper(true, 'Error al buscar el Producto', null));
+    }
+    const result = await updateProduct(
+      id,
+      name,
+      description,
+      image,
+      color,
+      price,
+      stock,
+      tags
+    );
+    res.status(200).json(responseMaper(false, 'Producto actualizado', result));
+  } catch (error) {
+    res
+      .status(500)
+      .json(responseMaper(true, 'No se pudo crear el producto', null));
+  }
+};
+
+module.exports = { createProductHandler, updateProductHandler };
