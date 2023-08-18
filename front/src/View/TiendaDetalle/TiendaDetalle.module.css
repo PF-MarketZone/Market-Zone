@@ -1,0 +1,90 @@
+.tiendaDetalleContainer {
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+.filtrosContainer {
+  width: 240px;
+  min-height: calc(100vh - 40px);
+  padding: 20px;
+  background-color: #ededed;
+  border-radius: 18px;
+  border: 1px solid #d7d7d7;
+  overflow-y: hidden;
+  margin-left: 30px;
+}
+
+.filtrosContainer h2 {
+  margin-bottom: 50px;
+}
+
+.filtrosContainer select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #b3b3b3;
+  border-radius: 4px;
+  margin-bottom: 50px;
+}
+
+.filtrosContainer select option {
+  font-size: 14px;
+}
+
+.precioFiltro {
+  margin-top: 20px;
+}
+
+.precioFiltro input[type="range"] {
+  width: 100%;
+}
+
+.precioFiltro p {
+  text-align: center;
+  margin-top: 5px;
+}
+
+.productosContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-y: auto;
+  padding: 20px;
+  margin-top: -10px;
+}
+
+@media (min-width: 1480px) {
+  .productosContainer {
+    margin-left: 120px;
+    margin-right: 120px;
+  }
+}
+
+.productosContainer h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.noTienda {
+  font-size: 64px;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .tiendaDetalleContainer {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .filtrosContainer {
+    width: 100%;
+    margin: 0;
+  }
+
+  .productosContainer {
+    padding: 10px;
+    margin-top: -5px;
+  }
+}
