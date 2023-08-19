@@ -1,3 +1,0 @@
-use("mz_store")
-
-db.product.find()
