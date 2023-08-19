@@ -1,0 +1,83 @@
+.cartSidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 400px;
+  height: 100%;
+  background-color: white;
+  border-left: 1px solid #ccc;
+  box-shadow: -4px 0px 6px rgba(0, 0, 0, 0.6);
+  z-index: 100;
+  overflow: auto;
+}
+
+.cartItem {
+  margin: 10px;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+}
+
+.cartItem img {
+  width: 100px;
+  height: auto;
+  margin-right: 10px;
+}
+
+.cartItem p {
+  margin: 2px;
+  margin-left: 50px;
+}
+.cartItem button {
+  background-color: red;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  margin-left: 50px;
+}
+
+.cartItem button:hover {
+  background-color: white;
+  color: red;
+  border: 1px solid red;
+}
+
+.finalizarPedidoButton {
+  margin: 10px;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.finalizarPedidoButton:hover {
+  background-color: white;
+  color: #007bff;
+  border: 1px solid #007bff;
+}
+
+.totalPrecio span {
+  color: black;
+  font-weight: bold;
+}
+
+.closeButton {
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+  &:hover {
+    background-color: #b3b3b3;
+    color: rgb(0, 0, 0);
+  }
+}

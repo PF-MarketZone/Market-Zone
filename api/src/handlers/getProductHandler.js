@@ -15,9 +15,7 @@ const getProductHandler = async (req, res) => {
       .status(200)
       .json(responseMaper(false, 'Estos son los productos', result));
   } catch (error) {
-    res
-      .status(404)
-      .send(responseMaper(true, 'No se encontraron productos', null));
+    res.send(error);
   }
 };
 
