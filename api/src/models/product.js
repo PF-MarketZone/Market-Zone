@@ -1,34 +1,22 @@
-
-
 const mongoose = require('mongoose');
 
-const productSchema = new mongoose.Schema({
-  storeId: {type: mongoose.Schema.Types.ObjectId, required: true,},
-  name: {type: String, required: true,},
-  price: {type: Number, required: true,},
-  image: [{url: {type: String, required: true,},},],
-  description: {type: String,maxLength: 2500,},
-  stock: Number,
-  tags: [{tag: {type: String, required: true,},},],
-  color: String,
-}, {collection: 'product',});
+const productSchema = new mongoose.Schema(
+  {
+    storeId: { type: mongoose.Schema.Types.ObjectId, required: true },
+    name: { type: String, required: true },
+    price: { type: Number, required: true },
+    image: [{ url: { type: String, required: true } }],
+    description: { type: String, maxLength: 2500 },
+    stock: Number,
+    tags: [{ tag: { type: String, required: true } }],
+    color: String,
+  },
+  { collection: 'product' }
+);
 
 const Product = mongoose.model('Product', productSchema);
 
 module.exports = Product;
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // db.product.drop();
 // db.createCollection("product", {
@@ -116,7 +104,3 @@ module.exports = Product;
 // );
 
 // const Product = mongoose.model('Product', productSchema);
-
-
-
-

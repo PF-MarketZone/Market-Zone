@@ -114,24 +114,3 @@ module.exports = {
   searchByIdAndRemoveProduct,
   updateProduct,
 };
-
-// case description:
-//   const updateDescription = await Product.findByIdAndUpdate(id, {
-//     description: description,
-//   });
-//   return updateDescription;
-// case image:
-//   const updateImage = await Product.findByIdAndUpdate(id, { image: image });
-//   return updateImage;
-// case color:
-//   const updateColor = await Product.findByIdAndUpdate(id, { color: color });
-//   return updateColor;
-// case price:
-//   const updatePrice = await Product.findByIdAndUpdate(id, { price: price });
-//   return updatePrice;
-// case stock:
-//   const updateStock = await Product.findByIdAndUpdate(id, { stock: stock });
-//   return updateStock;
-// case tags:
-//   const updateTags = await Product.findByIdAndUpdate(id, { tags: tags });
-//   return updateTags;
