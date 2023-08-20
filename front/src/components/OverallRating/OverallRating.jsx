@@ -9,7 +9,9 @@ margin: 1vw;
 
 const DivPricipal = styled.div`
     margin-top: 12vw;
+    color: black;
 `
+
 
 const OverallRating = (props) => {
     const details = tiendas[0].products[0];
