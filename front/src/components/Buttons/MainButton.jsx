@@ -1,12 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import styled, { css } from 'styled-components';
 
+
 const ButtonBase = css`
+  width: 100%;
   border: 2px solid black;
-  background-color: transparent;
+  background-color: #8b3dff;
   color: #000000ff;
-  padding: 1.5vw 6vw;
-  border-radius: 5px;
+  padding: 1.5vw 0vw;
+  border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease;
   &:hover {
@@ -49,7 +51,7 @@ const InitButton = styled.button`
   }
 `;
 
-const MyButton = ({ text, route, variant }) => {
+const MyButton = ({ text, route, variant, icon }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -72,7 +74,7 @@ const MyButton = ({ text, route, variant }) => {
   const ButtonStyled = getButtonVariant();
 
   return (
-    <ButtonStyled onClick={handleClick}>{text}</ButtonStyled>
+    <ButtonStyled onClick={handleClick}><span>{icon}</span>{text}</ButtonStyled>
   )
 }
 
