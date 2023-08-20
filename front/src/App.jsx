@@ -11,6 +11,7 @@ import CartSidebar from "./components/CartSidebar/CartSidebar";
 import { useLocation } from "react-router-dom";
 import Cart from "./components/Cart/Cart";
 import { useDispatch } from "react-redux";
+import LogInSignUp from "./View/LogInSignUp/LogInSignUp";
 
 function App() {
   const location = useLocation();
@@ -41,12 +42,13 @@ function App() {
 
 
         <div>
-          {location.pathname === '/' ? null : <Nav onSearch={handleSearch} />}
+          {location.pathname === '/' || location.pathname === '/login' ? null : <Nav onSearch={handleSearch} />}
         </div>
 
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/home" element={<Home categoriaFiltrada={categoriaFiltrada} />}/>
+          <Route path="/login" element={<LogInSignUp />} />
           <Route path="/add" element={<Add />} />
           <Route path="/:name" element={<TiendaDetalle />} />
           <Route path="/cart" element={<Cart />} />
