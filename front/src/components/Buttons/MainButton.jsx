@@ -7,7 +7,7 @@ const ButtonBase = css`
   border: 2px solid black;
   background-color: #8b3dff;
   color: #000000ff;
-  padding: 1.5vw 0vw;
+  //padding: 1.5vw 0vw;
   border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease;
