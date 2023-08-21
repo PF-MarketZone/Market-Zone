@@ -7,18 +7,19 @@ const { responseMaper } = require('../helpers/responseMaper');
 
 const createProductHandler = async (req, res) => {
   try {
-    const { name, description, image, color, price, stock, tags } = req.body;
+    const {storeId, name, description, image, color, price, stock, categories } = req.body;
     // if (!name || !description || !image || !price || !tags) {
     //   res.status(404).json(true, 'Completa los campos requeridos', null);
     // }
     const newProduct = createNewProduct(
+      storeId,
       name,
       description,
       image,
       color,
       price,
       stock,
-      tags
+      categories
     );
     res
       .status(200)
@@ -34,22 +35,30 @@ const createProductHandler = async (req, res) => {
 
 const updateProductHandler = async (req, res) => {
   try {
-    const { id, name, description, image, color, price, stock, tags } =
-      req.body;
-    if (!id) {
-      return res
-        .status(404)
-        .json(responseMaper(true, 'Error al buscar el Producto', null));
-    }
-    const result = await updateProduct(
-      id,
+    const {  _id,
+      storeId,
       name,
       description,
       image,
       color,
       price,
       stock,
-      tags
+      categories } =
+      req.body;
+    if (!_id) {
+      return res
+        .status(404)
+        .json(responseMaper(true, 'Error al buscar el Producto', null));
+    }
+    const result = await updateProduct(_id,
+      storeId,
+      name,
+      description,
+      image,
+      color,
+      price,
+      stock,
+      categories
     );
     res.status(200).json(responseMaper(false, 'Producto actualizado', result));
   } catch (error) {
@@ -60,3 +69,4 @@ const updateProductHandler = async (req, res) => {
 };
 
 module.exports = { createProductHandler, updateProductHandler };
+

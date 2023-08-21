@@ -8,10 +8,22 @@ const productSchema = new mongoose.Schema(
     image: [{ url: { type: String, required: true } }],
     description: { type: String, maxLength: 2500 },
     stock: Number,
-    tags: [{ tag: { type: String, required: true } }],
+    categories: [
+      {
+        category: {
+          type: String,
+          required: true
+        },
+        subcategories: [
+          {
+            type: String
+          }
+        ]
+      }
+    ],
     color: String,
   },
-  { collection: 'product' }
+  { collection: 'products' }
 );
 
 const Product = mongoose.model('Product', productSchema);
@@ -104,3 +116,72 @@ module.exports = Product;
 // );
 
 // const Product = mongoose.model('Product', productSchema);
+// db.createCollection('product', {
+//   validator: {
+//     $jsonSchema: {
+//       bsonType: 'object',
+//       required: ['storeId', 'name', 'price', 'image', 'categories'],
+//       properties: {
+//         storeId: {
+//           bsonType: 'objectId',
+//           description: 'Debe ser un ObjectId y es requerido'
+//         },
+//         name: {
+//           bsonType: 'string',
+//           description: 'Debe ser un nombre y es requerido'
+//         },
+//         price: {
+//           bsonType: 'number',
+//           description: 'Debe ser un número y es requerido'
+//         },
+//         image: {
+//           bsonType: 'array',
+//           description: 'Debe ser un array y es requerido',
+//           items: {
+//             bsonType: 'object',
+//             required: ['url'],
+//             properties: {
+//               url: {
+//                 bsonType: 'string',
+//                 description: 'Debe ser una url y es requerido'
+//               }
+//             }
+//           }
+//         },
+//         description: {
+//           bsonType: 'string',
+//           description: 'Puede ser una string con un máximo de 2500 caracteres'
+//         },
+//         stock: {
+//           bsonType: 'number',
+//           description: 'Puede ser un número'
+//         },
+//         categories: {
+//           bsonType: 'array',
+//           description: 'Debe ser un array y es requerido',
+//           items: {
+//             bsonType: 'object',
+//             required: ['category', 'subcategories'],
+//             properties: {
+//               category: {
+//                 bsonType: 'string',
+//                 description: 'Debe ser una string(categoría) y es requerido'
+//               },
+//               subcategories: {
+//                 bsonType: 'array',
+//                 description: 'Debe ser un array de subcategorías',
+//                 items: {
+//                   bsonType: 'string'
+//                 }
+//               }
+//             }
+//           }
+//         },
+//         color: {
+//           bsonType: 'string',
+//           description: 'Puede ser una string'
+//         }
+//       }
+//     }
+//   }
+// })

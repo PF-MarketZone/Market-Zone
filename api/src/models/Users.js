@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { db } = require('./purchase');
+
 
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true,},
