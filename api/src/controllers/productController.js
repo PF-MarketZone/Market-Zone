@@ -45,20 +45,17 @@ const searchByIdAndRemoveProduct = async (id) => {
 
 const createNewProduct = async (
   storeId,
-      name,
-      description,
-      image,
-      color,
-      price,
-      stock,
-      categories
+  name,
+  description,
+  image,
+  color,
+  price,
+  stock,
+  categories
 ) => {
-  
-const storeidBody = storeId;
-const storeDefault ='64daf18450c25495a4a6a611';
+  const storeidBody = storeId;
+  const storeDefault = '64daf18450c25495a4a6a611';
   const productData = new Product({
-
-    
     storeId: storeId ? storeidBody : storeDefault,
     name: name,
     description: description,
@@ -68,10 +65,9 @@ const storeDefault ='64daf18450c25495a4a6a611';
     stock: stock,
     categories: categories,
   });
-//console.log(productData)
+  //console.log(productData)
   await productData.save();
 };
-
 
 //=================================================================
 // Actualiza un nuevo producto con los parametros recibidos
