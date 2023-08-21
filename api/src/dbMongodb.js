@@ -1,10 +1,12 @@
 require('dotenv').config();
+const { MONGO_URI_LOCAL, MONGO_URI_REMOTE } = process.env;
+
 var mongoose = require('mongoose');
 async function connectToDatabase() {
   await mongoose
-    .connect('mongodb+srv://MarketZone:ZoneMarket@cluster0.fyv03ie.mongodb.net/mz_store')
+    .connect(MONGO_URI_LOCAL)
     .then(() => console.log('Base de datos: \x1b[32m%s\x1b[0m', 'online'))
     .catch((e) => console.log('Error de conexion ', e));
 }
 
-module.exports = { connectToDatabase };
+module.exports = connectToDatabase;

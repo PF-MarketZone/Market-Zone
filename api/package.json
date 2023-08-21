@@ -12,7 +12,7 @@
   "keywords": [
     "NodeJs",
     "Express",
-    "PosrtgreSQL"
+    "Mongo DB"
   ],
   "author": "HenryStudents Team",
   "engines": {
@@ -21,18 +21,21 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@hapi/boom": "^9.1.4",
     "axios": "^1.4.0",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.1",
     "mongodb": "^5.7.0",
     "mongoose": "^7.4.3",
     "morgan": "^1.10.0",
-    "pg": "^8.11.2",
-    "pg-hstore": "^2.3.4",
-    "sequelize": "^6.32.1"
+    "passport": "^0.6.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
