@@ -1,7 +1,12 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
+
+
+
+
 const userSchema = new mongoose.Schema({
+  stores: [{type: mongoose.Schema.Types.ObjectId, ref: 'Store',}],
   name: { type: String, required: true,},
   last_name: String,
   email: { type: String, required: true,},
