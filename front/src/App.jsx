@@ -49,7 +49,7 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/home" element={<Home categoriaFiltrada={categoriaFiltrada} />}/>
           <Route path="/login" element={<LogInSignUp />} />
-          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/:name" element={<TiendaDetalle />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/detail/:detailId" element={<Detail />} />

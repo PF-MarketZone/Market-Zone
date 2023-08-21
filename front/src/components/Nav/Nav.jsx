@@ -24,7 +24,7 @@ const Nav = ({ onSearch }) => {
           </Link>
           <SearchBar onSearch={onSearch} />
         </div>
-        <Link to="/add">
+        <Link to="/dashboard">
           <button className={styles.button1}>Dashboard</button>
         </Link>
 
