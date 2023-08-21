@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useParams, useNavigate } from 'react-router-dom';
 import React, { useEffect } from 'react';
-import MyButton from '../../components/Buttons/MainButton'
+//import BackButton from '../../components/BackButton/BackButton'
 import ImgGrupD from '../../components/ImgGrupDetail/ImgGrupDetail.jsx';
 import Nav from '../../components/Nav/Nav'
 import InfoD from '../../components/InfoDetail/InfoDetail'
@@ -13,11 +13,13 @@ const CardDetail = styled.div`
     display: flex;
     justify-content: center;
     margin: 3vw;
+    margin-top: 0;
 `
 const DivdReviewsRating = styled.div`
     display: flex;
     justify-content: space-around;
     margin: 3vw;
+    margin-bottom: 0;
 `
 const Div = styled.div`
 font-family: 'Montserrat', sans-serif;
@@ -47,12 +49,11 @@ const Detail = (props) => {
                     <InfoD />
                 </CardDetail>
                 <DivdReviewsRating>
-                    <Reviews/>
-                    {<OverallRating/>}
+                    <Reviews />
+                    {<OverallRating />}
                 </DivdReviewsRating>
-
+               {/*  <BackButton /> */}
             </div>
-            <MyButton text="Ir a la página de inicio" route="/home" variant="primary" />
         </Div>
 
     )

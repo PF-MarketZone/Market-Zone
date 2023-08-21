@@ -71,7 +71,7 @@ const DivPriceStock = styled.div`
 
 const H2Price = styled.h2`
   font-size: 1.5vw;
-  color: #ce6cce;
+  color: #8B3DFF;
   font-weight: 600;
 `;
 const H2Stock = styled.h2`
@@ -119,7 +119,7 @@ const DivPrincipal = styled.div`
 const ButtonAddToCart = styled.button`
   width: 100%;
   height: 5vw;
-  background-color: #ce6cce;
+  background-color: #8B3DFF;
   color: white;
   border: solid 0.1vw white;
   border-radius: 1vw;
@@ -136,7 +136,7 @@ const ButtonFavorito = styled.button`
   height: 5vw;
   background-color: transparent;
   color: black;
-  border: solid 0.1vw white;
+  border: solid 0.1vw #8B3DFF;
   border-radius: 1vw;
   cursor: pointer;
   transition: background-color 0.3s ease;
