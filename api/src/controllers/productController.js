@@ -35,7 +35,7 @@ const searchByIdProduct = async (id) => {
 const searchByIdAndRemoveProduct = async (id) => {
   await Product.findByIdAndRemove(id);
   const restProducts = await allProducts();
-  console.log(restProducts);
+  // console.log(restProducts);
   return restProducts;
 };
 
