@@ -6,7 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import TiendaDetalle from "./View/TiendaDetalle/TiendaDetalle";
 import Detail from "./View/Detail/Detail";
 import Landing from "./View/Landing/Landing";
-import Add from "./View/addProduct/AddProduct";
+import Dashboard from "./View/Dashboard/Dashboard";
 import CartSidebar from "./components/CartSidebar/CartSidebar";
 import { useLocation } from "react-router-dom";
 import Cart from "./components/Cart/Cart";
@@ -42,14 +42,14 @@ function App() {
 
 
         <div>
-          {location.pathname === '/' || location.pathname === '/login' ? null : <Nav onSearch={handleSearch} />}
+          {location.pathname === '/' || location.pathname === '/login' || location.pathname === '/dashboard' ? null : <Nav onSearch={handleSearch} />}
         </div>
 
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/home" element={<Home categoriaFiltrada={categoriaFiltrada} />}/>
           <Route path="/login" element={<LogInSignUp />} />
-          <Route path="/add" element={<Add />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/:name" element={<TiendaDetalle />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/detail/:detailId" element={<Detail />} />
