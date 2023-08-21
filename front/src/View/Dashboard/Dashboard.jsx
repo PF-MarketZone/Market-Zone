@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Sidebar from '../../components/PanelDashboard/Sidebar/Sidebar';
 import Products from '../../components/PanelDashboard/Products/Products';
@@ -23,11 +23,7 @@ const Dashboard = () => {
 
   const [selected, setSelected] = useState(null)
 
-  // useEffect(() => {
-  //   console.log('me monte')
-  // }, [selected])
-
-  const renderSelected = () => {
+   const renderSelected = () => {
     switch(selected){
       case 'products':
         return <Products/>;
