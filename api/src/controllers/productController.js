@@ -1,17 +1,124 @@
-// const allProducts = async () => {
-//   // Debe devolver todeos los productos que se encuentren
-// };
+const Product = require('../models/product');
 
-const nameProducts = (name) => {
-  // Debe devolver el o los productos con el nombre solicitado por parametro
+//=================================================================
+// Busca todos los productos
+//=================================================================
+
+const allProducts = async () => {
+  // Solicitamos la info a la BD
+  const products = await Product.find();
+  return products;
 };
 
-const productById = async (id) => {
-  // Debe devolver el producto que parsee con el id que nos envian
+//=================================================================
+// Busca todos los productos con el nombre recibido por parametro
+//=================================================================
+
+const searchByNameProduct = async (name) => {
+  const products = await Product.findOne({ name: name });
+  return products;
 };
 
-const createNewProduct = (name, description, image, color, price, tags) => {
-  // Debe crear un producto con los parametros que se reciben
+//=================================================================
+// Busca los productos con el id proporcionado
+//=================================================================
+
+const searchByIdProduct = async (id) => {
+  const productById = await Product.findById(id);
+  return productById;
 };
 
-// module.exports = { allProducts, productById, createNewProduct, nameProducts };
+//=================================================================
+// Busca los productos con el id proporcionado y lo elimina
+//=================================================================
+
+const searchByIdAndRemoveProduct = async (id) => {
+  await Product.findByIdAndRemove(id);
+  const restProducts = await allProducts();
+  // console.log(restProducts);
+  return restProducts;
+};
+
+//=================================================================
+// Crea un nuevo producto con los parametros recibidos
+//=================================================================
+
+const createNewProduct = async (
+  storeId,
+  name,
+  description,
+  image,
+  color,
+  price,
+  stock,
+  categories
+) => {
+  const storeidBody = storeId;
+  const storeDefault = '64daf18450c25495a4a6a611';
+  const productData = new Product({
+    storeId: storeId ? storeidBody : storeDefault,
+    name: name,
+    description: description,
+    image: image,
+    color: color,
+    price: price,
+    stock: stock,
+    categories: categories,
+  });
+  //console.log(productData)
+  await productData.save();
+};
+
+//=================================================================
+// Actualiza un nuevo producto con los parametros recibidos
+//=================================================================
+
+const updateProduct = async (
+  _id,
+  storeId,
+  name,
+  description,
+  image,
+  color,
+  price,
+  stock,
+  categories
+) => {
+  // Buscamos el producto a actualizar
+
+  const productFinded = await searchByIdProduct(_id);
+  if (storeId) {
+    productFinded.storeId = storeId;
+  }
+  if (name) {
+    productFinded.name = name;
+  }
+  if (description) {
+    productFinded.description = description;
+  }
+  if (image) {
+    productFinded.image = image;
+  }
+  if (color) {
+    productFinded.color = color;
+  }
+  if (price) {
+    productFinded.price = price;
+  }
+  if (stock) {
+    productFinded.stock = stock;
+  }
+  if (categories) {
+    productFinded.tags = tags;
+  }
+  await productFinded.save();
+};
+
+module.exports = {
+  createNewProduct,
+  allProducts,
+  searchByNameProduct,
+  searchByIdProduct,
+  searchByIdAndRemoveProduct,
+  updateProduct,
+};

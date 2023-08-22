@@ -7,7 +7,7 @@
     title: { type: String, required: true },
     description: { type: String, required: true },
     
-  });
+  },  {collection: 'reviews',});
   
 
   const Review = mongoose.model('Review', reviewSchema);

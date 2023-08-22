@@ -24,8 +24,8 @@ const Nav = ({ onSearch }) => {
           </Link>
           <SearchBar onSearch={onSearch} />
         </div>
-        <Link to="/add">
-          <button className={styles.button1}>Crear Producto</button>
+        <Link to="/dashboard">
+          <button className={styles.button1}>Dashboard</button>
         </Link>
 
         <div className={styles.cartButtonContainer}>

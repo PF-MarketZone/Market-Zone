@@ -1,10 +1,10 @@
 require('dotenv').config();
 var mongoose = require('mongoose');
-const { MONGO_URI } = require ("../env")
+const { MONGO_URI_REMOTE } = process.env;
 
 async function connectToDatabase() {
   await mongoose
-    .connect(MONGO_URI)
+    .connect(MONGO_URI_REMOTE)
     .then(() => console.log('Base de datos: \x1b[32m%s\x1b[0m', 'online'))
     .catch((e) => console.log('Error de conexion ', e));
 }
