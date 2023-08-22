@@ -35,7 +35,7 @@ const searchByIdProduct = async (id) => {
 const searchByIdAndRemoveProduct = async (id) => {
   await Product.findByIdAndRemove(id);
   const restProducts = await allProducts();
-  console.log(restProducts);
+  // console.log(restProducts);
   return restProducts;
 };
 
@@ -44,24 +44,28 @@ const searchByIdAndRemoveProduct = async (id) => {
 //=================================================================
 
 const createNewProduct = async (
+  storeId,
   name,
   description,
   image,
   color,
   price,
   stock,
-  tags
+  categories
 ) => {
+  const storeidBody = storeId;
+  const storeDefault = '64daf18450c25495a4a6a611';
   const productData = new Product({
+    storeId: storeId ? storeidBody : storeDefault,
     name: name,
     description: description,
     image: image,
     color: color,
     price: price,
     stock: stock,
-    tags: tags,
+    categories: categories,
   });
-
+  //console.log(productData)
   await productData.save();
 };
 
@@ -70,18 +74,22 @@ const createNewProduct = async (
 //=================================================================
 
 const updateProduct = async (
-  id,
+  _id,
+  storeId,
   name,
   description,
   image,
   color,
   price,
   stock,
-  tags
+  categories
 ) => {
   // Buscamos el producto a actualizar
 
-  const productFinded = await searchByIdProduct(id);
+  const productFinded = await searchByIdProduct(_id);
+  if (storeId) {
+    productFinded.storeId = storeId;
+  }
   if (name) {
     productFinded.name = name;
   }
@@ -100,7 +108,7 @@ const updateProduct = async (
   if (stock) {
     productFinded.stock = stock;
   }
-  if (tags) {
+  if (categories) {
     productFinded.tags = tags;
   }
   await productFinded.save();

@@ -51,3 +51,4 @@ userSchema.statics.comparePass = async function (password, receivedPass) {
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
+

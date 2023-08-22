@@ -15,6 +15,7 @@ const productRouter = Router();
 
 productRouter.get('/', getProductHandler);
 productRouter.get('/:id', getProductByIdHandler);
+
 productRouter.get('/remove/:id', getDeleteProduct);
 
 productRouter.post(
@@ -24,5 +25,6 @@ productRouter.post(
   createProductHandler
 );
 productRouter.post('/update', updateProductHandler);
+
 
 module.exports = productRouter;
