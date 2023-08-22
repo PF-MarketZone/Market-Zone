@@ -1,5 +1,8 @@
+import { useState } from "react";
 import React from "react";
+import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
+import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import {
   eliminarDelCarrito,
   aumentarCantidad,
@@ -8,6 +11,31 @@ import {
 import styles from "./Cart.module.css";
 
 const Cart = () => {
+  const [preferenceId, setpreferenceId] = useState(null);
+  initMercadoPago("TEST-fd21ae3e-cbfb-4bdd-aac1-9595813bbe13");
+
+  const createPreference = async () => {
+    try {
+      const response = await axios.post("link del back", {
+        description: "producto",
+        price: 100,
+        quantity: 1,
+        currency_id: "USD",
+      });
+      const { id } = response.data;
+      return id;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  const handleBuy = async () => {
+    const id = await createPreference();
+    if (id) {
+      setpreferenceId(id);
+    }
+  };
+
   const cartItems = useSelector((state) => state.cart);
   const details = useSelector((state) => state.details);
   const dispatch = useDispatch();
@@ -83,6 +111,8 @@ const Cart = () => {
           </div>
         </div>
       )}
+      <button className={styles["cart-buy"]} onClick={handleBuy}>Comprar</button>
+      {preferenceId && <Wallet initialization={{ preferenceId }} />}
     </div>
   );
 };
