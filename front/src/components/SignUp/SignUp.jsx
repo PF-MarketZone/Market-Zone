@@ -5,6 +5,8 @@ import MyButton from '../Buttons/MainButton';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 
 const StyledForm = styled.form`
         background-color: #1D1E18;
@@ -143,6 +145,27 @@ const SignUp = () => {
         },
     })
 
+    const login = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+            console.log(tokenResponse);
+
+            try {
+                const userInfoResponse = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+                    headers: {
+                        Authorization: `Bearer ${tokenResponse.access_token}`,
+                    },
+                });
+
+                console.log(userInfoResponse.data);
+
+                // Aquí puedes manejar la información del perfil del usuario
+            } catch (error) {
+                console.error('Error al obtener el perfil del usuario', error);
+            }
+        },
+        onError: errorResponse => console.log(errorResponse),
+    });
+
     const handleFieldClick = (fieldName) => {
         setActiveField(fieldName);
     }
@@ -158,7 +181,14 @@ const SignUp = () => {
                     <H5>Comience gratis.</H5>
                     <H3>Crea tu cuenta.</H3>
                 </Div>
-                <MyButton icon={<FcGoogle />} text=" Registrar con Google" route="" variant="inicio" type="button"></MyButton>
+                <MyButton 
+                icon={<FcGoogle />} 
+                text=" Registrar con Google" 
+                route="" 
+                variant="inicio" 
+                type="button"
+                onClick={login()}>
+                </MyButton>
                 <H3O>O</H3O>
                 <DivName>
                     <Input

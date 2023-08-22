@@ -5,6 +5,10 @@ import MyButton from '../Buttons/MainButton';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
+import { useDispatch } from "react-redux";
+//import { loginWithGoogleSuccess, loginWithGoogleFailure } from "../../redux/actions"
 
 
 const StyledForm = styled.form`
@@ -40,7 +44,7 @@ const H3 = styled.h3`
     font-weight: 500;
     
     `
-    const H3O = styled.h3`
+const H3O = styled.h3`
         margin: 15px 0;
     `
 const H5 = styled.h5`
@@ -58,19 +62,16 @@ const Div = styled.div`
 const LogIn = () => {
     //const history = useHistory(); // Importa useHistory
     const [activeField, setActiveField] = useState(null);
+    const dispatch = useDispatch();
 
     const formik = useFormik({
         initialValues: {
-            name: "",
-            lastNames: "",
             email: "",
             password: "",
-            confirmPassword: "",
-            userType: '',
         },
 
         validationSchema: Yup.object({
-            
+
             email: Yup.string()
                 .required('requiere un email')
                 .email('email no valida'),
@@ -98,6 +99,27 @@ const LogIn = () => {
             }
         },
     })
+    const login = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+            console.log(tokenResponse);
+
+            try {
+                const userInfoResponse = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+                    headers: {
+                        Authorization: `Bearer ${tokenResponse.access_token}`,
+                    },
+                });
+
+                console.log(userInfoResponse.data);
+                const userEmail = userInfoResponse.data.email;
+
+                // Aquí puedes manejar la información del perfil del usuario
+            } catch (error) {
+                console.error('Error al obtener el perfil del usuario', error);
+            }
+        },
+        onError: errorResponse => console.log(errorResponse),
+    });
 
     const handleFieldClick = (fieldName) => {
         setActiveField(fieldName);
@@ -107,6 +129,7 @@ const LogIn = () => {
         setActiveField(null);
     }
 
+
     return (
         <>
 
@@ -115,7 +138,14 @@ const LogIn = () => {
                     <H5>Inicia sesion.</H5>
                     <H3>Ya Soy Mienbro!</H3>
                 </Div>
-                <MyButton icon={<FcGoogle />} text=" Ingresa con Google" route="" variant="inicio" type="button" formNoValidate></MyButton>
+                <MyButton
+                    icon={<FcGoogle />}
+                    text=" Ingresa con Google"
+                    route=""
+                    variant="inicio"
+                    type="button"
+                    onClick={login()}>
+                </MyButton>
                 <H3O>O</H3O>
 
                 <Input
