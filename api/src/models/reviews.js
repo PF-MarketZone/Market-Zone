@@ -1,3 +1,4 @@
+const { Schema, model } = require('mongoose');
 
   const reviewSchema = new Schema({
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
@@ -8,7 +9,7 @@
     description: { type: String, required: true },
     
   },  {collection: 'reviews',});
-  
 
-  const Review = mongoose.model('Review', reviewSchema);
+const Review = model('Review', reviewSchema);
 
+module.exports = Review;
