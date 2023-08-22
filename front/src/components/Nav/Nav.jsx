@@ -8,7 +8,7 @@ import Logo from '../../images/Logo.png'
 import { CgProfile } from 'react-icons/cg';
 
 const Nav = ({ onSearch }) => {
-  const cartItems = useSelector((state) => state.cart);
+  const cartItems = useSelector((state) => state.filters.cart);
   const [isCartSidebarVisible, setCartSidebarVisible] = useState(false);
 
   const toggleCartSidebar = () => {

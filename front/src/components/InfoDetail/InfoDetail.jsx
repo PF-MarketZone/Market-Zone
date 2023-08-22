@@ -159,7 +159,7 @@ const InfoD = (props) => {
     dispatch(getProductById(detailId));
   }, [dispatch, detailId]);
 
-  const details = useSelector((state) => state.detail);
+  const details = useSelector((state) => state.filters.detail);
 
   const [quantity, setQuantity] = useState(0);
 
