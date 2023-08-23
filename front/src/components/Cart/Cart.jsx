@@ -17,6 +17,7 @@ const Cart = () => {
   const cartItems = useSelector((state) => state.filters.cart);
   const details = useSelector((state) => state.filters.details);
   const dispatch = useDispatch();
+  
 
   const eliminarProducto = (id) => {
     dispatch(eliminarDelCarrito(id));
@@ -88,7 +89,7 @@ const Cart = () => {
                     <p className={styles["cart-item-title"]}>{item.name}</p>
                     <p className={styles["cart-item-price"]}>
                       Precio: $
-                      {detail && detail.price ? detail.price.toFixed(2) : "N/A"}
+                      {detail && detail.price ? detail.price : "N/A"}
                     </p>
                     <div className={styles["cart-item-quantity"]}>
                       <button

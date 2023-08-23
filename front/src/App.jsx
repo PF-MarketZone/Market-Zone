@@ -32,8 +32,11 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-    dispatch({ type: 'SET_INITIAL_CART', payload: carrito });
+    const carritoJSON = localStorage.getItem('carrito');
+    if (carritoJSON) {
+      const carrito = JSON.parse(carritoJSON);
+      dispatch({ type: 'SET_INITIAL_CART', payload: carrito });
+    }
   }, [dispatch]);
 
   

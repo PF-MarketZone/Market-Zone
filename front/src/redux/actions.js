@@ -39,7 +39,7 @@ export const agregarAlCarrito = (producto) => {
     dispatch({ type: AGREGAR_AL_CARRITO, payload: producto });
     
     const state = getState();
-    const carrito = state.cart;
+    const carrito = state.filters.cart;
     localStorage.setItem('carrito', JSON.stringify(carrito));
   };
 };
@@ -48,7 +48,7 @@ export const eliminarDelCarrito = (productoId) => {
     dispatch({ type: ELIMINAR_DEL_CARRITO, payload: productoId });
 
     const state = getState();
-    const carrito = state.cart;
+    const carrito = state.filters.cart;
     localStorage.setItem('carrito', JSON.stringify(carrito));
   };
 };
