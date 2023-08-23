@@ -10,8 +10,7 @@ export const ELIMINAR_DEL_CARRITO = "ELIMINAR_DEL_CARRITO";
 export const SET_INITIAL_CART = "SET_INITIAL_CART";
 export const AUMENTAR_CANTIDAD = "AUMENTAR_CANTIDAD";
 export const DISMINUIR_CANTIDAD = "DISMINUIR_CANTIDAD";
-export const LOGIN_WITH_GOOGLE_SUCCESS = "LOGIN_WITH_GOOGLE_SUCCESS";
-export const LOGIN_WITH_GOOGLE_FAILURE = "LOGIN_WITH_GOOGLE_FAILURE";
+
 
 
 
@@ -71,7 +70,7 @@ export const disminuirCantidad = (itemId) => {
 export const getProductById = (id) => {
   return function (dispatch, getState) {
     const state = getState(); // Obtener el estado actual
-    const productDetails = state.details?.find(detail => detail.id === parseInt(id));
+    const productDetails = state.filters.details?.find(detail => detail.id === parseInt(id));
 
     if (productDetails) {
       dispatch({ type: GET_PRODUCT_BY_ID, payload: productDetails });
