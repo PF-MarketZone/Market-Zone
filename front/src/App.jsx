@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import LogInSignUp from "./View/LogInSignUp/LogInSignUp";
 // import { GoogleOAuthProvider} from '@react-oauth/google';
 
+
 function App() {
   const location = useLocation();
   const [categoriaFiltrada, setCategoriaFiltrada] = useState();
@@ -23,6 +24,7 @@ function App() {
     setCartSidebarVisible(!isCartSidebarVisible);
   };
 
+  
   const handleSearch = (categoria) => {
     setCategoriaFiltrada(categoria);
   };
@@ -30,9 +32,14 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-    dispatch({ type: 'SET_INITIAL_CART', payload: carrito });
+    const carritoJSON = localStorage.getItem('carrito');
+    if (carritoJSON) {
+      const carrito = JSON.parse(carritoJSON);
+      dispatch({ type: 'SET_INITIAL_CART', payload: carrito });
+    }
   }, [dispatch]);
+
+  
   
   return (
     <>

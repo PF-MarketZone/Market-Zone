@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Nav.module.css";
 import SearchBar from "../searchBar/searchBar";
@@ -17,6 +17,21 @@ const Nav = ({ onSearch }) => {
     setCartSidebarVisible(!isCartSidebarVisible);
   };
 
+  const navRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (navRef.current && !navRef.current.contains(e.target)) {
+        setCartSidebarVisible(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   const handleLogout = () => {
     // Realiza las acciones necesarias para cerrar la sesión
     // Por ejemplo, eliminar tokens, limpiar el sessionStorage, etc.
@@ -28,15 +43,17 @@ const Nav = ({ onSearch }) => {
 
   return (
     <div className={styles.navContainer}>
-      <div className={styles.navbar}>
+      <div className={styles.navbar} ref={navRef}>
         <div className={styles.searchBarContainer}>
           <Link to="/home">
-          <img className={styles.imgLogo} src={Logo} alt="logo no disponible" />
+            <img
+              className={styles.imgLogo}
+              src={Logo}
+              alt="logo no disponible"
+            />
           </Link>
           <SearchBar onSearch={onSearch} />
         </div>
-        
-        // si quieres que se mestren este boton ⇓ cambia el estado iniial a "true"
         {isAuthenticated && (
           // Mostrar botón de Dashboard solo si está autenticado
           <Link to="/dashboard">
@@ -45,15 +62,16 @@ const Nav = ({ onSearch }) => {
         )}
 
         <div className={styles.cartButtonContainer}>
-          <button
-            className={styles.button2}
-            onClick={toggleCartSidebar}
-          >
+          <button className={styles.button2} onClick={toggleCartSidebar}>
             Carrito ({cartItems.length})
           </button>
 
           {isCartSidebarVisible && (
-            <div className={styles.cartSidebarOverlay}>
+            <div
+              className={`${styles.cartSidebarOverlay} ${
+                isCartSidebarVisible ? styles.active : ""
+              }`}
+            >
               <CartSidebar onClose={toggleCartSidebar} />
             </div>
           )}
@@ -67,7 +85,6 @@ const Nav = ({ onSearch }) => {
             <AiOutlineLogout style={{ width: "10vh", height: "5vh" }} />
           </Link>
         ) : (
-          // Mostrar enlace a página de inicio de sesión si no está autenticado
           <Link
             to="/login"
             style={{ textDecoration: "none", color: "inherit" }}
@@ -81,6 +98,3 @@ const Nav = ({ onSearch }) => {
 };
 
 export default Nav;
-
-
-

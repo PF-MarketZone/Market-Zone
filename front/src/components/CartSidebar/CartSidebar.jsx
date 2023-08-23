@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { eliminarDelCarrito, agregarAlCarrito } from "../../redux/actions";
+import {
+  eliminarDelCarrito,
+  aumentarCantidad,
+  disminuirCantidad,
+} from "../../redux/actions";
 import styles from "./CartSidebar.module.css";
 import { Link } from "react-router-dom";
 
@@ -8,6 +12,15 @@ const CartSidebar = ({ onClose }) => {
   const cartItems = useSelector((state) => state.filters.cart);
   const details = useSelector((state) => state.filters.details);
   const dispatch = useDispatch();
+  const [isCartSidebarVisible, setCartSidebarVisible] = useState(true);
+
+  const handleAumentarCantidadSidebar = (itemId) => {
+    dispatch(aumentarCantidad(itemId));
+  };
+
+  const handleDisminuirCantidadSidebar = (itemId) => {
+    dispatch(disminuirCantidad(itemId));
+  };
 
   const eliminarProducto = (id) => {
     dispatch(eliminarDelCarrito(id));
@@ -18,8 +31,32 @@ const CartSidebar = ({ onClose }) => {
     0
   );
 
+  const cartSidebarRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        cartSidebarRef.current &&
+        !cartSidebarRef.current.contains(e.target)
+      ) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
+
   return (
-    <div className={styles.cartSidebar}>
+    <div
+      className={`${styles.cartSidebar} ${
+        isCartSidebarVisible ? styles.active : ""
+      }`}
+      ref={cartSidebarRef}
+    >
       <div className={styles.cartHeader}>
         <h2>Carrito de Compras</h2>
         <button className={styles.closeButton} onClick={onClose}>
@@ -39,8 +76,27 @@ const CartSidebar = ({ onClose }) => {
                   <div>
                     <p>{item.name}</p>
                     <p>Precio: ${item.price}</p>
-                    <p>Cantidad: {item.quantity}</p>
-                    <button onClick={() => eliminarProducto(item.id)}>
+                    <div className={styles.quantityButtons}>
+                      <button
+                        className={styles["quantity-button"]}
+                        onClick={() => handleDisminuirCantidadSidebar(item.id)}
+                      >
+                        -
+                      </button>
+                      <p className={styles["cart-item-quantity"]}>
+                        Cantidad: {item.quantity}
+                      </p>
+                      <button
+                        className={styles["quantity-button"]}
+                        onClick={() => handleAumentarCantidadSidebar(item.id)}
+                      >
+                        +
+                      </button>
+                    </div>
+                    <button
+                      className={styles["cart-item-button"]}
+                      onClick={() => eliminarProducto(item.id)}
+                    >
                       Eliminar
                     </button>
                   </div>
@@ -49,7 +105,7 @@ const CartSidebar = ({ onClose }) => {
             })}
           </ul>
           <div className={styles.totalPrecio}>
-            <span>Total: ${totalPrecio.toFixed(2)}</span>
+            <span>Total: ${totalPrecio}</span>
           </div>
         </div>
       )}
