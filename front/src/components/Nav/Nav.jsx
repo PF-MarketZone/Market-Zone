@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useRef, useEffect  } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Nav.module.css";
 import SearchBar from "../searchBar/searchBar";
@@ -14,10 +14,26 @@ const Nav = ({ onSearch }) => {
   const toggleCartSidebar = () => {
     setCartSidebarVisible(!isCartSidebarVisible);
   };
+  
+  const navRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (navRef.current && !navRef.current.contains(e.target)) {
+        setCartSidebarVisible(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className={styles.navContainer}>
-      <div className={styles.navbar}>
+      <div className={styles.navbar} ref={navRef}>
         <div className={styles.searchBarContainer}>
           <Link to="/home">
           <img className={styles.imgLogo} src={Logo} alt="logo no disponible" />
@@ -51,6 +67,3 @@ const Nav = ({ onSearch }) => {
 };
 
 export default Nav;
-
-
-

@@ -10,7 +10,6 @@ const server = express();
 server.use(express.json());
 
 server.name = 'API Backend E-Commerce';
-
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(bodyParser.json({ limit: '50mb' }));
 server.use(cookieParser());
@@ -21,11 +20,16 @@ server.use((req, res, next) => {
   res.header(
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content-Type, Accept'
-  );
-  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-  next();
-});
-
+    );
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    next();
+  });
+  server.use((req, res, next) => {
+    res.setHeader("Content-Security-Policy", `script-src 'self' 'strict-dynamic' 'unsafe-eval' 'report-sample' https:;`);
+    next();
+  });
+  
+  
 server.use('/api/v1', mainRouter);
 
 // Error catching endware.

@@ -13,6 +13,7 @@ import Cart from "./components/Cart/Cart";
 import { useDispatch } from "react-redux";
 import LogInSignUp from "./View/LogInSignUp/LogInSignUp";
 
+
 function App() {
   const location = useLocation();
   const [categoriaFiltrada, setCategoriaFiltrada] = useState();
@@ -22,6 +23,7 @@ function App() {
     setCartSidebarVisible(!isCartSidebarVisible);
   };
 
+  
   const handleSearch = (categoria) => {
     setCategoriaFiltrada(categoria);
   };
@@ -32,6 +34,8 @@ function App() {
     const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
     dispatch({ type: 'SET_INITIAL_CART', payload: carrito });
   }, [dispatch]);
+
+  
   
   return (
     <>

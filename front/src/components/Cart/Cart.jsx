@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
@@ -11,30 +11,8 @@ import {
 import styles from "./Cart.module.css";
 
 const Cart = () => {
-  const [preferenceId, setpreferenceId] = useState(null);
-  initMercadoPago("TEST-fd21ae3e-cbfb-4bdd-aac1-9595813bbe13");
-
-  const createPreference = async () => {
-    try {
-      const response = await axios.post("link del back", {
-        description: "producto",
-        price: 100,
-        quantity: 1,
-        currency_id: "USD",
-      });
-      const { id } = response.data;
-      return id;
-    } catch (error) {
-      throw new Error(error);
-    }
-  };
-
-  const handleBuy = async () => {
-    const id = await createPreference();
-    if (id) {
-      setpreferenceId(id);
-    }
-  };
+  const [preferenceId, setPreferenceId] = useState(null);
+  initMercadoPago("APP_USR-30f4d3f9-4b95-410f-b2fd-331973191e15");
 
   const cartItems = useSelector((state) => state.cart);
   const details = useSelector((state) => state.details);
@@ -59,6 +37,40 @@ const Cart = () => {
     return total;
   }, 0);
 
+  const createPreference = async (cartItems) => {
+    try {
+      const items = cartItems
+        .map((item) => {
+          const detail = details.find((d) => d.id === item.id);
+          if (detail) {
+            return {
+              title: detail.name,
+              unit_price: detail.price,
+              quantity: item.quantity,
+              currency_id: "COP"
+            };
+          }
+          return null;
+        })
+        .filter((item) => item !== null);
+
+      const response = await axios.post(
+        "http://localhost:3004/api/v1/create-preference",
+        { items }
+      );
+      const { id } = response.data;
+      return id;
+    } catch (error) {
+      console.error("Error creating preference:", error);
+    }
+  };
+
+  const handleBuy = async () => {
+    const id = await createPreference(cartItems);
+    if (id) {
+      setPreferenceId(id);
+    }
+  };
   return (
     <div className={styles["cart-container"]}>
       <h2>Carrito de Compras</h2>
@@ -111,7 +123,9 @@ const Cart = () => {
           </div>
         </div>
       )}
-      <button className={styles["cart-buy"]} onClick={handleBuy}>Comprar</button>
+      <button className={styles["cart-buy"]} onClick={handleBuy}>
+        Comprar
+      </button>
       {preferenceId && <Wallet initialization={{ preferenceId }} />}
     </div>
   );

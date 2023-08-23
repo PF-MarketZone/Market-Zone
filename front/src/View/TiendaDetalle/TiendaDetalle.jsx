@@ -15,6 +15,10 @@ const TiendaDetalle = () => {
   const { name } = useParams();
   const tienda = tiendaData.find((tienda) => tienda.name === name);
 
+  if (!tienda) {
+    return <p>Tienda no encontrada</p>;
+  }
+
   const dispatch = useDispatch();
   const filters = useSelector((state) => state.filters);
 

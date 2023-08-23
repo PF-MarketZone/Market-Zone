@@ -1,16 +1,15 @@
-const { paymentController } = require('../controllers/paymentController');
-const { responseMaper } = require('../helpers/responseMaper');
-
-const createOrderLink = async (req, res) => {
-  const data = req.body;
-  try {
-    const payment = await paymentController(data);
-    res.status(200).json(responseMaper(false, 'Orden creada', payment));
-  } catch (error) {
-    res
-      .status(500)
-      .json(responseMaper(true, 'No se pudo realizar lo operacion', null));
-  }
+const handleSuccess = (req, res) => {
+  res.status(200).send('Pago aprobado. ¡Gracias por tu compra!');
 };
 
-module.exports = { createOrderLink };
+const handlePending = (req, res) => {
+  res.status(200).send('Pago pendiente. En espera de confirmación.');
+};
+
+const handleFailure = (req, res) => {
+  res.status(200).send('Pago fallido. Por favor, intenta nuevamente.');
+};
+
+module.exports = { handleSuccess, handlePending, handleFailure };
+
+

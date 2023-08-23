@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { eliminarDelCarrito, agregarAlCarrito } from "../../redux/actions";
+import { eliminarDelCarrito } from "../../redux/actions";
 import styles from "./CartSidebar.module.css";
 import { Link } from "react-router-dom";
 
@@ -18,8 +18,27 @@ const CartSidebar = ({ onClose }) => {
     0
   );
 
+  const cartSidebarRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        cartSidebarRef.current &&
+        !cartSidebarRef.current.contains(e.target)
+      ) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
+
   return (
-    <div className={styles.cartSidebar}>
+    <div className={styles.cartSidebar} ref={cartSidebarRef}>
       <div className={styles.cartHeader}>
         <h2>Carrito de Compras</h2>
         <button className={styles.closeButton} onClick={onClose}>
