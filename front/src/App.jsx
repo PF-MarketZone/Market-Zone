@@ -12,7 +12,7 @@ import { useLocation } from "react-router-dom";
 import Cart from "./components/Cart/Cart";
 import { useDispatch } from "react-redux";
 import LogInSignUp from "./View/LogInSignUp/LogInSignUp";
-import { GoogleOAuthProvider} from '@react-oauth/google';
+// import { GoogleOAuthProvider} from '@react-oauth/google';
 
 function App() {
   const location = useLocation();
@@ -36,7 +36,7 @@ function App() {
   
   return (
     <>
-    <GoogleOAuthProvider clientId="30868848576-j8idkopfm2bmno96s3d7kebkqjbgr9s1.apps.googleusercontent.com">
+    {/* <GoogleOAuthProvider clientId="30868848576-j8idkopfm2bmno96s3d7kebkqjbgr9s1.apps.googleusercontent.com"> */}
       <div className="App">
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
@@ -58,7 +58,7 @@ function App() {
         </Routes>
       </div>
       {isCartSidebarVisible && <CartSidebar />}
-      </GoogleOAuthProvider>
+      {/* </GoogleOAuthProvider> */}
     </>
   );
 }
