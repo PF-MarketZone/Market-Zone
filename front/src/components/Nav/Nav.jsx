@@ -5,14 +5,25 @@ import SearchBar from "../searchBar/searchBar";
 import { useSelector } from "react-redux";
 import CartSidebar from "../CartSidebar/CartSidebar";
 import Logo from '../../images/Logo.png'
-import { CgProfile } from 'react-icons/cg';
+import { AiOutlineLogin, AiOutlineLogout } from 'react-icons/ai';
+
 
 const Nav = ({ onSearch }) => {
   const cartItems = useSelector((state) => state.filters.cart);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const [isCartSidebarVisible, setCartSidebarVisible] = useState(false);
 
   const toggleCartSidebar = () => {
     setCartSidebarVisible(!isCartSidebarVisible);
+  };
+
+  const handleLogout = () => {
+    // Realiza las acciones necesarias para cerrar la sesión
+    // Por ejemplo, eliminar tokens, limpiar el sessionStorage, etc.
+    // Luego redirige a la página de inicio de sesión
+    // dispatch(logout()); // Llama a la acción de logout en tu authActions
+    // sessionStorage.clear(); // Limpia el sessionStorage
+    // history.push("/login");
   };
 
   return (
@@ -24,9 +35,14 @@ const Nav = ({ onSearch }) => {
           </Link>
           <SearchBar onSearch={onSearch} />
         </div>
-        <Link to="/dashboard">
-          <button className={styles.button1}>Dashboard</button>
-        </Link>
+        
+        // si quieres que se mestren este boton ⇓ cambia el estado iniial a "true"
+        {isAuthenticated && (
+          // Mostrar botón de Dashboard solo si está autenticado
+          <Link to="/dashboard">
+            <button className={styles.button1}>Dashboard</button>
+          </Link>
+        )}
 
         <div className={styles.cartButtonContainer}>
           <button
@@ -42,9 +58,23 @@ const Nav = ({ onSearch }) => {
             </div>
           )}
         </div>
-        <Link to="/login" style={{ textDecoration: 'none', color: 'inherit'}}>
-        <CgProfile style={{width: '10vh', height: '5vh'}}/>
-        </Link>
+        {isAuthenticated ? (
+          // Mostrar botón de Perfil si está autenticado
+          <Link
+            to="/home"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <AiOutlineLogout style={{ width: "10vh", height: "5vh" }} />
+          </Link>
+        ) : (
+          // Mostrar enlace a página de inicio de sesión si no está autenticado
+          <Link
+            to="/login"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <AiOutlineLogin style={{ width: "10vh", height: "5vh", Color: "blue" }} />
+          </Link>
+        )}
       </div>
     </div>
   );
