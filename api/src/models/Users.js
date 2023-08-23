@@ -1,19 +1,19 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const bcryptjs = require('bcryptjs');
 
 const userSchema = new mongoose.Schema(
   {
-    stores: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Store' }],
     name: { type: String, required: true },
     last_name: String,
-    email: { type: String, required: true },
-    password: { type: String, required: true, match: /^[A-Za-z0-9]{8,}$/ },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
     age: { type: Number, min: 14, max: 99 },
-    role: {
-      type: String,
-      enum: ['customer', 'seller', 'admin'],
-      required: true,
-    },
+    role: [
+      {
+        ref: 'Rol',
+        type: mongoose.Schema.Types.ObjectId,
+      },
+    ],
     phoneNumber: Number,
     address: {
       street: String,
@@ -35,21 +35,20 @@ const userSchema = new mongoose.Schema(
       },
     ],
   },
-  { collection: 'users' }
+  { collection: 'users', timestamps: true }
 );
 
-userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next();
+userSchema.statics.hashPass = async function (password) {
+  const passHash = await bcryptjs.hash(password, 11);
+  return passHash;
+};
 
-  try {
-    const hashedPassword = await bcrypt.hash(this.password, 10);
-    this.password = hashedPassword;
-    next();
-  } catch (error) {
-    return next(error);
-  }
-});
+userSchema.statics.comparePass = async function (password, receivedPass) {
+  const match = await bcryptjs.compare(password, receivedPass);
+  return match;
+};
 
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
+
