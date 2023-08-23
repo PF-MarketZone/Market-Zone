@@ -5,8 +5,9 @@ import MyButton from '../Buttons/MainButton';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useGoogleLogin } from '@react-oauth/google';
+// import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
+import { Link } from "react-router-dom";
 
 const StyledForm = styled.form`
         background-color: #1D1E18;
@@ -26,13 +27,14 @@ const Input = styled(({ value, error, ...rest }) => <input {...rest} />)`
     padding: 1px 0px;
     padding-left: 4px;
     margin: 6px 0px;
+    height: 5vh;
     
 
     + p {
         display: ${props => props.error ? 'block' : 'none'};
         color: red;
         position: absolute;
-        bottom: 0vh;
+        bottom: -23vh;
         width: 30%;
     }
 `;
@@ -54,14 +56,14 @@ const CustomSelect = styled(({ error, value, ...rest }) => <select {...rest} />)
     
     
     /* Estilo cuando una opción está seleccionada */
-    color: ${props => props.value === '' ? '#777676' : 'white'};
+    color: ${props => props.value === '' ? '#777676' : '#1d1e18'};
     font-weight: ${props => props.value === '' ? '300' : 'normal'};
 
     + p {
         display: ${props => props.error ? 'block' : 'none'};
         color: red;
         position: absolute;
-        bottom: -16vh; /* Ajusta esto según sea necesario */
+        bottom: -23vh; /* Ajusta esto según sea necesario */
         left: 0;
         width: 100%;
     }
@@ -145,26 +147,26 @@ const SignUp = () => {
         },
     })
 
-    const login = useGoogleLogin({
-        onSuccess: async (tokenResponse) => {
-            console.log(tokenResponse);
+    // const login = useGoogleLogin({
+    //     onSuccess: async (tokenResponse) => {
+    //         console.log(tokenResponse);
 
-            try {
-                const userInfoResponse = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
-                    headers: {
-                        Authorization: `Bearer ${tokenResponse.access_token}`,
-                    },
-                });
+    //         try {
+    //             const userInfoResponse = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+    //                 headers: {
+    //                     Authorization: `Bearer ${tokenResponse.access_token}`,
+    //                 },
+    //             });
 
-                console.log(userInfoResponse.data);
+    //             console.log(userInfoResponse.data);
 
-                // Aquí puedes manejar la información del perfil del usuario
-            } catch (error) {
-                console.error('Error al obtener el perfil del usuario', error);
-            }
-        },
-        onError: errorResponse => console.log(errorResponse),
-    });
+    //             // Aquí puedes manejar la información del perfil del usuario
+    //         } catch (error) {
+    //             console.error('Error al obtener el perfil del usuario', error);
+    //         }
+    //     },
+    //     onError: errorResponse => console.log(errorResponse),
+    // });
 
     const handleFieldClick = (fieldName) => {
         setActiveField(fieldName);
@@ -174,6 +176,8 @@ const SignUp = () => {
         setActiveField(null);
     }
 
+    
+
     return (
         <>
             <StyledForm onSubmit={formik.handleSubmit}>
@@ -181,14 +185,16 @@ const SignUp = () => {
                     <H5>Comience gratis.</H5>
                     <H3>Crea tu cuenta.</H3>
                 </Div>
-                <MyButton 
-                icon={<FcGoogle />} 
-                text=" Registrar con Google" 
-                route="" 
-                variant="inicio" 
-                type="button"
-                onClick={login()}>
+                <Link to="http://localhost:3004/api/v1/auth/google">
+                <MyButton
+                    icon={<FcGoogle />}
+                    text=" Ingresa con Google"
+                    route=""
+                    variant="inicio"
+                    type="button"
+                    /* onClick={login()} */>
                 </MyButton>
+                </Link>
                 <H3O>O</H3O>
                 <DivName>
                     <Input
@@ -197,7 +203,7 @@ const SignUp = () => {
                         name='name'
                         error={formik.touched.name && formik.errors.name}
                         onClick={() => handleFieldClick('name')}
-                        //onBlur={clearActiveField}
+                        onBlur={clearActiveField}
                         autoComplete="off"
                         style={{ marginRight: '6px' }}
                         onChange={formik.handleChange} />
