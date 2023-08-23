@@ -26,7 +26,7 @@ export const login = (email, password) => {
   return async (dispatch) => {
     try {
       // Realizar la solicitud POST con el correo y la contraseña
-      const response = await axios.post('/api/login', { email, password });
+      const response = await axios.post('http://localhost:3004/api/v1/auth/singin', { email, password });
 
       // Extraer los datos del usuario y el token de la respuesta
       const user = response.data.user;
