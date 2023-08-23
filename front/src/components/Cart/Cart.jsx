@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import React from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
@@ -47,7 +47,7 @@ const Cart = () => {
               title: detail.name,
               unit_price: detail.price,
               quantity: item.quantity,
-              currency_id: "COP"
+              currency_id: "COP",
             };
           }
           return null;
@@ -118,7 +118,7 @@ const Cart = () => {
           </ul>
           <div className={styles["cart-total"]}>
             <p>
-              Total: <span>${totalPrecio.toFixed(2)}</span>
+              Total: <span>${totalPrecio}</span>
             </p>
           </div>
         </div>
