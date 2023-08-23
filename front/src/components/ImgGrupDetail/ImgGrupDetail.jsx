@@ -38,7 +38,7 @@ const ImgGrupD = (props) => {
         dispatch(getProductById(detailId))
     }, [dispatch, detailId]);
 
-    const details = useSelector(state => state.detail);
+    const details = useSelector(state => state.filters.detail);
 
     if (!details.images || details.images.length < 3) {
         return <p>No hay suficientes imágenes disponibles.</p>;

@@ -13,6 +13,7 @@ export const DISMINUIR_CANTIDAD = "DISMINUIR_CANTIDAD";
 
 
 
+
 export const setCategoriaFiltro = (categories) => ({
   type: SET_CATEGORIA_FILTRO,
   payload: categories,
@@ -69,7 +70,7 @@ export const disminuirCantidad = (itemId) => {
 export const getProductById = (id) => {
   return function (dispatch, getState) {
     const state = getState(); // Obtener el estado actual
-    const productDetails = state.details?.find(detail => detail.id === parseInt(id));
+    const productDetails = state.filters.details?.find(detail => detail.id === parseInt(id));
 
     if (productDetails) {
       dispatch({ type: GET_PRODUCT_BY_ID, payload: productDetails });

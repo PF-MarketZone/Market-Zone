@@ -9,8 +9,8 @@ import styles from "./CartSidebar.module.css";
 import { Link } from "react-router-dom";
 
 const CartSidebar = ({ onClose }) => {
-  const cartItems = useSelector((state) => state.cart);
-  const details = useSelector((state) => state.details);
+  const cartItems = useSelector((state) => state.filters.cart);
+  const details = useSelector((state) => state.filters.details);
   const dispatch = useDispatch();
   const [isCartSidebarVisible, setCartSidebarVisible] = useState(true);
 

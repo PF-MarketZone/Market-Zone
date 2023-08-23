@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 //import { useHistory } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 import MyButton from '../Buttons/MainButton';
 import styled from 'styled-components';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+// import { useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/Actions/authAction"
 
 
 const StyledForm = styled.form`
@@ -25,6 +30,7 @@ const Input = styled(({ value, ...rest }) => <input {...rest} />)`
     padding: 1px 0px;
     padding-left: 4px;
     margin: 6px 0px;
+    height: 5vh;
 `;
 
 const P = styled(({ error, ...rest }) => <p {...rest} />)`
@@ -40,7 +46,7 @@ const H3 = styled.h3`
     font-weight: 500;
     
     `
-    const H3O = styled.h3`
+const H3O = styled.h3`
         margin: 15px 0;
     `
 const H5 = styled.h5`
@@ -58,19 +64,16 @@ const Div = styled.div`
 const LogIn = () => {
     //const history = useHistory(); // Importa useHistory
     const [activeField, setActiveField] = useState(null);
+    const dispatch = useDispatch();
 
     const formik = useFormik({
         initialValues: {
-            name: "",
-            lastNames: "",
             email: "",
             password: "",
-            confirmPassword: "",
-            userType: '',
         },
 
         validationSchema: Yup.object({
-            
+
             email: Yup.string()
                 .required('requiere un email')
                 .email('email no valida'),
@@ -87,17 +90,34 @@ const LogIn = () => {
                 console.log(formData);
 
                 // Aquí puedes realizar las acciones necesarias para enviar los datos al servidor
+                dispatch(login(formData.email, formData.password));
 
-                // Simulación de éxito (eliminar esto y reemplazarlo con tu lógica de envío real)
-                await new Promise(resolve => setTimeout(resolve, 1000));
-
-                // Redirigir solo si el envío es exitoso
-                history.push('/home');
             } catch (error) {
                 console.error('Error al enviar el formulario', error);
             }
         },
     })
+    // const login = useGoogleLogin({
+    //     onSuccess: async (tokenResponse) => {
+    //         console.log(tokenResponse);
+
+    //         try {
+    //             const userInfoResponse = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+    //                 headers: {
+    //                     Authorization: `Bearer ${tokenResponse.access_token}`,
+    //                 },
+    //             });
+
+    //             console.log(userInfoResponse.data);
+    //             const userEmail = userInfoResponse.data.email;
+
+    //             // Aquí puedes manejar la información del perfil del usuario
+    //         } catch (error) {
+    //             console.error('Error al obtener el perfil del usuario', error);
+    //         }
+    //     },
+    //     onError: errorResponse => console.log(errorResponse),
+    // });
 
     const handleFieldClick = (fieldName) => {
         setActiveField(fieldName);
@@ -107,15 +127,27 @@ const LogIn = () => {
         setActiveField(null);
     }
 
+    
+
+
     return (
         <>
 
             <StyledForm onSubmit={formik.handleSubmit}>
                 <Div>
                     <H5>Inicia sesion.</H5>
-                    <H3>Ya Soy Mienbro!</H3>
+                    <H3>Ya Soy Miembro!</H3>
                 </Div>
-                <MyButton icon={<FcGoogle />} text=" Ingresa con Google" route="" variant="inicio" type="button" formNoValidate></MyButton>
+                <Link to="http://localhost:3004/api/v1/auth/google">
+                <MyButton
+                    icon={<FcGoogle />}
+                    text=" Ingresa con Google"
+                    route=""
+                    variant="inicio"
+                    type="button"
+                    /* onClick={login()} */>
+                </MyButton>
+                </Link>
                 <H3O>O</H3O>
 
                 <Input

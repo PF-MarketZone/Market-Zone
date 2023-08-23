@@ -14,8 +14,8 @@ const Cart = () => {
   const [preferenceId, setPreferenceId] = useState(null);
   initMercadoPago("APP_USR-30f4d3f9-4b95-410f-b2fd-331973191e15");
 
-  const cartItems = useSelector((state) => state.cart);
-  const details = useSelector((state) => state.details);
+  const cartItems = useSelector((state) => state.filters.cart);
+  const details = useSelector((state) => state.filters.details);
   const dispatch = useDispatch();
 
   const eliminarProducto = (id) => {
