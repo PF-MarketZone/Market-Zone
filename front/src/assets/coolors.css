@@ -1,0 +1,51 @@
+/* CSS HEX */
+.root {
+    --moonstone: #06b9ceff;
+    --azure: #2f81d8ff;
+    --veronica: #8b3dffff;
+    --eerie-black: #1d1e18ff;
+    --timberwolf: #d1d1d1ff;
+    --baby-powder: #fbfbf3ff;
+
+    /* CSS HSL */
+    --moonstone: hsla(186, 94%, 42%, 1);
+    --azure: hsla(211, 68%, 52%, 1);
+    --veronica: hsla(264, 100%, 62%, 1);
+    --eerie-black: hsla(70, 11%, 11%, 1);
+    --timberwolf: hsla(0, 0%, 82%, 1);
+    --baby-powder: hsla(60, 50%, 97%, 1);
+}
+
+/* - Tailwind
+
+{ 'moonstone': { DEFAULT: '#06b9ce', 100: '#01262a', 200: '#034b53', 300: '#04717d', 400: '#0596a6', 500: '#06b9ce', 600: '#19e2f8', 700: '#53e9fa', 800: '#8cf0fb', 900: '#c6f8fd' }, 'azure': { DEFAULT: '#2f81d8', 100: '#081a2d', 200: '#113459', 300: '#194e86', 400: '#2268b2', 500: '#2f81d8', 600: '#5a9be0', 700: '#84b4e7', 800: '#adcdef', 900: '#d6e6f7' }, 'veronica': { DEFAULT: '#8b3dff', 100: '#19003f', 200: '#33007e', 300: '#4c00be', 400: '#6500fd', 500: '#8b3dff', 600: '#a264ff', 700: '#b98bff', 800: '#d0b1ff', 900: '#e8d8ff' }, 'eerie_black': { DEFAULT: '#1d1e18', 100: '#060605', 200: '#0c0c0a', 300: '#12130f', 400: '#181914', 500: '#1d1e18', 600: '#4f5241', 700: '#80846a', 800: '#abae9a', 900: '#d5d7cd' }, 'timberwolf': { DEFAULT: '#d1d1d1', 100: '#2a2a2a', 200: '#545454', 300: '#7d7d7d', 400: '#a7a7a7', 500: '#d1d1d1', 600: '#dadada', 700: '#e3e3e3', 800: '#ededed', 900: '#f6f6f6' } }
+
+- CSV
+
+06b9ce,2f81d8,8b3dff,1d1e18,d1d1d1
+
+- With #
+
+#06b9ce, #2f81d8, #8b3dff, #1d1e18, #d1d1d1
+
+- Array
+
+["06b9ce","2f81d8","8b3dff","1d1e18","d1d1d1"]
+
+- Object
+
+{"Moonstone":"06b9ce","Azure":"2f81d8","Veronica":"8b3dff","Eerie black":"1d1e18","Timberwolf":"d1d1d1"}
+
+- Extended Array
+
+[{"name":"Moonstone","hex":"06b9ce","rgb":[6,185,206],"cmyk":[97,10,0,19],"hsb":[186,97,81],"hsl":[186,94,42],"lab":[69,-31,-22]},{"name":"Azure","hex":"2f81d8","rgb":[47,129,216],"cmyk":[78,40,0,15],"hsb":[211,78,85],"hsl":[211,68,52],"lab":[53,6,-52]},{"name":"Veronica","hex":"8b3dff","rgb":[139,61,255],"cmyk":[45,76,0,0],"hsb":[264,76,100],"hsl":[264,100,62],"lab":[47,70,-83]},{"name":"Eerie black","hex":"1d1e18","rgb":[29,30,24],"cmyk":[3,0,20,88],"hsb":[70,20,12],"hsl":[70,11,11],"lab":[11,-2,4]},{"name":"Timberwolf","hex":"d1d1d1","rgb":[209,209,209],"cmyk":[0,0,0,18],"hsb":[0,0,82],"hsl":[0,0,82],"lab":[84,0,0]}]
+
+- XML
+
+<palette>
+  <color name="Moonstone" hex="06b9ce" r="6" g="185" b="206" />
+  <color name="Azure" hex="2f81d8" r="47" g="129" b="216" />
+  <color name="Veronica" hex="8b3dff" r="139" g="61" b="255" />
+  <color name="Eerie black" hex="1d1e18" r="29" g="30" b="24" />
+  <color name="Timberwolf" hex="d1d1d1" r="209" g="209" b="209" />
+</palette> */
