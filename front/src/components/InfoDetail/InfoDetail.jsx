@@ -25,71 +25,6 @@ const InputNum = styled.input`
   }
 `;
 
-const ButtonMenos = styled.button`
-  width: 4vw;
-  height: 4vw;
-  border-radius: 0.5vw 0 0 0.5vw;
-  padding: 0;
-  border: solid 0.1vw black;
-  box-sizing: border-box;
-`;
-const ButtonMas = styled.button`
-  width: 4vw;
-  height: 4vw;
-  border-radius: 0 0.5vw 0.5vw 0;
-  padding: 0;
-  border: solid 0.1vw black;
-  box-sizing: border-box;
-`;
-
-const H3Categories = styled.h3`
-  font-size: 1.2vw;
-  margin: 1vw;
-  font-weight: 700;
-  color: black;
-`;
-
-const H1Name = styled.h1`
-  font-size: 2vw;
-  margin: 1vw;
-  font-weight: 700;
-`;
-
-const PDescripction = styled.p`
-  font-size: 1.4vw;
-  margin: 1vw;
-`;
-
-const DivPriceStock = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 1vw;
-  font-size: 1.2vw;
-  margin: 1vw;
-`;
-
-const H2Price = styled.h2`
-  font-size: 1.5vw;
-  color: #8B3DFF;
-  font-weight: 600;
-`;
-const H2Stock = styled.h2`
-  font-size: 1.5vw;
-  font-weight: 300;
-`;
-
-const DivColor = styled.div`
-  font-size: 1.2vw;
-  margin: 1vw;
-`;
-
-const DIvPuntoColor = styled.div`
-  background-color: ${(props) => getColorFromName(props.color)};
-  width: 2vw;
-  height: 2vw;
-  border-radius: 99999vw;
-`;
 
 // Función para traducir nombres de colores en valores de CSS
 const getColorFromName = (colorName) => {
@@ -100,56 +35,6 @@ const getColorFromName = (colorName) => {
 
   return colorMap[colorName] || "transparent"; // Si el color no se encuentra en el mapa, se usa transparente
 };
-
-const DivCantidad = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 4vw;
-  font-size: 1.2vw;
-  margin: 1vw;
-`;
-const DivPrincipal = styled.div`
-  margin: 1vw;
-  width: 50%;
-  font-family: "Montserrat", sans-serif;
-  color: black;
-`;
-
-const ButtonAddToCart = styled.button`
-  width: 100%;
-  height: 5vw;
-  background-color: #8B3DFF;
-  color: white;
-  border: solid 0.1vw white;
-  border-radius: 1vw;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: black;
-    color: #f6f8ff;
-  }
-`;
-const ButtonFavorito = styled.button`
-  width: 100%;
-  height: 5vw;
-  background-color: transparent;
-  color: black;
-  border: solid 0.1vw #8B3DFF;
-  border-radius: 1vw;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: red;
-    color: #f6f8ff;
-  }
-`;
-const LineaDelgada = styled.hr`
-  margin: 1vw 0; // Ajusta el margen superior e inferior según tus necesidades
-  border: 0.1vw solid #c2c1c1cf; // Grosor y color de la línea
-`;
 
 const InfoD = (props) => {
   const dispatch = useDispatch();
