@@ -1,41 +1,33 @@
 const Product = require('../models/product');
-
 //=================================================================
 // Busca todos los productos
 //=================================================================
-
 const allProducts = async () => {
   // Solicitamos la info a la BD
   const products = await Product.find();
   return products;
 };
-
 //=================================================================
 // Busca todos los productos con el nombre recibido por parametro
 //=================================================================
-
 const searchByNameProduct = async (name) => {
   const products = await Product.findOne({ name: name });
   return products;
 };
-
 //=================================================================
 // Busca los productos con el id proporcionado
 //=================================================================
-
 const searchByIdProduct = async (id) => {
   const productById = await Product.findById(id);
   return productById;
 };
-
 //=================================================================
 // Busca los productos con el id proporcionado y lo elimina
 //=================================================================
-
 const searchByIdAndRemoveProduct = async (id) => {
   await Product.findByIdAndRemove(id);
   const restProducts = await allProducts();
-  console.log(restProducts);
+  // console.log(restProducts);
   return restProducts;
 };
 
@@ -44,24 +36,28 @@ const searchByIdAndRemoveProduct = async (id) => {
 //=================================================================
 
 const createNewProduct = async (
+  storeId,
   name,
   description,
   image,
   color,
   price,
   stock,
-  tags
+  categories
 ) => {
+  const storeidBody = storeId;
+  const storeDefault = '64daf18450c25495a4a6a611';
   const productData = new Product({
+    storeId: storeId ? storeidBody : storeDefault,
     name: name,
     description: description,
     image: image,
     color: color,
     price: price,
     stock: stock,
-    tags: tags,
+    categories: categories,
   });
-
+  //console.log(productData)
   await productData.save();
 };
 
@@ -70,18 +66,22 @@ const createNewProduct = async (
 //=================================================================
 
 const updateProduct = async (
-  id,
+  _id,
+  storeId,
   name,
   description,
   image,
   color,
   price,
   stock,
-  tags
+  categories
 ) => {
   // Buscamos el producto a actualizar
 
-  const productFinded = await searchByIdProduct(id);
+  const productFinded = await searchByIdProduct(_id);
+  if (storeId) {
+    productFinded.storeId = storeId;
+  }
   if (name) {
     productFinded.name = name;
   }
@@ -100,12 +100,11 @@ const updateProduct = async (
   if (stock) {
     productFinded.stock = stock;
   }
-  if (tags) {
+  if (categories) {
     productFinded.tags = tags;
   }
   await productFinded.save();
 };
-
 module.exports = {
   createNewProduct,
   allProducts,

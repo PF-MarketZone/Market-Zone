@@ -12,10 +12,10 @@ router.get('/', (req, res) => {
   res.status(200).send('api v1');
 });
 
-// router.get('/user', userRouter);
 router.use('/store', storeRouter);
 router.use('/product', productRouter);
 router.use('/user', userRouter);
 router.use('/auth', authRouter);
+router.post('/create-preference', createPreference);
 
 module.exports = router;

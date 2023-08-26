@@ -3,13 +3,14 @@ const { responseMaper } = require('../helpers/responseMaper');
 
 const createStoreHandler = async (req, res) => {
   try {
-    const { name, image, description } = req.body;
-    if (!name || !image || !description) {
+
+    const { user, name, logo, image, description } = req.body;
+    if (!user || !name || !logo || !image || !description) {
       res
         .status(400)
         .json(responseMaper(true, 'Completa todos los campos', null));
     }
-    const newStore = storeCreate(name, image, description);
+    const newStore = storeCreate(user, name, logo, image, description);
     res
       .status(200)
       .json(
@@ -20,5 +21,4 @@ const createStoreHandler = async (req, res) => {
     res.status(400).send('error al crear la tienda');
   }
 };
-
 module.exports = { createStoreHandler };
