@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const productSchema = new mongoose.Schema(
   {
     storeId: { type: mongoose.Schema.Types.ObjectId, required: true },

@@ -78,5 +78,4 @@ const updateProductHandler = async (req, res) => {
       .json(responseMaper(true, 'No se pudo crear el producto', null));
   }
 };
-
 module.exports = { createProductHandler, updateProductHandler };

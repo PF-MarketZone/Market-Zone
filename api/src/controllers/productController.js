@@ -1,37 +1,29 @@
 const Product = require('../models/product');
-
 //=================================================================
 // Busca todos los productos
 //=================================================================
-
 const allProducts = async () => {
   // Solicitamos la info a la BD
   const products = await Product.find();
   return products;
 };
-
 //=================================================================
 // Busca todos los productos con el nombre recibido por parametro
 //=================================================================
-
 const searchByNameProduct = async (name) => {
   const products = await Product.findOne({ name: name });
   return products;
 };
-
 //=================================================================
 // Busca los productos con el id proporcionado
 //=================================================================
-
 const searchByIdProduct = async (id) => {
   const productById = await Product.findById(id);
   return productById;
 };
-
 //=================================================================
 // Busca los productos con el id proporcionado y lo elimina
 //=================================================================
-
 const searchByIdAndRemoveProduct = async (id) => {
   await Product.findByIdAndRemove(id);
   const restProducts = await allProducts();
@@ -113,7 +105,6 @@ const updateProduct = async (
   }
   await productFinded.save();
 };
-
 module.exports = {
   createNewProduct,
   allProducts,
