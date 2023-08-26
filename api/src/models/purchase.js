@@ -7,7 +7,7 @@ const purchaseSchema = new mongoose.Schema({
   paymentMethod: {type: String, required: true,},
   transactionDate: Date,
   transactionStatus: String,
-}, {collection: 'purchase',});
+}, {collection: 'purchases',});
 
 const Purchase = mongoose.model('Purchase', purchaseSchema);
 
