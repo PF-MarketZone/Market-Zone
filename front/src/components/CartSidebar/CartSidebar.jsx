@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 const CartSidebar = ({ onClose }) => {
   const cartItems = useSelector((state) => state.filters.cart);
-  const details = useSelector((state) => state.filters.details);
+  const details = useSelector((state) => state.product.details);
   const dispatch = useDispatch();
   const [isCartSidebarVisible, setCartSidebarVisible] = useState(true);
 
