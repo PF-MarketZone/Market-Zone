@@ -1,4 +1,6 @@
-const DivMain = styled.div`
+import  styled  from "styled-components"
+
+export const DivMain = styled.div`
     align-items: center;
     width:100% ;
     height: 28%;
@@ -6,16 +8,16 @@ const DivMain = styled.div`
     background-color: #1d1e18ff;
 `
 
-const LogoImg = styled.img`
+export const LogoImg = styled.img`
     width: 12vw;
 `
 
-const DivOneLine = styled.div`
+export const DivOneLine = styled.div`
     display: flex;
     align-items: center;
 `
 
-const DivSocialMedia = styled.div`
+export const DivSocialMedia = styled.div`
     display: flex;
     align-items: center;
     gap: 1vw;
@@ -23,14 +25,14 @@ const DivSocialMedia = styled.div`
     color: #fbfbf3ff;   
 `
 
-const DivLineLeft = styled.div`
+export const DivLineLeft = styled.div`
     width: 50%;
     height: .1vh;
     margin: 2vw 2vw 0 2vw;
     background-color: #fbfbf3ff;  
 `
 
-const DivLineCenter= styled.div`
+export const DivLineCenter= styled.div`
     display: flex;
     align-items: center;
     width: .1vh;
@@ -39,18 +41,18 @@ const DivLineCenter= styled.div`
     background-color: #fbfbf3ff;  
 `
 
-const DivLineRigth = styled.div`
+export const DivLineRigth = styled.div`
     width: 50%;
     height: .1vh;
     margin: 2vw 2vw 0 2vw;
     background-color: #fbfbf3ff;  
 `
 
-const H6 = styled.h6`
+export const H6 = styled.h6`
     margin: .1vw;
 `
 
-const DivLastLine = styled.div`
+export const DivLastLine = styled.div`
     display: flex;
     margin: 0;
     justify-content: center;
