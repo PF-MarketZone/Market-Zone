@@ -1,59 +1,10 @@
-import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
 import MyButton from '../../components/Buttons/MainButton';
 import videoSourceMp4 from '../../images/animationLanding.mp4';
 import videoSourceWebm from '../../images/animationLanding.webm';
-import Logo from '../../images/Logo.png'
-import TiendaOnline from '../../images/tiendaenlinea.png'
-
-const VideoBackground = styled(({ videoPlayed, ...rest }) => <video {...rest} />)`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -1;
-  display: ${props => props.videoPlayed ? 'none' : 'block'};
-`;
-
-const ContentContainer = styled(({ showContent, ...rest }) => <div {...rest} />)`
-  display: ${props => props.showContent ? 'block' : 'none'};
-  text-align: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-`;
-
-const Div = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 30vw;
-    height: 20vw;
-
-`
-const ContentDiv = styled.div`
-    display: flex;
-    align-items: center;
-`
-const DivPrin = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-
-`
-const ImgLogo = styled.img`
-    width: 30vw;
-
-`
-const ImgTienda = styled.img`
-    width: 20vw;
-
-`
+import Logo from '../../images/Logo.png';
+import TiendaOnline from '../../images/tiendaenlinea.png';
+import { VideoBackground, ContentContainer, Div, ContentDiv, DivPrin, ImgLogo, ImgTienda} from './LandingStyledComponen';
 
 const Landing = (props) => {
     const [showContent, setShowContent] = useState(false);

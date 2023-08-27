@@ -60,15 +60,17 @@ export const H3 = styled.h3`
     margin: 1px 0 25px 0;
     font-size: 20px;
     font-weight: 500;
-    
+    color: #fbfbf2;
     `
 export const H3O = styled.h3`
         margin: 15px 0;
+        color: #fbfbf2;
     `
 export const H5 = styled.h5`
     margin: 6px 0 0 0;
     font-size: 16px;
     font-weight: 300;
+    color: #fbfbf2;
 `
 
 export const Div = styled.div`

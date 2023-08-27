@@ -50,6 +50,7 @@ export const DivLineRigth = styled.div`
 
 export const H6 = styled.h6`
     margin: .1vw;
+    color: #fbfbf3ff;  
 `
 
 export const DivLastLine = styled.div`
