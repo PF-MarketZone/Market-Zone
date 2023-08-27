@@ -1,36 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
 import tiendas from './../../Data/dummyData'
+import {MainDiv, DivNameUser, H1Title, H1Description, ReviewsDiv  } from './RevStyledComponent'
 
-
-const MainDiv = styled.div`
-width: 50%;
-margin: 3vw;
-color: black;
-`
-
-const DivNameUser = styled.div`
-display: flex;
-justify-content: space-between;
-font-size: 1.2vw;
-height: 4vw;
-margin: 1vw;
-`
-const H1Title = styled.h1`
-margin: 1vw;
-font-size: 1.3vw;
-color: black;
-`
-const H1Description = styled.h1`
-margin: 1vw;
-font-size: 1.2vw;
-font-weight: lighter;
-color: black;
-`
-
-const ReviewsDiv = styled.div`
-margin: 3vw;
-`
 const Reviews = (props) => {
     const details = tiendas[0].products[0];
     
