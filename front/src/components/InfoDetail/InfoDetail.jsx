@@ -5,36 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTimes, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getProductById, agregarAlCarrito } from "../../redux/actions";
-const InputNum = styled.input`
-  //-webkit-appearance: none;
-  margin: 0;
-  width: 4vw;
-  height: 4vw;
-  border-radius: 0;
-  text-align: center;
-  border: solid 0.1vw black;
-  box-sizing: border-box;
-  font-size: 1.5vw;
-
-  &::-webkit-inner-spin-button,
-  &::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-    appearance: none;
-  }
-`;
-
-
-// Función para traducir nombres de colores en valores de CSS
-const getColorFromName = (colorName) => {
-  const colorMap = {
-    rojo: "red", // Aquí agrega más traducciones de colores si es necesario
-    // ...otros colores
-  };
-
-  return colorMap[colorName] || "transparent"; // Si el color no se encuentra en el mapa, se usa transparente
-};
+import { agregarAlCarrito } from "../../redux/actions";
+import { getProductById } from "../../redux/Actions/ProductAction";
+import {InputNum, ButtonMenos, ButtonMas, H3Categories, H1Name, PDescripction, DivPriceStock, H2Price, H2Stock, DivColor, DIvPuntoColor, DivCantidad, DivPrincipal, ButtonAddToCart, ButtonFavorito, LineaDelgada } from './InfoStyledComponent'
 
 const InfoD = (props) => {
   const dispatch = useDispatch();
@@ -44,8 +17,8 @@ const InfoD = (props) => {
     dispatch(getProductById(detailId));
   }, [dispatch, detailId]);
 
-  const details = useSelector((state) => state.filters.detail);
-
+  const details = useSelector((state) => state.product.detail);
+  
   const [quantity, setQuantity] = useState(0);
 
   const handleDecrease = () => {
