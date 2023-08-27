@@ -15,7 +15,8 @@ const createProductHandler = async (req, res) => {
       color,
       price,
       stock,
-      categories,
+      category,
+      subcategory
     } = req.body;
     // if (!name || !description || !image || !price || !tags) {
     //   res.status(404).json(true, 'Completa los campos requeridos', null);
@@ -28,7 +29,8 @@ const createProductHandler = async (req, res) => {
       color,
       price,
       stock,
-      categories
+      category,
+      subcategory
     );
     res
       .status(200)
@@ -53,7 +55,8 @@ const updateProductHandler = async (req, res) => {
       color,
       price,
       stock,
-      categories,
+      category,
+      subcategory
     } = req.body;
     if (!_id) {
       return res
@@ -69,7 +72,8 @@ const updateProductHandler = async (req, res) => {
       color,
       price,
       stock,
-      categories
+      category,
+      subcategory
     );
     res.status(200).json(responseMaper(false, 'Producto actualizado', result));
   } catch (error) {
@@ -78,5 +82,4 @@ const updateProductHandler = async (req, res) => {
       .json(responseMaper(true, 'No se pudo crear el producto', null));
   }
 };
-
 module.exports = { createProductHandler, updateProductHandler };

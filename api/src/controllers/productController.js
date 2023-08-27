@@ -1,37 +1,29 @@
 const Product = require('../models/product');
-
 //=================================================================
 // Busca todos los productos
 //=================================================================
-
 const allProducts = async () => {
   // Solicitamos la info a la BD
   const products = await Product.find();
   return products;
 };
-
 //=================================================================
 // Busca todos los productos con el nombre recibido por parametro
 //=================================================================
-
 const searchByNameProduct = async (name) => {
   const products = await Product.findOne({ name: name });
   return products;
 };
-
 //=================================================================
 // Busca los productos con el id proporcionado
 //=================================================================
-
 const searchByIdProduct = async (id) => {
   const productById = await Product.findById(id);
   return productById;
 };
-
 //=================================================================
 // Busca los productos con el id proporcionado y lo elimina
 //=================================================================
-
 const searchByIdAndRemoveProduct = async (id) => {
   await Product.findByIdAndRemove(id);
   const restProducts = await allProducts();
@@ -51,7 +43,8 @@ const createNewProduct = async (
   color,
   price,
   stock,
-  categories
+  category,
+   subcategory
 ) => {
   const storeidBody = storeId;
   const storeDefault = '64daf18450c25495a4a6a611';
@@ -63,7 +56,10 @@ const createNewProduct = async (
     color: color,
     price: price,
     stock: stock,
-    categories: categories,
+    categories: {
+      category: category,
+      subcategory: subcategory
+    },
   });
   //console.log(productData)
   await productData.save();
@@ -82,7 +78,8 @@ const updateProduct = async (
   color,
   price,
   stock,
-  categories
+  category,
+   subcategory
 ) => {
   // Buscamos el producto a actualizar
 
@@ -108,12 +105,14 @@ const updateProduct = async (
   if (stock) {
     productFinded.stock = stock;
   }
-  if (categories) {
-    productFinded.tags = tags;
+  if (category && subcategory) {
+    productFinded.categories = {
+      category: category,
+      subcategory: subcategory
+    };
   }
   await productFinded.save();
 };
-
 module.exports = {
   createNewProduct,
   allProducts,

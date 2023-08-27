@@ -34,6 +34,13 @@ const userSchema = new mongoose.Schema(
         additionalInformation: String,
       },
     ],
+<<<<<<< HEAD
+=======
+    provider: {
+      type: String,
+      default: 'local',
+    },
+>>>>>>> 18de7f25002793d46641ac23984c4c57cccb035a
   },
   { collection: 'users', timestamps: true }
 );
@@ -51,4 +58,7 @@ userSchema.statics.comparePass = async function (password, receivedPass) {
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 18de7f25002793d46641ac23984c4c57cccb035a

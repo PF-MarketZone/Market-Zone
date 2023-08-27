@@ -28,7 +28,7 @@ const Footer = () => {
                         alt="logo no disponible"
                     />
                 </Link>
-                <H6>Copiright©2023 MarketZone, inc.</H6>
+                <H6>Copiright©2023 PF-MarketZone</H6>
                 <DivLastLine>
                     <H6>Informacion legal</H6>
                     <DivLineCenter/>
