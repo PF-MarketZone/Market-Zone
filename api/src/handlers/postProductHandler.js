@@ -2,6 +2,7 @@ const {
   createNewProduct,
   updateProduct,
   searchByIdProduct,
+  updateStock,
 } = require('../controllers/productController');
 const { responseMaper } = require('../helpers/responseMaper');
 
@@ -16,7 +17,7 @@ const createProductHandler = async (req, res) => {
       price,
       stock,
       category,
-      subcategory
+      subcategory,
     } = req.body;
     // if (!name || !description || !image || !price || !tags) {
     //   res.status(404).json(true, 'Completa los campos requeridos', null);
@@ -56,7 +57,7 @@ const updateProductHandler = async (req, res) => {
       price,
       stock,
       category,
-      subcategory
+      subcategory,
     } = req.body;
     if (!_id) {
       return res
@@ -79,7 +80,24 @@ const updateProductHandler = async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .json(responseMaper(true, 'No se pudo crear el producto', null));
+      .json(responseMaper(true, 'No se pudo modificar el producto', null));
   }
 };
-module.exports = { createProductHandler, updateProductHandler };
+
+const updateStockProductHandler = async (req, res) => {
+  try {
+    const { _id, stock } = req.body;
+    const modifyStock = await updateStock(_id, stock);
+    res.status(200).json(responseMaper(false, 'Stock modificado', modifyStock));
+  } catch (error) {
+    res
+      .status(500)
+      .json(responseMaper(true, 'Error al modificar el stock', null));
+  }
+};
+
+module.exports = {
+  createProductHandler,
+  updateProductHandler,
+  updateStockProductHandler,
+};
