@@ -1,6 +1,10 @@
 const { Router } = require('express');
 const { singIn } = require('../controllers/authController');
+
+const {  recoveryHandler, changeHandler } = require('../handlers/recoveryHandler')
+
 const { refreshToken } = require('../controllers/refreshToken');
+
 const authRouter = Router();
 const passport = require('passport');
 const { singInGoogle } = require('../controllers/authGoogle');
@@ -27,5 +31,11 @@ authRouter.get(
 );
 
 authRouter.post('/refresh-tkn', refreshToken);
+
+authRouter.post('/recovery',
+recoveryHandler );
+
+authRouter.post('/changePassword',
+changeHandler )
 
 module.exports = authRouter;
