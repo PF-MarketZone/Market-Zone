@@ -1,8 +1,13 @@
 const { Router } = require('express');
-const passport = require('passport');
 const { singIn } = require('../controllers/authController');
+
 const {  recoveryHandler, changeHandler } = require('../handlers/recoveryHandler')
+
+const { refreshToken } = require('../controllers/refreshToken');
+
 const authRouter = Router();
+const passport = require('passport');
+const { singInGoogle } = require('../controllers/authGoogle');
 
 authRouter.post(
   '/singin',
@@ -10,9 +15,22 @@ authRouter.post(
   singIn
 );
 
-authRouter.get('/', (req, res) => {
-  res.status(200).send('auth route');
-});
+authRouter.get(
+  '/google',
+  passport.authenticate('google', {
+    scope: ['profile', 'email'],
+  })
+);
+
+authRouter.get(
+  '/cb',
+  passport.authenticate('google', {
+    session: false,
+  }),
+  singInGoogle
+);
+
+authRouter.post('/refresh-tkn', refreshToken);
 
 authRouter.post('/recovery',
 recoveryHandler );

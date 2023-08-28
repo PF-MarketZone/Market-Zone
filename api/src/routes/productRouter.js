@@ -4,28 +4,33 @@ const {
   getProductByIdHandler,
   getDeleteProduct,
 } = require('../handlers/getProductHandler');
+
 const {
   createProductHandler,
   updateProductHandler,
+  updateStockProductHandler,
 } = require('../handlers/postProductHandler');
-const {putDeletedHandler} =require('../handlers/putProductHandler')
+const { putDeletedHandler} =require('../handlers/putProductHandler')
 const passport = require('passport');
-const { checkRoles } = require('../middlewares/checkSellerRole');
+// const { checkRoles } = require('../middlewares/checkSellerRole');
+// const { verifyToken } = require('../middlewares/verifyToken');
 
 const productRouter = Router();
 
 productRouter.get('/', getProductHandler);
 productRouter.get('/:id', getProductByIdHandler);
-
-productRouter.get('/remove/:id', getDeleteProduct);
+productRouter.delete('/remove/:id', getDeleteProduct);
 
 productRouter.post(
   '/createproduct',
-  passport.authenticate('jwt', { session: false }),
-  checkRoles('admin', 'seller'),
+  // verifyToken,
+  // passport.authenticate('jwt', { session: false }),
+  // checkRoles('admin', 'seller'),
   createProductHandler
 );
 productRouter.post('/update', updateProductHandler);
 productRouter.put('/:id', putDeletedHandler );
+
+productRouter.put('/update-stock', updateStockProductHandler);
 
 module.exports = productRouter;

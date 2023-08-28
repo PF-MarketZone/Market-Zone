@@ -2,10 +2,12 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const User = require('../models/Users.js');
 const Roles = require('../models/Roles.js');
+
 const { JWT_SECRET, EMAIL , JWT_SECRET_RECOVERY} = process.env;
 const boom = require('@hapi/boom');
 const {sendMail} = require('./emailController.js')
 const bcryptjs = require('bcryptjs');
+
 
 
 //firma del token
@@ -22,11 +24,13 @@ const singIn = async (req, res, next) => {
       role: rolesName,
     };
 
-    const token = jwt.sign(payload, JWT_SECRET);
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: 900 });
+    const refreshToken = jwt.sign(payload, JWT_REFRESH, { expiresIn: 1200 });
 
     res.json({
       user,
       token,
+      refreshToken,
     });
   } catch (error) {
     next(error);

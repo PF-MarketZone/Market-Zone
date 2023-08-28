@@ -1,11 +1,10 @@
 const mongoose = require('mongoose');
-
 const productSchema = new mongoose.Schema(
   {
     storeId: { type: mongoose.Schema.Types.ObjectId },
-    name: { type: String, required: true },
-    price: { type: Number, required: true },
-    image: [{ url: { type: String, required: true } }],
+    name: { type: String },
+    price: { type: Number },
+    image: [{ url: { type: String } }],
     description: { type: String, maxLength: 2500 },
     stock: Number,
     categories: {type: {
