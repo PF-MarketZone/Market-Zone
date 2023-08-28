@@ -3,7 +3,6 @@ const { responseMaper } = require('../helpers/responseMaper');
 
 const createStoreHandler = async (req, res) => {
   try {
-    
     const { user, name, logo, image, description } = req.body;
     if (!user || !name || !logo || !image || !description) {
       res
@@ -21,5 +20,4 @@ const createStoreHandler = async (req, res) => {
     res.status(400).send('error al crear la tienda');
   }
 };
-
 module.exports = { createStoreHandler };

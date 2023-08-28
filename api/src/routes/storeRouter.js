@@ -6,6 +6,7 @@ const {
 const { createStoreHandler } = require('../handlers/postStoreHandler');
 const passport = require('passport');
 const { checkRoles } = require('../middlewares/checkSellerRole');
+const { verifyToken } = require('../middlewares/verifyToken');
 
 const storeRouter = Router();
 
@@ -14,6 +15,7 @@ storeRouter.get('/:id', getByIdStoreHandler);
 
 storeRouter.post(
   '/create',
+  verifyToken,
   passport.authenticate('jwt', { session: false }),
   checkRoles('admin', 'seller'),
   createStoreHandler

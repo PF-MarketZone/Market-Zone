@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+<<<<<<< HEAD
 
 const productSchema = new mongoose.Schema(
   {
@@ -21,6 +22,22 @@ const productSchema = new mongoose.Schema(
         ],
       },
     ],
+=======
+const productSchema = new mongoose.Schema(
+  {
+    storeId: { type: mongoose.Schema.Types.ObjectId },
+    name: { type: String },
+    price: { type: Number },
+    image: [{ url: { type: String } }],
+    description: { type: String, maxLength: 2500 },
+    stock: Number,
+    categories: {
+      type: {
+        category: { type: String },
+        subcategory: { type: String },
+      },
+    },
+>>>>>>> d8933b61361f9f7090de45b2d22614303493f3a5
     color: String,
   },
   { collection: 'products' }

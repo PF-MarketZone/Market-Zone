@@ -1,11 +1,10 @@
 const { Router } = require('express');
 const { singUp } = require('../controllers/singUpController');
+const { singOut } = require('../controllers/singOutController');
 const userRouter = Router();
 
 userRouter.post('/singup', singUp);
 
-userRouter.get('/', (req, res) => {
-  res.status(200).send('user route');
-});
+userRouter.post('/singout', singOut);
 
 module.exports = userRouter;
