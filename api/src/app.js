@@ -5,11 +5,17 @@ const morgan = require('morgan');
 const mainRouter = require('./routes');
 const createRoles = require('./helpers/initialSetup');
 const helmet = require('helmet');
+const fileUpload = require('express-fileupload');
 
 const server = express();
 server.use(helmet());
 createRoles();
 server.use(express.json());
+
+server.use (fileUpload({ 
+  useTempFiles : true , 
+  tempFileDir : './uploads' 
+}));
 
 server.name = 'API Backend E-Commerce';
 
