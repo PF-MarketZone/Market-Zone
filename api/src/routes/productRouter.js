@@ -8,6 +8,7 @@ const {
   createProductHandler,
   updateProductHandler,
 } = require('../handlers/postProductHandler');
+const {putDeletedHandler} =require('../handlers/putProductHandler')
 const passport = require('passport');
 const { checkRoles } = require('../middlewares/checkSellerRole');
 
@@ -25,6 +26,6 @@ productRouter.post(
   createProductHandler
 );
 productRouter.post('/update', updateProductHandler);
-
+productRouter.put('/:id', putDeletedHandler );
 
 module.exports = productRouter;

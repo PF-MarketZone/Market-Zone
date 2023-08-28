@@ -9,10 +9,11 @@ const productSchema = new mongoose.Schema(
     description: { type: String, maxLength: 2500 },
     stock: Number,
     categories: {type: {
-      category: {type: String, required: true}, 
-      subcategory: {type: String, required: true}
+      category: {type: String, required: false}, 
+      subcategory: {type: String, required: false}
       }, required: true},
     color: String,
+    deleted: Boolean
   },
   { collection: 'products' }
 );
