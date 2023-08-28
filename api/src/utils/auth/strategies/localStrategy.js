@@ -23,7 +23,7 @@ const LocalStrategy = new Strategy(
 
       done(null, userFound);
     } catch (error) {
-      done(error, false);
+      done(boom.unauthorized(), false);
     }
   }
 );

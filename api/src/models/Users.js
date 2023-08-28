@@ -30,6 +30,10 @@ const userSchema = new mongoose.Schema(
         additionalInformation: String,
       },
     ],
+    provider: {
+      type: String,
+      default: 'local',
+    },
   },
   { collection: 'users', timestamps: true }
 );
@@ -47,4 +51,3 @@ userSchema.statics.comparePass = async function (password, receivedPass) {
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
-

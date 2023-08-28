@@ -4,12 +4,15 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const mainRouter = require('./routes');
 const createRoles = require('./helpers/initialSetup');
+const helmet = require('helmet');
 
 const server = express();
+server.use(helmet());
 createRoles();
 server.use(express.json());
 
 server.name = 'API Backend E-Commerce';
+
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(bodyParser.json({ limit: '50mb' }));
 server.use(cookieParser());
