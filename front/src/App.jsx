@@ -13,6 +13,7 @@ import { useLocation } from "react-router-dom";
 import Cart from "./components/Cart/Cart";
 import { useDispatch } from "react-redux";
 import LogInSignUp from "./View/LogInSignUp/LogInSignUp";
+// import LogInSuccess  from "./components/LogIn/LoginSuccess.jsx";
 // import { GoogleOAuthProvider} from '@react-oauth/google';
 
 
@@ -59,6 +60,7 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/home" element={<Home categoriaFiltrada={categoriaFiltrada} />}/>
           <Route path="/login" element={<LogInSignUp />} />
+          {/* <Route path="/login/success" element={<LogInSuccess />} /> */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/:name" element={<TiendaDetalle />} />
           <Route path="/cart" element={<Cart />} />
