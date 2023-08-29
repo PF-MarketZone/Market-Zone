@@ -13,7 +13,7 @@ const createPreference = async (req, res) => {
               quantity: item.quantity,
             })),
           back_urls: {
-            "success": "http://localhost:5173/home",
+            "success": "http://localhost:5173/thankyou",
             "failure": "http://localhost:5173/cart",
             "pending": "http://localhost:5173/cart"
           },

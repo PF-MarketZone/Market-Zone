@@ -1,28 +1,4 @@
 const mongoose = require('mongoose');
-<<<<<<< HEAD
-
-const productSchema = new mongoose.Schema(
-  {
-    storeId: { type: mongoose.Schema.Types.ObjectId, required: true },
-    name: { type: String, required: true },
-    price: { type: Number, required: true },
-    image: [{ url: { type: String, required: true } }],
-    description: { type: String, maxLength: 2500 },
-    stock: Number,
-    categories: [
-      {
-        category: {
-          type: String,
-          required: true,
-        },
-        subcategories: [
-          {
-            type: String,
-          },
-        ],
-      },
-    ],
-=======
 const productSchema = new mongoose.Schema(
   {
     storeId: { type: mongoose.Schema.Types.ObjectId },
@@ -37,7 +13,6 @@ const productSchema = new mongoose.Schema(
         subcategory: { type: String },
       },
     },
->>>>>>> d8933b61361f9f7090de45b2d22614303493f3a5
     color: String,
   },
   { collection: 'products' }

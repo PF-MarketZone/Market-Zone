@@ -8,11 +8,14 @@ import {
   ELIMINAR_DEL_CARRITO,
   SET_INITIAL_CART,
   AUMENTAR_CANTIDAD,
+  SET_COMPRA_EXITOSA,
   DISMINUIR_CANTIDAD,
 } from "../actions";
 
 const initialState = {
   cart: [],
+  categoriasSeleccionadas: [],
+  compraExitosa: false,
   details: [
     {
       id: 1,
@@ -168,7 +171,7 @@ const initialState = {
 const filtersReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_CATEGORIA_FILTRO:
-      return { ...state, categoria: action.payload };
+      return { ...state,  categoria: action.payload };
     case SET_PRECIO_MIN_FILTRO:
       return { ...state, precioMin: action.payload };
     case SET_PRECIO_MAX_FILTRO:
@@ -220,6 +223,11 @@ const filtersReducer = (state = initialState, action) => {
       return {
         ...state,
         cart: updatedCartDisminuir,
+      };
+    case SET_COMPRA_EXITOSA:
+      return {
+        ...state,
+        compraExitosa: action.payload,
       };
 
     default:
