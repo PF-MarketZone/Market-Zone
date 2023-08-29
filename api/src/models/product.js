@@ -7,13 +7,12 @@ const productSchema = new mongoose.Schema(
     image: [{ url: { type: String } }],
     description: { type: String, maxLength: 2500 },
     stock: Number,
-    categories: {
-      type: {
-        category: { type: String },
-        subcategory: { type: String },
-      },
-    },
+    categories: {type: {
+      category: {type: String, required: false}, 
+      subcategory: {type: String, required: false}
+      }, required: true},
     color: String,
+    deleted: Boolean
   },
   { collection: 'products' }
 );
