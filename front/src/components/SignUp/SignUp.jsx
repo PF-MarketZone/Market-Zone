@@ -83,7 +83,10 @@ const SignUp = () => {
         setActiveField(null);
     }
 
-    
+    const openGoogleAuth =()=>{
+        window.location.href = "http://localhost:3004/api/v1/auth/google";
+        console.log("precionaste el boton");
+    }
 
     return (
         <>
@@ -181,9 +184,9 @@ const SignUp = () => {
                     className="google-button"
                     icon={<FcGoogle />}
                     text=" Ingresa con Google"
-                    route=""
                     variant="inicio"
-                    type="button">
+                    type="button"
+                    onClick={openGoogleAuth}>
                 </MyButton>
             </Link>
             </DivPrincipal>
