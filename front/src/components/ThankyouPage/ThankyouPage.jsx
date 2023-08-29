@@ -29,6 +29,7 @@ const ThankYouPage = () => {
       ) : (
         <h2>¡Ups, algo salió mal en la compra!</h2>
       )}
+      
       <ul className={styles["thank-you-list"]}>
         {cartItems.map((item) => {
           const detail = details.find((detail) => detail.id === item.id);
