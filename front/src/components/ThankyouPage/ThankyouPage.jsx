@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import styles from "./ThankYouPage.module.css";
-import { setInitialCart, setCompraExitosa } from "../../redux/actions";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import OrderSummaryPDF from "../OrderSummaryPDF/OrderSummaryPDF";
 
@@ -29,7 +28,7 @@ const ThankYouPage = () => {
       ) : (
         <h2>¡Ups, algo salió mal en la compra!</h2>
       )}
-      
+
       <ul className={styles["thank-you-list"]}>
         {cartItems.map((item) => {
           const detail = details.find((detail) => detail.id === item.id);
