@@ -1,23 +1,21 @@
-import { useState } from "react";
-import React from "react";
+import { Wallet, initMercadoPago } from "@mercadopago/sdk-react";
 import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
-import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  eliminarDelCarrito,
   aumentarCantidad,
   disminuirCantidad,
+  eliminarDelCarrito,
 } from "../../redux/actions";
 import styles from "./Cart.module.css";
 
 const Cart = () => {
   const [preferenceId, setPreferenceId] = useState(null);
-  initMercadoPago("APP_USR-30f4d3f9-4b95-410f-b2fd-331973191e15");
+  initMercadoPago("APP_USR-30f4d3f9-4b95-410f-b2fd-331973191e15"); // ingresar Public key comprador
 
   const cartItems = useSelector((state) => state.filters.cart);
   const details = useSelector((state) => state.filters.details);
   const dispatch = useDispatch();
-  
 
   const eliminarProducto = (id) => {
     dispatch(eliminarDelCarrito(id));
@@ -45,10 +43,10 @@ const Cart = () => {
           const detail = details.find((d) => d.id === item.id);
           if (detail) {
             return {
+              id: detail.id,
               title: detail.name,
               unit_price: detail.price,
               quantity: item.quantity,
-              currency_id: "COP",
             };
           }
           return null;
@@ -56,13 +54,13 @@ const Cart = () => {
         .filter((item) => item !== null);
 
       const response = await axios.post(
-        "http://localhost:3004/api/v1/create-preference",
+        "http://localhost:3004/api/v1/create-order/create-preference",
         { items }
       );
-      const { id } = response.data;
+      const id = response.data.data;
       return id;
     } catch (error) {
-      console.error("Error creating preference:", error);
+      console.error(response.data.message);
     }
   };
 
@@ -88,8 +86,7 @@ const Cart = () => {
                   <div className={styles["cart-item-content"]}>
                     <p className={styles["cart-item-title"]}>{item.name}</p>
                     <p className={styles["cart-item-price"]}>
-                      Precio: $
-                      {detail && detail.price ? detail.price : "N/A"}
+                      Precio: ${detail && detail.price ? detail.price : "N/A"}
                     </p>
                     <div className={styles["cart-item-quantity"]}>
                       <button

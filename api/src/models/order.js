@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const purchaseSchema = new mongoose.Schema(
+const orderSchema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -12,9 +12,9 @@ const purchaseSchema = new mongoose.Schema(
     transactionDate: Date,
     transactionStatus: String,
   },
-  { collection: 'purchase' }
+  { collection: 'order' }
 );
 
-const Purchase = mongoose.model('Purchase', purchaseSchema);
+const Order = mongoose.model('Order', orderSchema);
 
-module.exports = Purchase;
+module.exports = Order;
