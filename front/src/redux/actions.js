@@ -10,6 +10,7 @@ export const ELIMINAR_DEL_CARRITO = "ELIMINAR_DEL_CARRITO";
 export const SET_INITIAL_CART = "SET_INITIAL_CART";
 export const AUMENTAR_CANTIDAD = "AUMENTAR_CANTIDAD";
 export const DISMINUIR_CANTIDAD = "DISMINUIR_CANTIDAD";
+export const SET_COMPRA_EXITOSA = "SET_COMPRA_EXITOSA";
 
 
 
@@ -65,6 +66,16 @@ export const disminuirCantidad = (itemId) => {
     payload: itemId,
   };
 };
+
+export const setInitialCart = (cart) => ({
+  type: SET_INITIAL_CART,
+  payload: cart,
+});
+
+export const setCompraExitosa = (status) => ({
+  type: SET_COMPRA_EXITOSA,
+  payload: status,
+});
 
 
 export const getProductById = (id) => {

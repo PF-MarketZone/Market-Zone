@@ -34,7 +34,6 @@ const getByIdStoreHandler = async (req, res) => {
           false,
           `Esta es la tienda referida al id ${id}`,
           findStoreById) )
-
     //console.log('llegando al handler getStore');
   } catch (error) {
     const { id } = res.params;

@@ -3,7 +3,7 @@ import styles from "./CardTienda.module.css";
 import { Link } from "react-router-dom";
 
 
-const Card = ({ name, logo, categories }) => {
+const Card = ({ _id, name, image, description }) => {
 
   const slug = name
   .split(" ")
@@ -13,11 +13,11 @@ const Card = ({ name, logo, categories }) => {
   .join("");
 
   return (
-    <Link to={`/${name}`}>
+    <Link to={`/${_id}`}>
       <div className={styles.card}>
-        <img src={logo} alt={name} className={styles.logo} />
+        <img src={image} alt={name} className={styles.logo} />
         <h2>{name}</h2>
-        <p>{categories}</p>
+        <p>{description}</p>
       </div>
     </Link>
   );
