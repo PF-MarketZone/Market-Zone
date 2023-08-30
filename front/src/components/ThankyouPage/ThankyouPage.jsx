@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import styles from "./ThankYouPage.module.css";
+import styles from "./ThankyouPage.module.css";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import OrderSummaryPDF from "../OrderSummaryPDF/OrderSummaryPDF";
 
