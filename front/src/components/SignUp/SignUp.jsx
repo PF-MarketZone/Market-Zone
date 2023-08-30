@@ -1,105 +1,12 @@
 import React, { useState } from 'react';
-//import { useHistory } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
-import MyButton from '../Buttons/MainButton';
-import styled from 'styled-components';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-// import { useGoogleLogin } from '@react-oauth/google';
-import axios from 'axios';
 import { Link } from "react-router-dom";
-
-const StyledForm = styled.form`
-        background-color: #1D1E18;
-       width: 30%;
-       border: 1px solid #8B3DFF;
-       border-radius: 20px;
-       padding:5vh;
-       height: 30%;
-    `;
-
-const Input = styled(({ value, error, ...rest }) => <input {...rest} />)`
-    color: ${props => props.value === '' ? '#777676' : '#1d1e18'};
-    background-color: ${props => props.error ? '#f17f7f79' : '#fbfbf2'};
-    border: solid 1px #4e4e4e;
-    border-radius: 5px;
-    width: 100%;
-    padding: 1px 0px;
-    padding-left: 4px;
-    margin: 6px 0px;
-    height: 5vh;
-    
-
-    + p {
-        display: ${props => props.error ? 'block' : 'none'};
-        color: red;
-        position: absolute;
-        bottom: -23vh;
-        width: 30%;
-    }
-`;
-
-const SelectContainer = styled.div`
-    position: relative;
-    width: 100%;
-`;
-
-const CustomSelect = styled(({ error, value, ...rest }) => <select {...rest} />)`
-    /* Estilos generales */
-    width: 100%;
-    min-height: 2.5em;
-    padding: 1px 0px;
-    border: 1px solid #4e4e4e;
-    border-radius: 5px;
-    background-color: #fbfbf2;
-    margin: 6px 0px;
-    
-    
-    /* Estilo cuando una opción está seleccionada */
-    color: ${props => props.value === '' ? '#777676' : '#1d1e18'};
-    font-weight: ${props => props.value === '' ? '300' : 'normal'};
-
-    + p {
-        display: ${props => props.error ? 'block' : 'none'};
-        color: red;
-        position: absolute;
-        bottom: -23vh; /* Ajusta esto según sea necesario */
-        left: 0;
-        width: 100%;
-    }
-    background-color: ${props => props.error ? '#f17f7f79' : '#fbfbf2'};
-`;
-
-const H3 = styled.h3`
-    margin: 1px 0 25px 0;
-    font-size: 20px;
-    font-weight: 500;
-    
-    `
-const H3O = styled.h3`
-        margin: 15px 0;
-    `
-const H5 = styled.h5`
-    margin: 6px 0 0 0;
-    font-size: 16px;
-    font-weight: 300;
-`
-
-const Div = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-
-`
-
-const DivName = styled.div`
-    display: flex;
-    justify-content: space-between;
-`
-
+import MyButton from '../Buttons/MainButton';
+import {StyledForm, SelectContainer, Input, CustomSelect, H3, H3O, H5, Div, DivName, DivPrincipal } from './singUpStyledComponent';
 
 const SignUp = () => {
-    //const history = useHistory(); // Importa useHistory
     const [activeField, setActiveField] = useState(null);
 
     const formik = useFormik({
@@ -176,26 +83,20 @@ const SignUp = () => {
         setActiveField(null);
     }
 
-    
+    const openGoogleAuth =()=>{
+        window.location.href = "http://localhost:3004/api/v1/auth/google";
+        console.log("precionaste el boton");
+    }
 
     return (
         <>
+        <DivPrincipal>
+
             <StyledForm onSubmit={formik.handleSubmit}>
                 <Div>
                     <H5>Comience gratis.</H5>
                     <H3>Crea tu cuenta.</H3>
                 </Div>
-                <Link to="http://localhost:3004/api/v1/auth/google">
-                <MyButton
-                    icon={<FcGoogle />}
-                    text=" Ingresa con Google"
-                    route=""
-                    variant="inicio"
-                    type="button"
-                    /* onClick={login()} */>
-                </MyButton>
-                </Link>
-                <H3O>O</H3O>
                 <DivName>
                     <Input
                         type="text"
@@ -276,9 +177,19 @@ const SignUp = () => {
                 </SelectContainer>
 
                 <MyButton text="registrar" variant="inicio" type="submit" />
-
-
             </StyledForm>
+            <H3O>O</H3O>
+            <Link to="http://localhost:3004/api/v1/auth/google">
+                <MyButton
+                    className="google-button"
+                    icon={<FcGoogle />}
+                    text=" Ingresa con Google"
+                    variant="inicio"
+                    type="button"
+                    onClick={openGoogleAuth}>
+                </MyButton>
+            </Link>
+            </DivPrincipal>
         </>
     );
 }

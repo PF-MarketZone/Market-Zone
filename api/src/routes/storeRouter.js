@@ -11,7 +11,6 @@ const { verifyToken } = require('../middlewares/verifyToken');
 const storeRouter = Router();
 
 storeRouter.get('/', getAllStoreHandler);
-
 storeRouter.get('/:id', getByIdStoreHandler);
 
 storeRouter.post(

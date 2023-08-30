@@ -12,15 +12,13 @@ const createPreference = async (req, res) => {
               unit_price: item.unit_price,
               quantity: item.quantity,
             })),
-
           back_urls: {
-            "success": "http://localhost:5173/home",
+            "success": "http://localhost:5173/thankyou",
             "failure": "http://localhost:5173/cart",
             "pending": "http://localhost:5173/cart"
           },
           auto_return: "approved",
         };
-
         const response = await mercadopago.preferences.create(preference);
         res.json({
           id: response.body.id

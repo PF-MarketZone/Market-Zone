@@ -3,7 +3,6 @@ const { responseMaper } = require('../helpers/responseMaper');
 
 const createStoreHandler = async (req, res) => {
   try {
-
     const { user, name, logo, image, description } = req.body;
     if (!user || !name || !logo || !image || !description) {
       res

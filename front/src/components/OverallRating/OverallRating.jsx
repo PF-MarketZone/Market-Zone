@@ -1,17 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
+import { H2Title, DivPricipal } from './ORStyledComponet';
 import tiendas from './../../Data/dummyData'
-
-const H2Title = styled.div`
-font-size: 1.2vw;
-margin: 1vw;
-`
-
-const DivPricipal = styled.div`
-    margin-top: 12vw;
-    color: black;
-`
-
 
 const OverallRating = (props) => {
     const details = tiendas[0].products[0];

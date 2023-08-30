@@ -8,10 +8,13 @@ import Detail from "./View/Detail/Detail";
 import Landing from "./View/Landing/Landing";
 import Dashboard from "./View/Dashboard/Dashboard";
 import CartSidebar from "./components/CartSidebar/CartSidebar";
+import Footer from "./components/footer/Footer.jsx"
 import { useLocation } from "react-router-dom";
 import Cart from "./components/Cart/Cart";
 import { useDispatch } from "react-redux";
 import LogInSignUp from "./View/LogInSignUp/LogInSignUp";
+import ThankYouPage from "./components/ThankyouPage/ThankyouPage";
+import { setCompraExitosa } from "../src/redux/actions";
 // import { GoogleOAuthProvider} from '@react-oauth/google';
 
 
@@ -30,14 +33,17 @@ function App() {
   };
 
   const dispatch = useDispatch();
-
   useEffect(() => {
-    const carritoJSON = localStorage.getItem('carrito');
-    if (carritoJSON) {
-      const carrito = JSON.parse(carritoJSON);
-      dispatch({ type: 'SET_INITIAL_CART', payload: carrito });
+    const searchParams = new URLSearchParams(location.search);
+    const collectionStatus = searchParams.get("collection_status");
+
+    if (collectionStatus === "approved") {
+      dispatch(setCompraExitosa(true));
+      localStorage.removeItem("carrito"); 
+    } else {
+      dispatch(setCompraExitosa(false));
     }
-  }, [dispatch]);
+  }, [dispatch, location.search]);
 
   
   
@@ -58,11 +64,17 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/home" element={<Home categoriaFiltrada={categoriaFiltrada} />}/>
           <Route path="/login" element={<LogInSignUp />} />
+          {/* <Route path="/login/success" element={<LogInSuccess />} /> */}
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/:name" element={<TiendaDetalle />} />
+          <Route path="/:storeId" element={<TiendaDetalle />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/detail/:detailId" element={<Detail />} />
+          <Route path="/thankyou" element={<ThankYouPage />} />
         </Routes>
+
+        <div>
+          {location.pathname === '/' ? null : <Footer/>}
+        </div>
       </div>
       {isCartSidebarVisible && <CartSidebar />}
       {/* </GoogleOAuthProvider> */}

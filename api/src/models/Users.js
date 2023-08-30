@@ -7,13 +7,9 @@ const userSchema = new mongoose.Schema(
     last_name: String,
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    recoveryToken: { type: String },
     age: { type: Number, min: 14, max: 99 },
-    role: [
-      {
-        ref: 'Rol',
-        type: mongoose.Schema.Types.ObjectId,
-      },
-    ],
+    role: [{ref: 'Rol', type: mongoose.Schema.Types.ObjectId,},],
     phoneNumber: Number,
     address: {
       street: String,
