@@ -1,6 +1,8 @@
 const mercadopago = require('mercadopago');
 const { createPreference } = require('../controllers/paymentController');
 const { responseMaper } = require('../helpers/responseMaper');
+// const Product = require('../models/product');
+const { updateStock } = require('../controllers/productController');
 
 const handleCreateOrder = async (req, res) => {
   try {
@@ -26,12 +28,15 @@ const handleFailure = (req, res) => {
   res.status(200).send('Pago fallido. Por favor, intenta nuevamente.');
 };
 
+//=======================================================
+// Handle
+
 const handleNotification = async (req, res) => {
   console.log('\x1b[32m%s\x1b[0m', 'notificacion de compra');
   try {
     const { query } = req;
     // const { params } = req;
-    // console.log({ params });
+    // console.log({ query });
     const topic = query.topic || query.type;
     // console.log({ topic });
     switch (topic) {
@@ -60,12 +65,26 @@ const handleNotification = async (req, res) => {
       }
     });
 
+    //==================================================================
+    // Enviar notificacion / descontar stock
+    //==================================================================
+
     if (paidAmount >= body.total_amount) {
       console.log('\x1b[32m%s\x1b[0m', 'El pago se completo');
-      console.log(body); // Para el envio de notificaciones acceder a "body.status": "closed" = venta concretada
-      const itemsStock = body.items.map((item) => {
+      // console.log(body); // Para el envio de notificaciones acceder a "body.status": "closed" = venta concretada
+
+      //========================
+      // Descuento de stock
+      //========================
+
+      body.items.map((item) => {
         console.log(item);
+        updateStock(item.id, item.quantity);
       });
+
+      //=========================
+      // Notificacion
+      //========================
     } else {
       console.log('\x1b[32m%s\x1b[0m', 'El pago NO se completo');
     }
