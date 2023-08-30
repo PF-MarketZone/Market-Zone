@@ -1,6 +1,6 @@
 import React from "react";
 import {useDispatch} from 'react-redux';
-import { postProducts } from "../../../redux/Actions/productAction";
+import { postProducts } from "../../../redux/Actions/productsAction";
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import ImageUpload from "../../ImageUpload/ImageUpload";

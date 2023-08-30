@@ -1,6 +1,6 @@
 const Product = require('../models/product');
 const mongoose = require('mongoose');
-const { uploadImage, deleteImage } = require("../utils/cloudinary/cloudinary")
+const { uploadImage, deleteImage } = require("../utils/cloudinary/cloudinary");
 const fs = require('fs-extra');
 
 //=================================================================

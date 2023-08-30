@@ -1,7 +1,7 @@
 import { GET_PRODUCTS, 
     ADD_PRODUCT, 
-    GET_PRODUCT_BY_ID 
-} from "../Actions/productAction";
+    GET_PRODUCT_BY_ID
+} from '../Actions/productsAction';
 
 
 const initialState = {
@@ -19,8 +19,8 @@ const productsReducer = (state = initialState, action) => {
             };
         case GET_PRODUCT_BY_ID:
             return {
-                ...state, 
-                detail: action.payload
+                    ...state, 
+                    detail: action.payload
             }
         case ADD_PRODUCT:
             return {
