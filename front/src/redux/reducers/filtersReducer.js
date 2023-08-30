@@ -24,7 +24,7 @@ const initialState = {
 const filtersReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_CATEGORIA_FILTRO:
-      return { ...state,  categoria: action.payload };
+      return { ...state, categoria: action.payload };
     case SET_PRECIO_MIN_FILTRO:
       return { ...state, precioMin: action.payload };
     case SET_PRECIO_MAX_FILTRO:
@@ -34,7 +34,7 @@ const filtersReducer = (state = initialState, action) => {
     case AGREGAR_AL_CARRITO:
       const newItem = action.payload;
       const existingItemIndex = state.cart.findIndex(
-        (item) => item.id === newItem.id
+        (item) => item._id === newItem._id
       );
 
       if (existingItemIndex !== -1) {
@@ -45,11 +45,13 @@ const filtersReducer = (state = initialState, action) => {
       } else {
         return { ...state, cart: [...state.cart, newItem] };
       }
+
     case ELIMINAR_DEL_CARRITO:
       return {
         ...state,
-        cart: state.cart.filter((item) => item.id !== action.payload),
+        cart: state.cart.filter((item) => item._id !== action.payload),
       };
+
     case SET_INITIAL_CART:
       return { ...state, cart: action.payload };
     case AUMENTAR_CANTIDAD:

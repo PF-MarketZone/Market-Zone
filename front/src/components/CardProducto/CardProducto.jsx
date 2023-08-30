@@ -30,7 +30,7 @@ const CardProducto = ({ _id, name, stock, image, price }) => {
       >
         <h2>{name}</h2>
         <p>Stock: {stock}</p>
-        <p>Precio: ${price}</p>
+        <p>Precio: ${parseInt(price)}</p>
       </Link>
     </div>
   );
