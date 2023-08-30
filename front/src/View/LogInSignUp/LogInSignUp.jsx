@@ -3,6 +3,7 @@ import styled from "styled-components";
 import LogIn from "../../components/LogIn/LogIn"
 import SignUp from "../../components/SignUp/SignUp"
 import Logo from '../../images/Logo.png'
+import { Link } from "react-router-dom";
 
 const Div = styled.div`
     display: flex;
@@ -11,6 +12,7 @@ const Div = styled.div`
     justify-content: space-evenly;
 `
 const DivPrincipal = styled.div`
+background-color: #d1d1d1ff;
 
 `
 
@@ -22,7 +24,9 @@ const ImgLogo = styled.img`
 const LogInSignUp = () => {
     return (
         <DivPrincipal>
-            <ImgLogo src={Logo} alt="logo no disponible" />
+            <Link to="/home">
+                <ImgLogo src={Logo} alt="logo no disponible" />
+            </Link>
             <Div>
                 <LogIn />
                 <SignUp />

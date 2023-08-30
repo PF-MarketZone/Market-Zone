@@ -4,7 +4,6 @@ const {
   getProductByIdHandler,
   getDeleteProduct,
 } = require('../handlers/getProductHandler');
-
 const {
   createProductHandler,
   updateProductHandler,

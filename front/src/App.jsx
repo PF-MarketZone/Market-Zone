@@ -8,6 +8,7 @@ import Detail from "./View/Detail/Detail";
 import Landing from "./View/Landing/Landing";
 import Dashboard from "./View/Dashboard/Dashboard";
 import CartSidebar from "./components/CartSidebar/CartSidebar";
+import Footer from "./components/footer/Footer.jsx"
 import { useLocation } from "react-router-dom";
 import Cart from "./components/Cart/Cart";
 import { useDispatch } from "react-redux";
@@ -63,12 +64,17 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/home" element={<Home categoriaFiltrada={categoriaFiltrada} />}/>
           <Route path="/login" element={<LogInSignUp />} />
+          {/* <Route path="/login/success" element={<LogInSuccess />} /> */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/:storeId" element={<TiendaDetalle />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/detail/:detailId" element={<Detail />} />
           <Route path="/thankyou" element={<ThankYouPage />} />
         </Routes>
+
+        <div>
+          {location.pathname === '/' ? null : <Footer/>}
+        </div>
       </div>
       {isCartSidebarVisible && <CartSidebar />}
       {/* </GoogleOAuthProvider> */}

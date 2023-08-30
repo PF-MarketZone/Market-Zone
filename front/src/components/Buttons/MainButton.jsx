@@ -51,11 +51,18 @@ const InitButton = styled.button`
   }
 `;
 
-const MyButton = ({ text, route, variant, icon }) => {
+const MyButton = ({ text, route, variant, icon, onClick }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(route);
+    if (onClick && !route) {
+      onClick();
+    }
+    if (route && !onClick) {
+      navigate(route);
+    }
+
+    // navigate(route);
   };
 
   const getButtonVariant = () => {
