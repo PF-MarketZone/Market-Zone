@@ -124,7 +124,7 @@ const updateProduct = async (
 
 const updateStock = async (id, stock) => {
   // console.log(id, stock);
-  const result = await Product.findById(_id);
+  const result = await Product.findById(id);
   result.stock = result.stock - stock;
   await result.save();
   return result;
