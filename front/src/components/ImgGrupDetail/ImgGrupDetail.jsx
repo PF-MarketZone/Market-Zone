@@ -17,7 +17,7 @@ const ImgGrupD = (props) => {
     const details = useSelector(state => state.product.detail);
 
 
-    if (!details.images) {
+    if (!details.image) {
         return(
 
         <Div key="no images">
@@ -27,24 +27,24 @@ const ImgGrupD = (props) => {
 
     return (
         <Div>
-            {details.images.length >= 3 && (
-                <Div key={details.id}>
-                    <Img1G src={details.images[0]} alt="Imagen 1" />
+            {details.image.length >= 3 && (
+                <Div key={details._id}>
+                    <Img1G src={details.image[0].url} alt="Imagen 1" />
                     <div>
-                        <Img2G src={details.images[1]} alt="Imagen 2" />
-                        <Img2G src={details.images[2]} alt="Imagen 3" />
+                        <Img2G src={details.image[1].url} alt="Imagen 2" />
+                        <Img2G src={details.image[2].url} alt="Imagen 3" />
                     </div>
                 </Div>
             )}
-            {details.images.length === 2 && (
+            {details.image.length === 2 && (
                 <Div key={details.id}>
-                    <TwoImage src={details.images[0]} alt="Imagen 1" />
-                    <TwoImage src={details.images[1]} alt="Imagen 2" />
+                    <TwoImage src={details.image[0].url} alt="Imagen 1" />
+                    <TwoImage src={details.image[1].url} alt="Imagen 2" />
                 </Div>
             )}
-            {details.images.length === 1 && (
+            {details.image.length === 1 && (
                 <Div key={details.id}>
-                    <OneImage src={details.images[0]} alt="Imagen 1" />
+                    <OneImage src={details.image[0].url} alt="Imagen 1" />
                 </Div>
             )}
         </Div>

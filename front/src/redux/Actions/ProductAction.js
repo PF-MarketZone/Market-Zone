@@ -21,7 +21,6 @@ export const GET_PRODUCT_BY_ID = "GET_PRODUCT_BY_ID"
       try {
         const response = await axios.get(`http://localhost:3004/api/v1/product/${id}`);
         const productDetails = response.data.data;
-        console.log(productDetails);
         dispatch({ type: GET_PRODUCT_BY_ID, payload: productDetails });
       } catch (error) {
         // Manejar el error en caso de que la llamada a la API falle
