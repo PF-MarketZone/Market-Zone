@@ -15,6 +15,8 @@ import { useDispatch } from "react-redux";
 import LogInSignUp from "./View/LogInSignUp/LogInSignUp";
 import ThankYouPage from "./components/ThankyouPage/ThankyouPage";
 import { setCompraExitosa } from "../src/redux/actions";
+import Reset from "./components/ResetPassword/Reset";
+import ChangePassword from "./components/ResetPassword/ChangedPass"
 // import { GoogleOAuthProvider} from '@react-oauth/google';
 
 
@@ -70,6 +72,8 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/detail/:detailId" element={<Detail />} />
           <Route path="/thankyou" element={<ThankYouPage />} />
+          <Route path="/password-recovery" element={<Reset />} />
+          <Route path="/change-password" element={<ChangePassword />} />
         </Routes>
 
         <div>

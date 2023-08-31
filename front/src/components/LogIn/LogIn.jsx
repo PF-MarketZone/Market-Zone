@@ -131,6 +131,7 @@ const LogIn = () => {
                         type="button"
                         onClick={openGoogleAuth}>
                     </MyButton>
+                    <Link to="/password-recovery">¿Olvidaste tu contraseña?</Link>
                 {/* </Link> */}
             </DivPrincipal>
 

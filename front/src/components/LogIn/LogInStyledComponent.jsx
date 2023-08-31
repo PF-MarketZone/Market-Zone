@@ -53,3 +53,16 @@ export const Div = styled.div`
        padding:5vh;
        height: 30%;
     `
+    export const DivPrincipalReset = styled.div`
+    background-color: #1d1e18;
+    width: 30%;
+    border: 1px solid #8b3dff;
+    border-radius: 20px;
+    padding: 5vh;
+    height: auto; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    max-height: 80vh; 
+    `

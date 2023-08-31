@@ -4,6 +4,11 @@ import axios from 'axios';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 export const LOGOUT = 'LOGOUT';
+export const PASSWORD_RESET_REQUEST_SUCCESS= 'PASSWORD_RESET_REQUEST_SUCCESS';
+export const PASSWORD_RESET_REQUEST_FAILURE = 'PASSWORD_RESET_REQUEST_FAILURE';
+export const CHANGE_PASSWORD_SUCCESS= 'CHANGE_PASSWORD_SUCCESS';
+export const CHANGE_PASSWORD_REQUEST= 'CHANGE_PASSWORD_REQUEST';
+export const CHANGE_PASSWORD_FAILURE= 'CHANGE_PASSWORD_FAILURE';
 
 // Acción: inicio de sesión exitoso
 export const loginSuccess = (user) => ({
@@ -72,4 +77,44 @@ export const checkUserRegistration = (email) => {
       dispatch(loginFailure());
     }
   };
+};
+
+//Recuperar contraseña
+
+export const requestPasswordReset = (email) => async (dispatch) => {
+  try {
+    const response = await axios.post('http://localhost:3004/api/v1/auth/recovery', { email });
+    dispatch({ type: PASSWORD_RESET_REQUEST_SUCCESS, payload: response.data });
+  } catch (error) {
+    dispatch({ type: PASSWORD_RESET_REQUEST_FAILURE, payload: error.response.data });
+  }
+};
+
+//reset contraseña
+
+
+
+export const changePassword = (token, newPassword) => async (dispatch) => {
+  dispatch({ type: CHANGE_PASSWORD_REQUEST});
+//console.log(token)
+  try {
+    const requestBody = {
+      token,
+      newPassword,
+    };
+   // console.log(requestBody);
+
+     await axios.post(
+      'http://localhost:3004/api/v1/auth/changePassword',
+      requestBody
+    );
+
+  
+    dispatch({ type: CHANGE_PASSWORD_SUCCESS});
+    console.log("llegue a action sucess")
+    
+  } catch (error) {
+    console.error('Error al cambiar la contraseña:', error);
+    dispatch({type:'CHANGE_PASSWORD_FAILURE' , payload: error});
+  }
 };
