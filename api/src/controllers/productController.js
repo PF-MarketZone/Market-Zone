@@ -1,5 +1,8 @@
 const Product = require('../models/product');
 const mongoose = require('mongoose');
+const { uploadImage, deleteImage } = require("../utils/cloudinary/cloudinary");
+const fs = require('fs-extra');
+
 //=================================================================
 // Busca todos los productos
 //=================================================================
@@ -27,7 +30,15 @@ const searchByIdProduct = async (id) => {
 //=================================================================
 const searchByIdAndRemoveProduct = async (id) => {
   console.log(id);
-  await Product.findByIdAndRemove(id);
+  const product = await Product.findByIdAndRemove(id);
+
+  //Recorre el array de objetos de imagenes y la elimina por su id_public en cloudinary 
+  if (product && product.image && product.image.length > 0) {
+    for (const image of product.image) {
+      await deleteImage(image.public_id);
+    }
+  }
+
   const restProducts = await allProducts();
   // console.log(restProducts);
   return restProducts;
@@ -38,6 +49,7 @@ const searchByIdAndRemoveProduct = async (id) => {
 //=================================================================
 
 const createNewProduct = async (
+  req,
   storeId,
   name,
   description,
@@ -51,11 +63,32 @@ const createNewProduct = async (
   console.log(category, subcategory);
   const storeidBody = storeId;
   const storeDefault = '64daf18450c25495a4a6a611';
+
+
+  const imageObjects = [];
+  
+  if (req.files && req.files.image) {
+    const images = Array.isArray(req.files.image) ? req.files.image : [req.files.image];
+    for (const imageFile of images) {
+      try {
+        const result = await uploadImage(imageFile.tempFilePath);
+        imageObjects.push({
+          url: result.secure_url,
+          public_id: result.public_id
+        });
+        await fs.unlink(imageFile.tempFilePath); 
+      } catch (uploadError) {
+        console.error("Error al cargar la imagen:", uploadError);
+      }
+    }
+  }
+
   const productData = new Product({
+    req: req,
     storeId: storeId ? storeidBody : storeDefault,
     name: name,
     description: description,
-    image: image,
+    image: imageObjects,
     color: color,
     price: price,
     stock: stock,
@@ -64,7 +97,9 @@ const createNewProduct = async (
       subcategory: subcategory,
     },
   });
-  //console.log(productData)
+
+  console.log(productData)
+  
   await productData.save();
 };
 

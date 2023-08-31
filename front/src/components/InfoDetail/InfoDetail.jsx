@@ -6,7 +6,7 @@ import { faCheck, faTimes, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { agregarAlCarrito } from "../../redux/actions";
-import { getProductById } from "../../redux/Actions/ProductAction";
+import { getProductById } from "../../redux/Actions/productsAction";
 import {InputNum, ButtonMenos, ButtonMas, H3Categories, H1Name, PDescripction, DivPriceStock, H2Price, H2Stock, DivColor, DIvPuntoColor, DivCantidad, DivPrincipal, ButtonAddToCart, ButtonFavorito, LineaDelgada } from './InfoStyledComponent'
 
 const InfoD = (props) => {

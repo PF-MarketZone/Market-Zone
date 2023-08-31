@@ -1,12 +1,14 @@
 import { combineReducers } from 'redux';
 import filtersReducer from './reducers/filtersReducer';
 import authReducer from './reducers/authReducer';
-import productReducer from './reducers/productReducer'
+import productsReducer from './reducers/productsReducer';
 
 const rootReducer = combineReducers({
   filters: filtersReducer,
   auth: authReducer,
-  product: productReducer,
+  products: productsReducer,
+  details: productsReducer,
+  detail: productsReducer,
   // Otros reducers...
 });
 

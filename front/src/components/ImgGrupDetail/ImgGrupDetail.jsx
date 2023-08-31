@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Logo from '../../images/LogoFNegro.png'
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getProductById } from '../../redux/Actions/ProductAction'
+import { getProductById } from '../../redux/Actions/productsAction';
 import { OneImage, TwoImage, Img1G, Img2G, Div, ImgLogo } from './ImgStyledComponent'
 const ImgGrupD = (props) => {
 
