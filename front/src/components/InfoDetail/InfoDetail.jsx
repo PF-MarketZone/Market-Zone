@@ -34,7 +34,7 @@ const InfoD = (props) => {
   const agregarAlCarritoClick = () => {
     if (quantity > 0) {
       const newItem = {
-        id: details.id,
+        _id: details._id,
         name: details.name,
         price: details.price,
         quantity: quantity,
@@ -42,6 +42,7 @@ const InfoD = (props) => {
       dispatch(agregarAlCarrito(newItem));
     }
   };
+  
 
   return (
     <>
