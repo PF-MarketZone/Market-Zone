@@ -1,23 +1,16 @@
-import { useState,useEffect } from "react";
-import React from "react";
+import { Wallet, initMercadoPago } from "@mercadopago/sdk-react";
 import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
-import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
-import {
-  eliminarDelCarrito,
-  aumentarCantidad,
-  disminuirCantidad,
-  setInitialCart
-} from "../../redux/actions";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { aumentarCantidad, disminuirCantidad } from "../../redux/actions";
 import styles from "./Cart.module.css";
 
 const Cart = () => {
   const [preferenceId, setPreferenceId] = useState(null);
-  initMercadoPago("APP_USR-30f4d3f9-4b95-410f-b2fd-331973191e15");
+  initMercadoPago("APP_USR-30f4d3f9-4b95-410f-b2fd-331973191e15"); // ingresar Public key comprador
 
   const cartItems = useSelector((state) => state.filters.cart);
   const dispatch = useDispatch();
-
 
   const eliminarProducto = (id) => {
     dispatch(eliminarDelCarrito(id));
@@ -37,8 +30,6 @@ const Cart = () => {
     localStorage.setItem("cartItems", JSON.stringify(updatedCart));
   };
 
-  
-
   const totalPrecio = cartItems.reduce((total, item) => {
     return parseInt(total + item.price * item.quantity);
   }, 0);
@@ -47,6 +38,7 @@ const Cart = () => {
     try {
       const items = cartItems.map((item) => {
         return {
+          id: item.id,
           title: item.name,
           unit_price: parseInt(item.price),
           quantity: item.quantity,
@@ -55,13 +47,13 @@ const Cart = () => {
       });
 
       const response = await axios.post(
-        "http://localhost:3004/api/v1/create-preference",
+        "http://localhost:3004/api/v1/create-order/create-preference",
         { items }
       );
-      const { id } = response.data;
+      const id = response.data.data;
       return id;
     } catch (error) {
-      console.error("Error creating preference:", error);
+      console.error(response.data.message);
     }
   };
 

@@ -1,16 +1,16 @@
-import React, { useRef, useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
-  eliminarDelCarrito,
   aumentarCantidad,
   disminuirCantidad,
+  eliminarDelCarrito,
 } from "../../redux/actions";
 import styles from "./CartSidebar.module.css";
-import { Link } from "react-router-dom";
 
 const CartSidebar = ({ onClose }) => {
   const cartItems = useSelector((state) => state.filters.cart);
-  const productDetails = useSelector((state) => state.product.details);
+  const productDetails = useSelector((state) => state.products.details);
   const dispatch = useDispatch();
   const [isCartSidebarVisible, setCartSidebarVisible] = useState(true);
 
