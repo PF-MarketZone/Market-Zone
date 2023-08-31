@@ -81,12 +81,27 @@ const handleNotification = async (req, res) => {
         console.log(item);
         updateStock(item.id, item.quantity);
       });
+       //=========================
+      // Notificacion
+      //========================
+        //Crear Order-----v
 
+        //Crear Sale-----v
+
+        //SendMail(comprador)---v
+
+        //SendMail(vendedor)----v
+
+     
+    } else {
+      console.log('\x1b[32m%s\x1b[0m', 'El pago NO se completo');
       //=========================
       // Notificacion
       //========================
-    } else {
-      console.log('\x1b[32m%s\x1b[0m', 'El pago NO se completo');
+        //crear Order-----v
+
+        //SendMail(comprador)----V
+
     }
 
     res.status(200).send();

@@ -7,6 +7,7 @@ const { JWT_SECRET, EMAIL , JWT_SECRET_RECOVERY} = process.env;
 const boom = require('@hapi/boom');
 const {sendMail} = require('./emailController.js')
 const bcryptjs = require('bcryptjs');
+const emailRecovery = require('../helpers/emailData')
 
 
 
@@ -60,39 +61,8 @@ const recoveryPassword = async (email)=>{
   const link = `http://localhost:3004/recovery?token=${token}`
   await userUpdate(userFound._id, {recoveryToken: token});
   
-  const emailData = {
-    from: `"Equipo de MarketZone" <${EMAIL}>`, // sender address
-    to:`${userFound.email}`,// list of receivers
-    subject: "Recupera tu contraseña", // Subject line
-    html: `<!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Recuperación de Contraseña</title>
-    </head>
-    <body>
-        <p>Hola <strong>${userFound.name}</strong>,</p>
-        <p>Hemos recibido una solicitud para recuperar la contraseña de tu cuenta. Si no has realizado esta solicitud, puedes ignorar este correo.</p>
-        <p>Si deseas restablecer tu contraseña, haz clic en el botón de abajo:</p>
-        
-        <table cellspacing="0" cellpadding="0">
-        <tr>
-            <td style="border-radius: 3px; text-align: center;">
-                <a href="${link}" style="background-color: #40C057; color: #fff; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.4; text-align: center; text-decoration: none; display: inline-block; padding: 8px 16px; border-radius: 5px; font-weight: bold;">Restablecer Contraseña</a>
-            </td>
-        </tr>
-    </table>
-    
-        <p>Si el botón no funciona, también puedes copiar y pegar el siguiente enlace en tu navegador:</p>
-        <p>${link}</p>
-        
-        <p>Gracias,<br>El equipo de Market Zone</p>
-    </body>
-    </html>
-    `, // html body
-  };
-  const infoMail = await sendMail(emailData);
+  
+  const infoMail = await sendMail(userFound, link, emailRecovery);
   return infoMail;
   
 };
