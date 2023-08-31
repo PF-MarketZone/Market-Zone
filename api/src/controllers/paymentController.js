@@ -1,4 +1,4 @@
-const { ACCESS_TOKEN_MP } = process.env;
+const { ACCESS_TOKEN_MP, NGROK_ACCESS } = process.env;
 // SDK Mercado Pago
 const mercadopago = require('mercadopago');
 
@@ -15,7 +15,7 @@ const createPreference = async (req) => {
       unit_price: item.unit_price,
       quantity: item.quantity,
     })),
-    notification_url: `https://2467-190-176-33-166.ngrok.io/api/v1/create-order/noification/`,
+    notification_url: `${NGROK_ACCESS}/api/v1/create-order/noification/`,
     back_urls: {
       success: 'http://localhost:3004/api/v1/create-order/success', // crear componente para compra exitosa
       failure: 'http://localhost:5173/cart',

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Sidebar from '../../components/PanelDashboard/Sidebar/Sidebar';
 import Products from '../../components/PanelDashboard/Products/Products';
-import AddProduct from '../../components/PanelDashboard/AddProducts/AddProducts';
+import AddProducts from '../../components/PanelDashboard/AddProducts/AddProducts';
 import Orders from '../../components/PanelDashboard/Orders/Orders';
 import Users from '../../components/PanelDashboard/Users/Users';
 import Sales from '../../components/PanelDashboard/Sales/Sales';
@@ -28,7 +28,7 @@ const Dashboard = () => {
       case 'products':
         return <Products/>;
       case 'add products':
-        return <AddProduct/>
+        return <AddProducts/>
       case 'users':
         return <Users/>
       case 'orders':

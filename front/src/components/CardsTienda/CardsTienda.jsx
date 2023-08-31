@@ -6,7 +6,7 @@ const Cards = ({ tiendas, categoriaFiltrada }) => {
   // Filtrar tiendas según la categoría seleccionada
   const tiendasFiltradas = categoriaFiltrada
     ? tiendas.filter((tienda) =>
-        tienda.categories.some((cat) => cat === categoriaFiltrada)
+        tienda.description.some((cat) => cat === categoriaFiltrada)
       )
     : tiendas;
 
@@ -18,10 +18,11 @@ const Cards = ({ tiendas, categoriaFiltrada }) => {
     <div className={styles.cardsContainer}>
       {tiendasFiltradas.map((tienda) => (
         <Card
-          key={tienda.id}
+          key={tienda._id}
+          _id={tienda._id}
           name={tienda.name}
-          logo={tienda.logo}
-          categories={tienda.categories.join(", ")}
+          logo={tienda.image}
+          description={tienda.description} 
         />
       ))}
     </div>

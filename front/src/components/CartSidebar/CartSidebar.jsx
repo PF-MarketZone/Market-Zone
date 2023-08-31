@@ -1,16 +1,16 @@
-import React, { useRef, useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
-  eliminarDelCarrito,
   aumentarCantidad,
   disminuirCantidad,
+  eliminarDelCarrito,
 } from "../../redux/actions";
 import styles from "./CartSidebar.module.css";
-import { Link } from "react-router-dom";
 
 const CartSidebar = ({ onClose }) => {
   const cartItems = useSelector((state) => state.filters.cart);
-  const details = useSelector((state) => state.filters.details);
+  const productDetails = useSelector((state) => state.products.details);
   const dispatch = useDispatch();
   const [isCartSidebarVisible, setCartSidebarVisible] = useState(true);
 
@@ -32,6 +32,7 @@ const CartSidebar = ({ onClose }) => {
   );
 
   const cartSidebarRef = useRef(null);
+  const prevCartItems = useRef(cartItems);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -69,10 +70,14 @@ const CartSidebar = ({ onClose }) => {
         <div className={styles.cartListContainer}>
           <ul className={styles.cartList}>
             {cartItems.map((item) => {
-              const detail = details.find((detail) => detail.id === item.id);
+              const detail = productDetails.find(
+                (product) => product._id === item._id
+              );
               return (
-                <li key={item.id} className={styles.cartItem}>
-                  {detail && <img src={detail.images[0]} alt={detail.name} />}
+                <li key={item._id} className={styles.cartItem}>
+                  {detail && detail.image && detail.image[0] && (
+                    <img src={detail.image[0].url} alt={detail.name} />
+                  )}
                   <div>
                     <p>{item.name}</p>
                     <p>Precio: ${item.price}</p>
@@ -95,7 +100,7 @@ const CartSidebar = ({ onClose }) => {
                     </div>
                     <button
                       className={styles["cart-item-button"]}
-                      onClick={() => eliminarProducto(item.id)}
+                      onClick={() => eliminarProducto(item._id)}
                     >
                       Eliminar
                     </button>
@@ -105,7 +110,7 @@ const CartSidebar = ({ onClose }) => {
             })}
           </ul>
           <div className={styles.totalPrecio}>
-            <span>Total: ${totalPrecio}</span>
+            <span>Total: ${parseInt(totalPrecio)}</span>
           </div>
         </div>
       )}

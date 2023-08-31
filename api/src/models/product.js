@@ -4,16 +4,18 @@ const productSchema = new mongoose.Schema(
     storeId: { type: mongoose.Schema.Types.ObjectId },
     name: { type: String },
     price: { type: Number },
-    image: [{ url: { type: String } }],
+    image: [{ 
+      url: { type: String, required: true },
+      public_id: { type: String, required: true} 
+    }],
     description: { type: String, maxLength: 2500 },
     stock: Number,
-    categories: {
-      type: {
-        category: { type: String },
-        subcategory: { type: String },
-      },
-    },
+    categories: {type: {
+      category: {type: String, required: false}, 
+      subcategory: {type: String, required: false}
+      }, required: true},
     color: String,
+    deleted: Boolean
   },
   { collection: 'products' }
 );

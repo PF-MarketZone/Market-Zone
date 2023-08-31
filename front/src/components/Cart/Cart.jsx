@@ -2,11 +2,7 @@ import { Wallet, initMercadoPago } from "@mercadopago/sdk-react";
 import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  aumentarCantidad,
-  disminuirCantidad,
-  eliminarDelCarrito,
-} from "../../redux/actions";
+import { aumentarCantidad, disminuirCantidad } from "../../redux/actions";
 import styles from "./Cart.module.css";
 
 const Cart = () => {
@@ -14,7 +10,6 @@ const Cart = () => {
   initMercadoPago("APP_USR-30f4d3f9-4b95-410f-b2fd-331973191e15"); // ingresar Public key comprador
 
   const cartItems = useSelector((state) => state.filters.cart);
-  const details = useSelector((state) => state.filters.details);
   const dispatch = useDispatch();
 
   const eliminarProducto = (id) => {
@@ -28,30 +23,28 @@ const Cart = () => {
   const handleDisminuirCantidad = (itemId) => {
     dispatch(disminuirCantidad(itemId));
   };
+
+  const handleAgregarAlCarrito = (product) => {
+    dispatch(agregarAlCarrito(product));
+    const updatedCart = [...cartItems, product];
+    localStorage.setItem("cartItems", JSON.stringify(updatedCart));
+  };
+
   const totalPrecio = cartItems.reduce((total, item) => {
-    const detail = details.find((detail) => detail.id === item.id);
-    if (detail && detail.price) {
-      return total + detail.price * item.quantity;
-    }
-    return total;
+    return parseInt(total + item.price * item.quantity);
   }, 0);
 
   const createPreference = async (cartItems) => {
     try {
-      const items = cartItems
-        .map((item) => {
-          const detail = details.find((d) => d.id === item.id);
-          if (detail) {
-            return {
-              id: detail.id,
-              title: detail.name,
-              unit_price: detail.price,
-              quantity: item.quantity,
-            };
-          }
-          return null;
-        })
-        .filter((item) => item !== null);
+      const items = cartItems.map((item) => {
+        return {
+          id: item.id,
+          title: item.name,
+          unit_price: parseInt(item.price),
+          quantity: item.quantity,
+          currency_id: "COP",
+        };
+      });
 
       const response = await axios.post(
         "http://localhost:3004/api/v1/create-order/create-preference",
@@ -70,6 +63,7 @@ const Cart = () => {
       setPreferenceId(id);
     }
   };
+
   return (
     <div className={styles["cart-container"]}>
       <h2>Carrito de Compras</h2>
@@ -78,41 +72,44 @@ const Cart = () => {
       ) : (
         <div className={styles["cart-list-container"]}>
           <ul className={styles["cart-list"]}>
-            {cartItems.map((item) => {
-              const detail = details.find((detail) => detail.id === item.id);
-              return (
-                <li key={item.id} className={styles["cart-item"]}>
-                  {detail && <img src={detail.images[0]} alt={detail.name} />}
-                  <div className={styles["cart-item-content"]}>
-                    <p className={styles["cart-item-title"]}>{item.name}</p>
-                    <p className={styles["cart-item-price"]}>
-                      Precio: ${detail && detail.price ? detail.price : "N/A"}
-                    </p>
-                    <div className={styles["cart-item-quantity"]}>
-                      <button
-                        className={styles["quantity-button"]}
-                        onClick={() => handleDisminuirCantidad(item.id)}
-                      >
-                        -
-                      </button>
-                      <span>{item.quantity}</span>
-                      <button
-                        className={styles["quantity-button"]}
-                        onClick={() => handleAumentarCantidad(item.id)}
-                      >
-                        +
-                      </button>
-                    </div>
+            {cartItems.map((item) => (
+              <li key={item._id} className={styles["cart-item"]}>
+                {item.image && item.image[0] && (
+                  <img
+                    src={item.image[0].url}
+                    alt={item.name}
+                    className={styles["cart-item-image"]}
+                  />
+                )}
+                <div className={styles["cart-item-content"]}>
+                  <p className={styles["cart-item-title"]}>{item.name}</p>
+                  <p className={styles["cart-item-price"]}>
+                    Precio: ${parseInt(item.price)}
+                  </p>
+                  <div className={styles["cart-item-quantity"]}>
                     <button
-                      className={styles["cart-item-delete"]}
-                      onClick={() => eliminarProducto(item.id)}
+                      className={styles["quantity-button"]}
+                      onClick={() => handleDisminuirCantidad(item.id)}
                     >
-                      Eliminar
+                      -
+                    </button>
+                    <span>{item.quantity}</span>
+                    <button
+                      className={styles["quantity-button"]}
+                      onClick={() => handleAumentarCantidad(item.id)}
+                    >
+                      +
                     </button>
                   </div>
-                </li>
-              );
-            })}
+                  <button
+                    className={styles["cart-item-delete"]}
+                    onClick={() => eliminarProducto(item._id)}
+                  >
+                    Eliminar
+                  </button>
+                </div>
+              </li>
+            ))}
           </ul>
           <div className={styles["cart-total"]}>
             <p>

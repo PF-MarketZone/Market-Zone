@@ -23,6 +23,7 @@ const createProductHandler = async (req, res) => {
     //   res.status(404).json(true, 'Completa los campos requeridos', null);
     // }
     const newProduct = createNewProduct(
+      req,
       storeId,
       name,
       description,
