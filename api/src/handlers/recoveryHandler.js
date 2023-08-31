@@ -14,7 +14,9 @@ const recoveryHandler = async (req, res, next) => {
 };
 const changeHandler = async (req, res, next) => {
     try {
-        const { token, newPassword } = req.body; //agregar un esquema de validacion;
+        const { token, newPassword } = req.body; 
+        console.log(token);
+        console.log(newPassword)//agregar un esquema de validacion;
         const rta = await changePassword(token, newPassword);
         res.send(rta);
     } catch (error) {

@@ -57,7 +57,7 @@ const recoveryPassword = async (email)=>{
   };
   const payload = { sub: userFound['_id'] };
   const token = jwt.sign(payload, JWT_SECRET_RECOVERY, {expiresIn: '15min'}); // generar un nuevo jwtsecret para recuperar pass
-  const link = `http://localhost:3004/recovery?token=${token}`
+  const link = `http://localhost:5173/change-password?token=${token}`
   await userUpdate(userFound._id, {recoveryToken: token});
   
   const emailData = {
