@@ -1,12 +1,19 @@
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const LogInSuccess = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    console.log("entro al efecto");
+    if (isAuthenticated) {
+      navigate("/home");
+    }
+  }, [navigate, isAuthenticated]);
+
+  useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const user = searchParams.get("session");
     console.log(user);

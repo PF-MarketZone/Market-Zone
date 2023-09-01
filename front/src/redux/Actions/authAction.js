@@ -104,7 +104,6 @@ export const sessionActive = () => {
 //Funcion Logout
 export const logoutFn = (head) => {
   return async (dispatch) => {
-    console.log({ headers: { head } });
     try {
       const response = await axios({
         url: 'http://localhost:3004/api/v1/user/singout',
@@ -114,10 +113,9 @@ export const logoutFn = (head) => {
           'refresh-token': head['refresh-token'],
         },
       });
-      console.log(response);
+
       if (response.data.closed) {
         dispatch(logout());
-        console.log('me fui');
         return true;
       }
     } catch (error) {

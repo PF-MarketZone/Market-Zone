@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import Nav from "./components/Nav/Nav";
 import Home from "./View/Home/Home";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import TiendaDetalle from "./View/TiendaDetalle/TiendaDetalle";
 import Detail from "./View/Detail/Detail";
 import Landing from "./View/Landing/Landing";
@@ -62,16 +62,18 @@ function App() {
 
   useEffect(() => {
     const user = JSON.parse(sessionStorage.getItem("session-mz"));
-    const refreshtkn = user.refreshToken;
-    const tokenExpirationTime = 900; // Tiempo de expiración en segundos
-    const refreshTokenTimer = setInterval(() => {
-      dispatch(refreshAccessToken(refreshtkn));
-    }, (tokenExpirationTime - 60) * 1000); // Refrescar a 60 segundos antes de la expiración
+    if (!!user) {
+      const refreshtkn = user.refreshToken;
+      const tokenExpirationTime = 900; // Tiempo de expiración en segundos
+      const refreshTokenTimer = setInterval(() => {
+        dispatch(refreshAccessToken(refreshtkn));
+      }, (tokenExpirationTime - 60) * 1000); // Refrescar a 60 segundos antes de la expiración
 
-    // Limpieza cuando el componente se desmonta
-    return () => {
-      clearInterval(refreshTokenTimer);
-    };
+      // Limpieza cuando el componente se desmonta
+      return () => {
+        clearInterval(refreshTokenTimer);
+      };
+    }
   }, []);
 
   return (
