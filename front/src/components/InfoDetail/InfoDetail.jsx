@@ -1,13 +1,28 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import React, { useEffect, useState } from "react";
 //import tiendas from './../../Data/dummyData';
+import { faCheck, faHeart, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faTimes, faHeart } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { agregarAlCarrito } from "../../redux/actions";
 import { getProductById } from "../../redux/Actions/productsAction";
-import {InputNum, ButtonMenos, ButtonMas, H3Categories, H1Name, PDescripction, DivPriceStock, H2Price, H2Stock, DivColor, DIvPuntoColor, DivCantidad, DivPrincipal, ButtonAddToCart, ButtonFavorito, LineaDelgada } from './InfoStyledComponent'
+import { agregarAlCarrito } from "../../redux/actions";
+import {
+  ButtonAddToCart,
+  ButtonFavorito,
+  ButtonMas,
+  ButtonMenos,
+  DIvPuntoColor,
+  DivCantidad,
+  DivColor,
+  DivPriceStock,
+  DivPrincipal,
+  H1Name,
+  H2Price,
+  H2Stock,
+  H3Categories,
+  InputNum,
+  LineaDelgada,
+} from "./InfoStyledComponent";
 
 const InfoD = (props) => {
   const dispatch = useDispatch();
@@ -17,8 +32,8 @@ const InfoD = (props) => {
     dispatch(getProductById(detailId));
   }, [dispatch, detailId]);
 
-  const details = useSelector((state) => state.product.detail);
-  
+  const details = useSelector((state) => state.products.detail);
+
   const [quantity, setQuantity] = useState(0);
 
   const handleDecrease = () => {
@@ -42,7 +57,6 @@ const InfoD = (props) => {
       dispatch(agregarAlCarrito(newItem));
     }
   };
-  
 
   return (
     <>

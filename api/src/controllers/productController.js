@@ -1,6 +1,6 @@
 const Product = require('../models/product');
 const mongoose = require('mongoose');
-const { uploadImage, deleteImage } = require("../utils/cloudinary/cloudinary");
+const { uploadImage, deleteImage } = require('../utils/cloudinary/cloudinary');
 const fs = require('fs-extra');
 
 //=================================================================
@@ -32,7 +32,7 @@ const searchByIdAndRemoveProduct = async (id) => {
   console.log(id);
   const product = await Product.findByIdAndRemove(id);
 
-  //Recorre el array de objetos de imagenes y la elimina por su id_public en cloudinary 
+  //Recorre el array de objetos de imagenes y la elimina por su id_public en cloudinary
   if (product && product.image && product.image.length > 0) {
     for (const image of product.image) {
       await deleteImage(image.public_id);
@@ -64,21 +64,22 @@ const createNewProduct = async (
   const storeidBody = storeId;
   const storeDefault = '64daf18450c25495a4a6a611';
 
-
   const imageObjects = [];
-  
+
   if (req.files && req.files.image) {
-    const images = Array.isArray(req.files.image) ? req.files.image : [req.files.image];
+    const images = Array.isArray(req.files.image)
+      ? req.files.image
+      : [req.files.image];
     for (const imageFile of images) {
       try {
         const result = await uploadImage(imageFile.tempFilePath);
         imageObjects.push({
           url: result.secure_url,
-          public_id: result.public_id
+          public_id: result.public_id,
         });
-        await fs.unlink(imageFile.tempFilePath); 
+        await fs.unlink(imageFile.tempFilePath);
       } catch (uploadError) {
-        console.error("Error al cargar la imagen:", uploadError);
+        console.error('Error al cargar la imagen:', uploadError);
       }
     }
   }
@@ -98,8 +99,8 @@ const createNewProduct = async (
     },
   });
 
-  console.log(productData)
-  
+  console.log(productData);
+
   await productData.save();
 };
 
@@ -157,10 +158,12 @@ const updateProduct = async (
 // Actualiza el stock de un producto con los parametros recibidos
 //=================================================================
 
-const updateStock = async (_id, stock) => {
-  const result = await Product.findById(_id);
-  result.stock = result.stock - stock;
-  await result.save();
+const updateStock = async (id, stock) => {
+  // console.log(id, stock);
+  const result = await Product.findById(id);
+  console.log(result);
+  // result.stock = result.stock - stock;
+  // await result.save();
   return result;
 };
 
