@@ -7,7 +7,7 @@ const { JWT_SECRET, EMAIL , JWT_SECRET_RECOVERY} = process.env;
 const boom = require('@hapi/boom');
 const {sendMail} = require('./emailController.js')
 const bcryptjs = require('bcryptjs');
-const emailRecovery = require('../helpers/emailData')
+const {emailRecovery} = require('../helpers/emailData')
 
 
 

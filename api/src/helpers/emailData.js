@@ -43,12 +43,58 @@ const { EMAIL} = process.env;
   //----Envio Compra Exitosa ----
 
   //Comprador--vv
-  const emailOkOrderComprador =()=> {
-
-  };
+  const emailOkOrderComprador =async( user, products, order) => {
+     
+    return {
+      from: `"Equipo de MarketZone" <${EMAIL}>`,
+      to: user.email,
+      subject: "Confirmación de Orden",
+      html: `
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Confirmación de Orden</title>
+        </head>
+        <body>
+            <p>Hola <strong>${user.name}</strong>,</p>
+            <p>Tu orden ha sido aprobada con éxito. A continuación, te proporcionamos los detalles de la orden:</p>
+            
+            <table border="1">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th>Cantidad</th>
+                  <th>Precio Unitario</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${products.map((product) => `
+                  <tr>
+                    <td>${product.name}</td>
+                    <td>${product.quantity}</td>
+                    <td>${product.unit_price}</td>
+                    <td>${product.quantity * product.unit_price}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+  
+            <p>Total de la orden: $${order.totalPrice}</p>
+            <p>Método de pago: ${order.paymentMethod}</p>
+            <p>Fecha de transacción: ${order.transactionDate}</p>
+  
+            <p>Gracias por tu compra en MarketZone. Si tienes alguna pregunta o necesitas asistencia, no dudes en contactarnos.</p>
+            
+            <p>Atentamente,<br>El equipo de MarketZone</p>
+        </body>
+        </html>
+      `,}
+    };
 
   //Vendedor--vv
-  const emailOkOrderVendedor =()=> {
+  const emailOkOrderVendedor =(user, )=> {
 
   };
 
