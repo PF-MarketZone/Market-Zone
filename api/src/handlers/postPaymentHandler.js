@@ -77,9 +77,9 @@ const handleNotification = async (req, res) => {
       // Descuento de stock
       //========================
 
-      body.items.map(async (item) => {
-        // console.log(item.id, item.quantity);
-        // updateStock(item.id, item.quantity);
+      await body.items.map(async (item) => {
+        console.log(item);
+        await updateStock(item.id, item.quantity);
       });
 
       //=========================
