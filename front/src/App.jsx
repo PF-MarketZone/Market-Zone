@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import Nav from "./components/Nav/Nav";
 import Home from "./View/Home/Home";
@@ -16,13 +16,14 @@ import LogInSignUp from "./View/LogInSignUp/LogInSignUp";
 import ThankYouPage from "./components/ThankyouPage/ThankyouPage";
 import { setCompraExitosa } from "../src/redux/actions";
 import LogInSuccess from "./components/LogIn/LoginSuccess";
-// import { GoogleOAuthProvider} from '@react-oauth/google';
+import { refreshAccessToken, sessionActive } from "./redux/Actions/authAction";
 
 function App() {
   const location = useLocation();
   const [categoriaFiltrada, setCategoriaFiltrada] = useState();
   const [isCartSidebarVisible, setCartSidebarVisible] = useState(false);
   const cartItems = useSelector((state) => state.filters.cart);
+  const userStringify = sessionStorage.getItem("session-mz");
 
   const handleCartButtonClick = () => {
     setCartSidebarVisible(!isCartSidebarVisible);
@@ -54,9 +55,27 @@ function App() {
     }
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(sessionActive());
+    return;
+  }, [userStringify]);
+
+  useEffect(() => {
+    const user = JSON.parse(sessionStorage.getItem("session-mz"));
+    const refreshtkn = user.refreshToken;
+    const tokenExpirationTime = 900; // Tiempo de expiración en segundos
+    const refreshTokenTimer = setInterval(() => {
+      dispatch(refreshAccessToken(refreshtkn));
+    }, (tokenExpirationTime - 60) * 1000); // Refrescar a 60 segundos antes de la expiración
+
+    // Limpieza cuando el componente se desmonta
+    return () => {
+      clearInterval(refreshTokenTimer);
+    };
+  }, []);
+
   return (
     <>
-      {/* <GoogleOAuthProvider clientId="30868848576-j8idkopfm2bmno96s3d7kebkqjbgr9s1.apps.googleusercontent.com"> */}
       <div className="App">
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link

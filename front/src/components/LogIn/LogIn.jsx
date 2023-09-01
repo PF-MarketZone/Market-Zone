@@ -1,10 +1,9 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import MyButton from "../Buttons/MainButton";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/Actions/authAction";
 import {
@@ -20,6 +19,8 @@ import {
 
 const LogIn = () => {
   const [activeField, setActiveField] = useState(null);
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
 
   const formik = useFormik({
@@ -44,35 +45,16 @@ const LogIn = () => {
     onSubmit: async (formData) => {
       try {
         console.log(formData);
-
         // Aquí puedes realizar las acciones necesarias para enviar los datos al servidor
-        dispatch(login(formData.email, formData.password));
+        const loginC = await dispatch(login(formData.email, formData.password));
+        !loginC
+          ? alert(`Error al iniciar sesión, usuario o contraseña incorrectos`)
+          : navigate("/home");
       } catch (error) {
         console.error("Error al enviar el formulario", error);
       }
     },
   });
-  // const login = useGoogleLogin({
-  //     onSuccess: async (tokenResponse) => {
-  //         console.log(tokenResponse);
-
-  //         try {
-  //             const userInfoResponse = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
-  //                 headers: {
-  //                     Authorization: `Bearer ${tokenResponse.access_token}`,
-  //                 },
-  //             });
-
-  //             console.log(userInfoResponse.data);
-  //             const userEmail = userInfoResponse.data.email;
-
-  //             // Aquí puedes manejar la información del perfil del usuario
-  //         } catch (error) {
-  //             console.error('Error al obtener el perfil del usuario', error);
-  //         }
-  //     },
-  //     onError: errorResponse => console.log(errorResponse),
-  // });
 
   const handleFieldClick = (fieldName) => {
     setActiveField(fieldName);
