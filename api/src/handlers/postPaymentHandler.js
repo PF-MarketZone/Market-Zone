@@ -78,7 +78,7 @@ const handleNotification = async (req, res) => {
       //========================
 
       body.items.map(async (item) => {
-        console.log(item.id, item.quantity);
+        // console.log(item.id, item.quantity);
         // updateStock(item.id, item.quantity);
       });
 
