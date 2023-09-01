@@ -1,4 +1,5 @@
 import axios from "axios";
+import {backendUrl} from '../../config.js';
 
 export const GET_PRODUCTS = "GET_PRODUCTS";
 export const GET_PRODUCT_BY_ID = "GET_PRODUCT_BY_ID";
@@ -6,7 +7,7 @@ export const ADD_PRODUCT = "ADD_PRODUCT";
 
 export const getProducts = () => {
     return function(dispatch){
-            fetch('http://localhost:3004/api/v1/product')
+            fetch(`${backendUrl}/product`)
             .then(res => res.json())
             .then(data => dispatch({
                 type: GET_PRODUCTS, 
@@ -34,7 +35,7 @@ export const getProducts = () => {
   export const getProductById = (id) => {
     return async function (dispatch) {
       try {
-        const response = await axios.get(`http://localhost:3004/api/v1/product/${id}`);
+        const response = await axios.get(`${backendUrl}product/${id}`);
         const productDetails = response.data.data;
         console.log(productDetails);
         dispatch({ type: GET_PRODUCT_BY_ID, payload: productDetails });
@@ -62,7 +63,7 @@ export const getProducts = () => {
         }
   
         const response = await axios.post(
-          'http://localhost:3004/api/v1/product/createproduct',
+          `${backendUrl}/product/createproduct`,
           formData,
           {
             headers: {
