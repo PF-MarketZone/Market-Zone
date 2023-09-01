@@ -9,6 +9,8 @@ import swal from 'sweetalert2';
 
 const ChangePassword = () => {
    // const { token } = useParams();
+
+
      useEffect(() => {
       const queryString = window.location.search;
     const params = new URLSearchParams(queryString);
@@ -23,14 +25,10 @@ const ChangePassword = () => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-   
+   const [savedToken, setSavedToken] = useState('');
     const dispatch = useDispatch();
-    const alert = useSelector(state => state.auth.successMessage);
-    console.log(alert)
-
-    const [savedToken, setSavedToken] = useState('');
-  
-    const handlePasswordChange = () => {
+    
+     const handlePasswordChange = () => {
       if (newPassword === confirmPassword) {
         dispatch(changePassword(savedToken, newPassword));
 
@@ -38,6 +36,12 @@ const ChangePassword = () => {
         setErrorMessage("Las contraseñas no coinciden");
       }
     };
+
+     const alert = useSelector(state => state.auth.successMessage);
+  console.log(alert)
+   
+   
+    
     useEffect(() => {
       if (alert) {
         swal({

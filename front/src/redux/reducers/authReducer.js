@@ -18,7 +18,8 @@ const initialState = {
   error: null,
   success: false,
   successMessage: '',
-
+  resetRequestSuccess: false,
+  resetRequestError: null
 };
 
 const authReducer = (state = initialState, action) => {
@@ -36,8 +37,7 @@ const authReducer = (state = initialState, action) => {
         user: null,
         isAuthenticated: false,
       };
-   
-  
+     
   case PASSWORD_RESET_REQUEST_SUCCESS:
       return {
         ...state,
@@ -51,7 +51,7 @@ const authReducer = (state = initialState, action) => {
         resetRequestError: action.payload,
       };
 
-      case CHANGE_PASSWORD_REQUEST:
+    case CHANGE_PASSWORD_REQUEST:
         console.log("llegue CHANGE_PASSWORD_REQUEST'")
       return {
         ...state,

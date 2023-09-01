@@ -1,4 +1,5 @@
 import axios from 'axios';
+import swal from 'sweetalert';
 
 // Definición de acciones
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -95,23 +96,23 @@ export const requestPasswordReset = (email) => async (dispatch) => {
 
 
 export const changePassword = (token, newPassword) => async (dispatch) => {
-  dispatch({ type: CHANGE_PASSWORD_REQUEST});
+ dispatch({ type: CHANGE_PASSWORD_REQUEST});
+  
+try {
 //console.log(token)
-  try {
     const requestBody = {
       token,
       newPassword,
     };
    // console.log(requestBody);
 
-     await axios.post(
-      'http://localhost:3004/api/v1/auth/changePassword',
-      requestBody
-    );
-
-  
-    dispatch({ type: CHANGE_PASSWORD_SUCCESS});
-    console.log("llegue a action sucess")
+   await axios.post(
+    'http://localhost:3004/api/v1/auth/changePassword',
+    requestBody
+  );
+  window.alert("Contraseña cambiada con exito")
+dispatch({ type: CHANGE_PASSWORD_SUCCESS});
+console.log("llegue a action sucess")
     
   } catch (error) {
     console.error('Error al cambiar la contraseña:', error);
