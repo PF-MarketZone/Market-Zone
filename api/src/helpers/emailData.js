@@ -94,15 +94,109 @@ const { EMAIL} = process.env;
     };
 
   //Vendedor--vv
-  const emailOkOrderVendedor =(user, )=> {
-
+  const emailOkOrderVendedor = async (sellers, order, storeName) => {
+    // Obtén los nombres de los vendedores o el nombre del equipo de la tienda
+    
+    return {
+      from: `"Equipo de MarketZone" <${EMAIL}>`,
+      to: sellers.map((seller) => seller.email).join(','), //correos de vendedor/es
+      subject: "Nueva Orden Confirmada",
+      html: `
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Confirmación de Nueva Orden</title>
+        </head>
+        <body>
+            <p>Hola ${storeName},</p>
+            <p>Se ha confirmado una nueva orden en tu tienda. A continuación, te proporcionamos los detalles de la orden:</p>
+            
+            <table border="1">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th>Cantidad</th>
+                  <th>Precio Unitario</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${order.products.map((product) => `
+                  <tr>
+                    <td>${product.name}</td>
+                    <td>${product.quantity}</td>
+                    <td>${product.unit_price}</td>
+                    <td>${product.quantity * product.unit_price}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+  
+            <p>Total de la orden: $${order.totalPrice}</p>
+            <p>Método de pago: ${order.paymentMethod}</p>
+            <p>Fecha de transacción: ${order.transactionDate}</p>
+  
+            <p>Si tienes alguna pregunta o necesitas más información sobre esta orden, no dudes en contactarnos.</p>
+            
+            <p>Atentamente,<br>El equipo de MarketZone</p>
+        </body>
+        </html>
+      `,
+    };
   };
-
+  
   //En caso de compra NO exitosa
 
   //Comprador--VV
-  const emailFailedOrderComprador =()=> {
-
+  const emailRejectedOrderComprador =(user, products, order)=> {
+    return {
+      from: `"Equipo de MarketZone" <${EMAIL}>`,
+      to: user.email,
+      subject: "Venta Rechazada",
+      html: `
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Venta Rechazada</title>
+        </head>
+        <body>
+            <p>Hola <strong>${user.name}</strong>,</p>
+            <p>Lamentablemente, tu venta ha sido rechazada. A continuación, te proporcionamos los detalles de la venta:</p>
+            
+            <table border="1">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th>Cantidad</th>
+                  <th>Precio Unitario</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${products.map((product) => `
+                  <tr>
+                    <td>${product.name}</td>
+                    <td>${product.quantity}</td>
+                    <td>${product.unit_price}</td>
+                    <td>${product.quantity * product.unit_price}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+  
+            <p>Total de la venta: $${order.totalPrice}</p>
+            <p>Método de pago: ${order.paymentMethod}</p>
+            <p>Fecha de transacción: ${order.transactionDate}</p>
+  
+            <p>Lamentamos los inconvenientes causados. Si tienes alguna pregunta o necesitas más información, no dudes en contactarnos.</p>
+            
+            <p>Atentamente,<br>El equipo de MarketZone</p>
+        </body>
+        </html>
+      `,
+    };
   };
 
 
@@ -110,5 +204,6 @@ const { EMAIL} = process.env;
     emailRecovery,
     emailOkOrderComprador,
     emailOkOrderVendedor,
-    emailFailedOrderComprador
+    emailRejectedOrderComprador
   }
+  

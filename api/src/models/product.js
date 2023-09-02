@@ -14,6 +14,7 @@ const productSchema = new mongoose.Schema(
       },
     },
     color: String,
+    deleted: { type: Boolean, default: false }, 
   },
   { collection: 'products' }
 );

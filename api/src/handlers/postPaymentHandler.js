@@ -3,7 +3,14 @@ const { createPreference } = require('../controllers/paymentController');
 const { responseMaper } = require('../helpers/responseMaper');
 // const Product = require('../models/product');
 const { updateStock } = require('../controllers/productController');
-const { sendMail } =require('../controllers/emailController')
+const {
+  createOrder,
+  createSale,
+  sendConfirmationEmailBuyer,
+  sendConfirmationEmailSeller,
+  sendRejectedEmailBuyer
+
+} = request('../controllers/orderResponseController.js')
 const handleCreateOrder = async (req, res) => {
   try {
     // console.log(req.body);
@@ -90,15 +97,15 @@ const handleNotification = async (req, res) => {
       //========================
         console.log(merchantOrder)
         //Crear Order-----v
-        const order= createOrder(merchantOrder);
+        const order= await createOrder(merchantOrder);
         //Crear Sale-----v
-        createSale(merchantOrder);
+        await createSale(merchantOrder);
         //SendMail(comprador)---v
         if(order) {
-          sendConfirmationEmailBuyer(order);
+          await sendConfirmationEmailBuyer(order);
         //SendMail(vendedor)----v
-        sendConfirmationEmailSeller(order);
-      };
+        await sendConfirmationEmailSeller(order);
+      } else {throw Error("No se ha creado una Orden") }
      
     } else {
       console.log('\x1b[32m%s\x1b[0m', 'El pago NO se completo');
@@ -106,10 +113,12 @@ const handleNotification = async (req, res) => {
       // Notificacion
       //========================
         //crear Order-----v
-
+      const order= await createOrder(merchantOrder);
         //SendMail(comprador)----V
-
-    }
+if(order){
+  await sendRejectedEmailBuyer()
+}{throw Error("No se ha creado una Orden") };
+    };
 
     res.status(200).send();
   } catch (error) {
