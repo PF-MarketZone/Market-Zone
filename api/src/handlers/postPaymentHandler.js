@@ -9,7 +9,7 @@ const {
   sendConfirmationEmailBuyer,
   sendConfirmationEmailSeller,
   sendRejectedEmailBuyer,
-} = request('../controllers/orderResponseController.js');
+} = require('../controllers/orderResponseController.js');
 const handleCreateOrder = async (req, res) => {
   try {
     // console.log(req.body);
