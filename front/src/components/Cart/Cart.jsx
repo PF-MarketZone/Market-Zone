@@ -2,7 +2,11 @@ import { Wallet, initMercadoPago } from "@mercadopago/sdk-react";
 import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { aumentarCantidad, disminuirCantidad, eliminarDelCarrito,guardarProductosTemporales } from "../../redux/actions";
+import {
+  aumentarCantidad,
+  disminuirCantidad,
+  eliminarDelCarrito,
+} from "../../redux/actions";
 import styles from "./Cart.module.css";
 
 const Cart = () => {
@@ -61,7 +65,7 @@ const Cart = () => {
   const handleBuy = async () => {
     const id = await createPreference(cartItems);
     if (id) {
-      localStorage.setItem('tempCartItems', JSON.stringify(cartItems));
+      localStorage.setItem("tempCartItems", JSON.stringify(cartItems));
       setPreferenceId(id);
     }
   };
