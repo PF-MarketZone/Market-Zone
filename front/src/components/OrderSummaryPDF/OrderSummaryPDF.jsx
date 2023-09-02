@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
     textTransform: "uppercase",
-    marginTop:20
+    marginTop: 20,
   },
   itemName: {
     fontSize: 14,
@@ -50,20 +50,33 @@ const styles = StyleSheet.create({
   },
 });
 
-const OrderSummaryPDF = ({ cartItems, details, totalPrecio }) => {
-  const iva = 0.16; 
+const OrderSummaryItem = ({ item }) => (
+  <View key={item.id} style={styles.item}>
+    <Text style={styles.itemName}>{item.name}</Text>
+    <Text style={styles.itemQuantity}>{item.quantity}</Text>
+    {/* Remove the detail price here */}
+  </View>
+);
 
-  const subtotal = cartItems.reduce((subtotal, item) => {
-    const detail = details.find((d) => d.id === item.id);
-    if (detail && detail.price) {
-      return subtotal + detail.price * item.quantity;
-    }
-    return subtotal;
-  }, 0);
+const OrderSummaryPDF = ({ cartItems }) => {
+  const iva = 0.16;
+  const descuento = 0;
 
-  const descuento = 0; 
+  const cartItemsExist = Array.isArray(cartItems) && cartItems.length > 0;
+
+  const subtotal =
+    cartItemsExist
+      ? cartItems.reduce((total, item) => {
+          // Remove the detail price lookup here
+          return total + item.price * item.quantity; // Assuming each item has a price property
+        }, 0)
+      : 0;
 
   const totalDespuesImpuestos = (subtotal - descuento) * (1 + iva);
+
+  if (!cartItemsExist) {
+    return <div>Los datos de la compra no están disponibles.</div>;
+  }
 
   return (
     <Document>
@@ -77,18 +90,9 @@ const OrderSummaryPDF = ({ cartItems, details, totalPrecio }) => {
           <Text style={styles.itemTitle}>Precio Unitario</Text>
         </View>
         {/* Detalles de los productos */}
-        {cartItems.map((item) => {
-          const detail = details.find((d) => d.id === item.id);
-          return (
-            <View key={item.id} style={styles.item}>
-              <Text style={styles.itemName}>{item.name}</Text>
-              <Text style={styles.itemQuantity}>{item.quantity}</Text>
-              <Text style={styles.itemPrice}>
-                {detail && detail.price ? `$${detail.price}` : "N/A"}
-              </Text>
-            </View>
-          );
-        })}
+        {cartItems.map((item) => (
+          <OrderSummaryItem key={item.id} item={item} />
+        ))}
         {/* Subtotal */}
         <View style={styles.item}>
           <Text style={styles.total}>Subtotal:</Text>
@@ -120,4 +124,3 @@ const OrderSummaryPDF = ({ cartItems, details, totalPrecio }) => {
 };
 
 export default OrderSummaryPDF;
-
