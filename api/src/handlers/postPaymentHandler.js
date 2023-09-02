@@ -3,7 +3,13 @@ const { createPreference } = require('../controllers/paymentController');
 const { responseMaper } = require('../helpers/responseMaper');
 // const Product = require('../models/product');
 const { updateStock } = require('../controllers/productController');
-
+const {
+  createOrder,
+  createSale,
+  sendConfirmationEmailBuyer,
+  sendConfirmationEmailSeller,
+  sendRejectedEmailBuyer,
+} = request('../controllers/orderResponseController.js');
 const handleCreateOrder = async (req, res) => {
   try {
     // console.log(req.body);
@@ -39,12 +45,15 @@ const handleNotification = async (req, res) => {
     // console.log({ query });
     const topic = query.topic || query.type;
     // console.log({ topic });
+    var merchantOrder;
     switch (topic) {
       case 'payment':
         const paymentId = query.id || query['data.id'];
         // console.log(topic, 'payment obtenido', paymentId);
         const payment = await mercadopago.payment.findById(paymentId);
-        // console.log(payment.body.order);
+        console.log({ payment });
+        merchantOrder = payment;
+
         const { id } = payment.body.order;
         var { body } = await mercadopago.merchant_orders.findById(id);
         // console.log({ body });
@@ -85,8 +94,33 @@ const handleNotification = async (req, res) => {
       //=========================
       // Notificacion
       //========================
+      console.log(merchantOrder);
+      //Crear Order-----v
+      const order = await createOrder(merchantOrder);
+      //Crear Sale-----v
+      await createSale(merchantOrder);
+      //SendMail(comprador)---v
+      if (order) {
+        await sendConfirmationEmailBuyer(order);
+        //SendMail(vendedor)----v
+        await sendConfirmationEmailSeller(order);
+      } else {
+        throw Error('No se ha creado una Orden');
+      }
     } else {
       console.log('\x1b[32m%s\x1b[0m', 'El pago NO se completo');
+      //=========================
+      // Notificacion
+      //========================
+      //crear Order-----v
+      const order = await createOrder(merchantOrder);
+      //SendMail(comprador)----V
+      if (order) {
+        await sendRejectedEmailBuyer();
+      }
+      {
+        throw Error('No se ha creado una Orden');
+      }
     }
 
     res.status(200).send();
