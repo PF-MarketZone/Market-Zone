@@ -1,11 +1,18 @@
-// const { Router } = require('express');
-// const { createOrderLink } = require('../handlers/postPaymentHandler');
+const { Router } = require('express');
+const {
+  handleSuccess,
+  handlePending,
+  handleFailure,
+  handleCreateOrder,
+  handleNotification,
+} = require('../handlers/postPaymentHandler');
 
-// const mercadoPagoRouter = Router();
+const mercadoPagoRouter = Router();
 
-// mercadoPagoRouter.get('/create-order', createOrderLink);
-// mercadoPagoRouter.get('/sucsses');
-// mercadoPagoRouter.get('/pending');
-// mercadoPagoRouter.get('/failure');
+mercadoPagoRouter.post('/create-preference', handleCreateOrder);
+mercadoPagoRouter.get('/success', handleSuccess);
+mercadoPagoRouter.get('/pending', handlePending);
+mercadoPagoRouter.get('/failure', handleFailure);
+mercadoPagoRouter.post('/noification', handleNotification);
 
-// module.exports = mercadoPagoRouter;
+module.exports = mercadoPagoRouter;

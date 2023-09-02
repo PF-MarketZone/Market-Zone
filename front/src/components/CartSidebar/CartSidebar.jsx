@@ -1,16 +1,16 @@
-import React, { useRef, useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
-  eliminarDelCarrito,
   aumentarCantidad,
   disminuirCantidad,
+  eliminarDelCarrito,
 } from "../../redux/actions";
 import styles from "./CartSidebar.module.css";
-import { Link } from "react-router-dom";
 
 const CartSidebar = ({ onClose }) => {
   const cartItems = useSelector((state) => state.filters.cart);
-  const productDetails = useSelector((state) => state.product.details);
+  const productDetails = useSelector((state) => state.products.detail);
   const dispatch = useDispatch();
   const [isCartSidebarVisible, setCartSidebarVisible] = useState(true);
 
@@ -32,7 +32,6 @@ const CartSidebar = ({ onClose }) => {
   );
 
   const cartSidebarRef = useRef(null);
-  const prevCartItems = useRef(cartItems);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -70,14 +69,14 @@ const CartSidebar = ({ onClose }) => {
         <div className={styles.cartListContainer}>
           <ul className={styles.cartList}>
             {cartItems.map((item) => {
-              const detail = productDetails.find(
-                (product) => product._id === item._id
-              );
+              const productDetail = productDetails[item._id];
+              const imageUrl =
+                productDetail && productDetail.image && productDetail.image[0]
+                  ? productDetail.image[0].url
+                  : null;
               return (
                 <li key={item._id} className={styles.cartItem}>
-                  {detail && detail.image && detail.image[0] && (
-                    <img src={detail.image[0].url} alt={detail.name} />
-                  )}
+                  {imageUrl && <img src={imageUrl} alt={item.name} />}
                   <div>
                     <p>{item.name}</p>
                     <p>Precio: ${item.price}</p>

@@ -4,7 +4,7 @@ const storeRouter = require('./storeRouter');
 const productRouter = require('./productRouter');
 const userRouter = require('./userRouter');
 const authRouter = require('./authRouter');
-const { createPreference } = require('../controllers/paymentController');
+const mercadoPagoRouter = require('./mercadoPagoRouter');
 
 const router = Router();
 
@@ -17,6 +17,6 @@ router.use('/store', storeRouter);
 router.use('/product', productRouter);
 router.use('/user', userRouter);
 router.use('/auth', authRouter);
-router.post('/create-preference', createPreference);
+router.use('/create-order', mercadoPagoRouter);
 
 module.exports = router;

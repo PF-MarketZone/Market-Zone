@@ -1,4 +1,5 @@
 import axios from "axios";
+import { backendUrl } from "../../deployConfig";
 
 export const GET_PRODUCTS = "GET_PRODUCTS";
 export const GET_PRODUCT_BY_ID = "GET_PRODUCT_BY_ID";
@@ -6,7 +7,7 @@ export const ADD_PRODUCT = "ADD_PRODUCT";
 
 export const getProducts = () => {
     return function(dispatch){
-            fetch('http://localhost:3004/api/v1/product')
+            fetch(`${backendUrl}/product` )
             .then(res => res.json())
             .then(data => dispatch({
                 type: GET_PRODUCTS, 
@@ -15,26 +16,11 @@ export const getProducts = () => {
         )}
             
   };
-
-/* export const getProductById = (id) => {
-    return function (dispatch, getState) {
-      const state = getState(); // Obtener el estado actual
-      const productDetails = state.product.details?.find(detail => detail.id === parseInt(id));
-  
-      if (productDetails) {
-        dispatch({ type: GET_PRODUCT_BY_ID, payload: productDetails });
-      } else {
-        // Manejar el caso en que el producto no se encuentra en los detalles estáticos
-        console.error(`Producto con ID ${id} no encontrado.`);
-      }
-    };
-  }; */
-  
   // descomentar esto cuando se tenga la api ⇓ y comentar esto ⇑
   export const getProductById = (id) => {
     return async function (dispatch) {
       try {
-        const response = await axios.get(`http://localhost:3004/api/v1/product/${id}`);
+        const response = await axios.get(`https://market-zone-api-v1.onrender.com/api/v1/product/${id}`);
         const productDetails = response.data.data;
         console.log(productDetails);
         dispatch({ type: GET_PRODUCT_BY_ID, payload: productDetails });
@@ -45,7 +31,6 @@ export const getProducts = () => {
     };
   };
     
-
   export const postProducts = (payload) => {
     return async function (dispatch) {
       try {
@@ -62,7 +47,7 @@ export const getProducts = () => {
         }
   
         const response = await axios.post(
-          'http://localhost:3004/api/v1/product/createproduct',
+          'https://market-zone-api-v1.onrender.com/api/v1/createproduct',
           formData,
           {
             headers: {
@@ -76,5 +61,4 @@ export const getProducts = () => {
         throw error;
       }
     };
-  };
-  
+  };  

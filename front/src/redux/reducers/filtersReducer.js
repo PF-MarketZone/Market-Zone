@@ -3,22 +3,27 @@ import {
   SET_PRECIO_MIN_FILTRO,
   SET_PRECIO_MAX_FILTRO,
   SET_ORDEN_ALFABETICO,
+  SET_ORDEN_PRECIO,
   AGREGAR_AL_CARRITO,
   ELIMINAR_DEL_CARRITO,
   SET_INITIAL_CART,
   AUMENTAR_CANTIDAD,
   SET_COMPRA_EXITOSA,
   DISMINUIR_CANTIDAD,
+  GUARDAR_PRODUCTOS_TEMPORALES,
+  
 } from "../actions";
 
 const initialState = {
   cart: [],
+  tempCartItems: [],
   categoriasSeleccionadas: [],
   compraExitosa: false,
   categoria: "",
   precioMin: 0,
   precioMax: 500,
   ordenAlfabetico: "",
+  ordenPrecio: "",
 };
 
 const filtersReducer = (state = initialState, action) => {
@@ -82,7 +87,16 @@ const filtersReducer = (state = initialState, action) => {
         ...state,
         compraExitosa: action.payload,
       };
-
+    case GUARDAR_PRODUCTOS_TEMPORALES:
+      return {
+        ...state,
+        tempCartItems: action.payload,
+      };
+      case SET_ORDEN_PRECIO:
+      return {
+        ...state,
+        ordenPrecio: action.payload,
+      };
     default:
       return state;
   }
