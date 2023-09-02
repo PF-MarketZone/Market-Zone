@@ -1,4 +1,5 @@
 import axios from "axios";
+import { backendUrl } from "../../deployConfig";
 
 export const GET_PRODUCTS = "GET_PRODUCTS";
 export const GET_PRODUCT_BY_ID = "GET_PRODUCT_BY_ID";
@@ -6,7 +7,7 @@ export const ADD_PRODUCT = "ADD_PRODUCT";
 
 export const getProducts = () => {
     return function(dispatch){
-            fetch('https://market-zone-api-v1.onrender.com/api/v1/product')
+            fetch(`${backendUrl}/product` )
             .then(res => res.json())
             .then(data => dispatch({
                 type: GET_PRODUCTS, 
