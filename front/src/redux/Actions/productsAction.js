@@ -4,18 +4,24 @@ import {backendUrl} from '../../config.js';
 export const GET_PRODUCTS = "GET_PRODUCTS";
 export const GET_PRODUCT_BY_ID = "GET_PRODUCT_BY_ID";
 export const ADD_PRODUCT = "ADD_PRODUCT";
+export const DELETE_PRODUCT ="DELETE_PRODUCT"
 
 export const getProducts = () => {
-    return function(dispatch){
-            fetch(`${backendUrl}/product`)
-            .then(res => res.json())
-            .then(data => dispatch({
-                type: GET_PRODUCTS, 
-                payload: data 
-            })
-        )}
-            
+  return function(dispatch) {
+    fetch(`${backendUrl}/product`)
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({
+          type: GET_PRODUCTS,
+          payload: data,
+        });
+      })
+      .catch((error) => {
+        console.error("Error al recuperar datos:", error);
+      });
   };
+};
+
 
 /* export const getProductById = (id) => {
     return function (dispatch, getState) {
@@ -79,3 +85,19 @@ export const getProducts = () => {
     };
   };
   
+
+  export const deleteProducts = (id) => {
+    return async function(dispatch){
+      try{
+        const response = await axios.delete(`${backendUrl}/product/remove/${id}`)
+        dispatch({
+          type: DELETE_PRODUCT,
+          payload: id
+        })
+        return response.data
+      }catch(error){
+        console.log('No se puede eliminar el producto', error);
+        throw error;
+      }
+    }
+  }

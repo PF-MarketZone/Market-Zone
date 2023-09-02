@@ -1,6 +1,7 @@
 import { GET_PRODUCTS, 
     ADD_PRODUCT, 
-    GET_PRODUCT_BY_ID
+    GET_PRODUCT_BY_ID,
+    DELETE_PRODUCT
 } from '../Actions/productsAction';
 
 
@@ -26,6 +27,14 @@ const productsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 products: [...state.products, action.payload]
+            }
+        case DELETE_PRODUCT:
+            const updateProducts = state.products.filter((product) => {
+               return product.id !== action.payload
+            });
+            return{
+                ...state,
+                products: updateProducts
             }
         default:
             return{
