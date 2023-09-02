@@ -16,6 +16,7 @@ import {
   Div,
   DivPrincipal,
 } from "./LogInStyledComponent";
+import { backendUrl } from "../../deployConfig";
 
 const LogIn = () => {
   const [activeField, setActiveField] = useState(null);
@@ -45,7 +46,6 @@ const LogIn = () => {
     onSubmit: async (formData) => {
       try {
         console.log(formData);
-        // Aquí puedes realizar las acciones necesarias para enviar los datos al servidor
         const loginC = await dispatch(login(formData.email, formData.password));
         !loginC
           ? alert(`Error al iniciar sesión, usuario o contraseña incorrectos`)
@@ -65,7 +65,7 @@ const LogIn = () => {
   };
 
   const openGoogleAuth = () => {
-    window.location.href = "http://localhost:3004/api/v1/auth/google";
+    window.location.href = `${backendUrl}/auth/google`;
     console.log("precionaste el boton");
   };
 
@@ -111,7 +111,7 @@ const LogIn = () => {
           )}
         </StyledForm>
         <H3O>O</H3O>
-        {/* <Link to="http://localhost:3004/api/v1/auth/google"> */}
+
         <MyButton
           className="google-button"
           icon={<FcGoogle />}
@@ -120,7 +120,6 @@ const LogIn = () => {
           type="button"
           onClick={openGoogleAuth}
         ></MyButton>
-        {/* </Link> */}
       </DivPrincipal>
     </>
   );
