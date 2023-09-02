@@ -2,7 +2,7 @@ import { Wallet, initMercadoPago } from "@mercadopago/sdk-react";
 import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { aumentarCantidad, disminuirCantidad } from "../../redux/actions";
+import { aumentarCantidad, disminuirCantidad, eliminarDelCarrito } from "../../redux/actions";
 import styles from "./Cart.module.css";
 
 const Cart = () => {
