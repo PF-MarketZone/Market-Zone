@@ -1,25 +1,41 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import CardsProductos from "../../components/CardsProductos/CardsProductos";
 import {
   setCategoriaFiltro,
-  setPrecioMinFiltro,
-  setPrecioMaxFiltro,
   setOrdenAlfabetico,
+  setOrdenPrecio,
 } from "../../redux/actions";
 import styles from "./TiendaDetalle.module.css";
 
 const TiendaDetalle = () => {
   const { storeId } = useParams();
+  const navigate = useNavigate();
   const [productos, setProductos] = useState([]);
   const dispatch = useDispatch();
 
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [priceRange, setPriceRange] = useState([0, 1000]);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedOrder, setSelectedOrder] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(
+    localStorage.getItem("selectedCategory") || ""
+  );
+  const [searchQuery, setSearchQuery] = useState(
+    localStorage.getItem("searchQuery") || ""
+  );
+  const [selectedOrder, setSelectedOrder] = useState(
+    localStorage.getItem("selectedOrder") || ""
+  );
+  const [selectedPriceOrder, setSelectedPriceOrder] = useState(
+    localStorage.getItem("selectedPriceOrder") || ""
+  );
+
+  useEffect(() => {
+    // Guardar los valores de los filtros en el estado local
+    localStorage.setItem("selectedCategory", selectedCategory);
+    localStorage.setItem("searchQuery", searchQuery);
+    localStorage.setItem("selectedOrder", selectedOrder);
+    localStorage.setItem("selectedPriceOrder", selectedPriceOrder);
+  }, [selectedCategory, searchQuery, selectedOrder, selectedPriceOrder]);
 
   useEffect(() => {
     axios
@@ -41,9 +57,8 @@ const TiendaDetalle = () => {
   }, [selectedCategory]);
 
   useEffect(() => {
-    dispatch(setPrecioMinFiltro(priceRange[0]));
-    dispatch(setPrecioMaxFiltro(priceRange[1]));
-  }, [priceRange]);
+    dispatch(setOrdenPrecio(selectedPriceOrder));
+  }, [selectedPriceOrder]);
 
   useEffect(() => {
     dispatch(setOrdenAlfabetico(selectedOrder));
@@ -53,22 +68,13 @@ const TiendaDetalle = () => {
     setSelectedCategory(e.target.value);
   };
 
-  const handlePriceChange = (values) => {
-    setPriceRange(values);
-  };
-
   const handleOrderChange = (e) => {
     setSelectedOrder(e.target.value);
   };
 
-  const minPriceValue = productos.reduce(
-    (min, producto) => Math.min(min, producto.price),
-    Infinity
-  );
-  const maxPriceValue = productos.reduce(
-    (max, producto) => Math.max(max, producto.price),
-    0
-  );
+  const handlePriceOrderChange = (e) => {
+    setSelectedPriceOrder(e.target.value);
+  };
 
   const obtenerCategoriasUnicas = () => {
     const allCategories = productos.reduce((categories, producto) => {
@@ -79,14 +85,11 @@ const TiendaDetalle = () => {
 
   const categoriasUnicas = obtenerCategoriasUnicas();
 
+  // Filtrar productos por categoría, precio y búsqueda
   const filteredProductos = productos
     .filter(
       (producto) =>
         !selectedCategory || producto.categories.category === selectedCategory
-    )
-    .filter(
-      (producto) =>
-        producto.price >= priceRange[0] && producto.price <= priceRange[1]
     )
     .filter(
       (producto) =>
@@ -101,13 +104,23 @@ const TiendaDetalle = () => {
       } else {
         return 0;
       }
+    })
+    .sort((a, b) => {
+      if (selectedPriceOrder === "asc") {
+        return a.price - b.price;
+      } else if (selectedPriceOrder === "desc") {
+        return b.price - a.price;
+      } else {
+        return 0;
+      }
     });
 
   return (
     <div className={styles.tiendaDetalleContainer}>
       <div className={styles.filtrosContainer}>
         <h2>Filtros</h2>
-        <select value={selectedCategory._id} onChange={handleCategoryChange}>
+        <label>Categoría:</label>
+        <select value={selectedCategory} onChange={handleCategoryChange}>
           <option value="">Todas las categorías</option>
           {categoriasUnicas.map((category) => (
             <option key={category} value={category}>
@@ -115,23 +128,19 @@ const TiendaDetalle = () => {
             </option>
           ))}
         </select>
+        <label>Ordenar por Nombre:</label>
         <select value={selectedOrder} onChange={handleOrderChange}>
           <option value="">Sin Orden</option>
           <option value="asc">A-Z</option>
           <option value="desc">Z-A</option>
         </select>
         <div className={styles.precioFiltro}>
-          <label>Rango de Precio</label>
-          <input
-            type="range"
-            min={minPriceValue}
-            max={maxPriceValue}
-            value={priceRange[1]}
-            onChange={(e) =>
-              handlePriceChange([priceRange[0], parseInt(e.target.value) + 2])
-            }
-          />
-          <p>Precio: ${priceRange[1]}</p>
+          <label>Ordenar por Precio:</label>
+          <select value={selectedPriceOrder} onChange={handlePriceOrderChange}>
+            <option value="">Sin Orden</option>
+            <option value="asc">De menor precio a mayor precio</option>
+            <option value="desc">De mayor precio a menor precio</option>
+          </select>
         </div>
       </div>
 

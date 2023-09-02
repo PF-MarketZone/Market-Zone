@@ -17,7 +17,7 @@ const createPreference = async (req) => {
     })),
     notification_url: `https://b369-190-176-84-112.ngrok.io/api/v1/create-order/noification/`,
     back_urls: {
-      success: 'http://localhost:3004/api/v1/create-order/success', // crear componente para compra exitosa
+      success: 'http://localhost:5173/thankyou', // crear componente para compra exitosa (componente del front, para mas estilo)
       failure: 'http://localhost:5173/cart',
       pending: 'http://localhost:5173/cart',
     },
