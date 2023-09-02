@@ -10,7 +10,7 @@ import styles from "./CartSidebar.module.css";
 
 const CartSidebar = ({ onClose }) => {
   const cartItems = useSelector((state) => state.filters.cart);
-  const productDetails = useSelector((state) => state.products.details);
+  const productDetails = useSelector((state) => state.products.detail);
   const dispatch = useDispatch();
   const [isCartSidebarVisible, setCartSidebarVisible] = useState(true);
 
@@ -32,7 +32,6 @@ const CartSidebar = ({ onClose }) => {
   );
 
   const cartSidebarRef = useRef(null);
-  const prevCartItems = useRef(cartItems);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -70,14 +69,14 @@ const CartSidebar = ({ onClose }) => {
         <div className={styles.cartListContainer}>
           <ul className={styles.cartList}>
             {cartItems.map((item) => {
-              const detail = productDetails.find(
-                (product) => product._id === item._id
-              );
+              const productDetail = productDetails[item._id];
+              const imageUrl =
+                productDetail && productDetail.image && productDetail.image[0]
+                  ? productDetail.image[0].url
+                  : null;
               return (
                 <li key={item._id} className={styles.cartItem}>
-                  {detail && detail.image && detail.image[0] && (
-                    <img src={detail.image[0].url} alt={detail.name} />
-                  )}
+                  {imageUrl && <img src={imageUrl} alt={item.name} />}
                   <div>
                     <p>{item.name}</p>
                     <p>Precio: ${item.price}</p>
