@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { backendUrl } from '../../deployConfig';
 
 // Definición de acciones
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -33,10 +34,10 @@ export const login = (email, password) => {
   return async (dispatch) => {
     try {
       // Realizar la solicitud POST con el correo y la contraseña
-      const response = await axios.post(
-        'http://localhost:3004/api/v1/auth/singin',
-        { email, password }
-      );
+      const response = await axios.post(`${backendUrl}/auth/singin`, {
+        email,
+        password,
+      });
 
       // Extraer los datos del usuario y el token de la respuesta
       const user = response.data;
@@ -106,7 +107,7 @@ export const logoutFn = (head) => {
   return async (dispatch) => {
     try {
       const response = await axios({
-        url: 'http://localhost:3004/api/v1/user/singout',
+        url: `${backendUrl}/user/singout`,
         method: 'post',
         headers: {
           Authorization: head.Authorization,
@@ -129,7 +130,7 @@ export const refreshAccessToken = (refreshtkn) => {
   return async (dispatch) => {
     try {
       const response = await axios({
-        url: 'http://localhost:3004/api/v1/auth/refresh-tkn',
+        url: `${backendUrl}/auth/refresh-tkn`,
         method: 'post',
         headers: {
           'refresh-token': refreshtkn,
