@@ -1,12 +1,13 @@
-import axios from "axios";
+import axios from 'axios';
+import { backendUrl } from '../../deployConfig';
 
-export const GET_PRODUCTS = "GET_PRODUCTS";
-export const GET_PRODUCT_BY_ID = "GET_PRODUCT_BY_ID";
-export const ADD_PRODUCT = "ADD_PRODUCT";
+export const GET_PRODUCTS = 'GET_PRODUCTS';
+export const GET_PRODUCT_BY_ID = 'GET_PRODUCT_BY_ID';
+export const ADD_PRODUCT = 'ADD_PRODUCT';
 
 export const getProducts = () => {
   return function (dispatch) {
-    fetch("https://market-zone-api-v1.onrender.com/api/v1/product")
+    fetch(`${backendUrl}/product`)
       .then((res) => res.json())
       .then((data) =>
         dispatch({
@@ -28,7 +29,7 @@ export const getProductById = (id) => {
       dispatch({ type: GET_PRODUCT_BY_ID, payload: productDetails });
     } catch (error) {
       // Manejar el error en caso de que la llamada a la API falle
-      console.error("Error al obtener detalles del producto:", error);
+      console.error('Error al obtener detalles del producto:', error);
     }
   };
 };
@@ -39,9 +40,9 @@ export const postProducts = (payload) => {
       const formData = new FormData();
 
       for (const key in payload) {
-        if (key === "image") {
+        if (key === 'image') {
           payload[key].forEach((image) => {
-            formData.append("image", image);
+            formData.append('image', image);
           });
         } else {
           formData.append(key, payload[key]);
@@ -49,17 +50,17 @@ export const postProducts = (payload) => {
       }
 
       const response = await axios.post(
-        "https://market-zone-api-v1.onrender.com/api/v1/createproduct",
+        'https://market-zone-api-v1.onrender.com/api/v1/createproduct',
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            'Content-Type': 'multipart/form-data',
           },
         }
       );
       return response.data;
     } catch (error) {
-      console.log("El Producto no ha sido creado");
+      console.log('El Producto no ha sido creado');
       throw error;
     }
   };
