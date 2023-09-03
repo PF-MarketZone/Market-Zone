@@ -1,39 +1,33 @@
 
-const createReview = async (userId, productId, transactionId, rating, title, description) => {
-  // Verifica si el usuario ha realizado una compra para el producto
-  const hasPurchased = await checkPurchase(userId, productId, transactionId);
+const Order = require('../models/order')
+const Review = require('../models/reviews')
 
-  if (!hasPurchased) {
-    throw new Error("El usuario no ha comprado este producto.");
+ const createReview=  async(userId, productId, rating, title, description)=> {
+  try {
+  //Valido que le user tenga una order hecha con su id al mismo product( segun id)
+    const order = await Order.findOne({ user: userId, products: productId, transactionStatus: 'success'});
+
+    //si no es asi lanzo eerror
+    if (!order) {
+      throw new Error("El usuario no ha comprado este producto");
+    }
+//si coincide ocn una order entonces puede hacer review post
+    const review = new Review({
+      user: userId,
+      product: productId,
+      rating: rating,
+      title: title,
+      description: description
+    });
+    await review.save();
+
+  return review; 
+  } catch (error) {
+    throw error;
   }
+}
 
-  // Verifica si el usuario ya ha dejado una reseña previa para el producto
-  const existingReview = await Review.findOne({ user: userId, product: productId });
+    
 
-  if (existingReview) {
-    // Puedes permitir que el usuario actualice su reseña existente aquí
-    existingReview.rating = rating;
-    existingReview.title = title;
-    existingReview.description = description;
-    await existingReview.save();
-    return existingReview;
-  }
-
-  // Si no existe una reseña previa, crea una nueva reseña
-  const newReview = new Review({
-    user: userId,
-    product: productId,
-    transaction: transactionId,
-    rating: rating,
-    title: title,
-    description: description
-  });
-
-  await newReview.save();
-  return newReview;
-};
-
-
-
-
-module.exports = {createReviewsHandler};
+  
+module.exports = {createReview};

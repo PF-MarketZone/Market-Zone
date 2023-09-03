@@ -2,15 +2,17 @@ const { Router } = require('express');
 //importo los controller:
 const {
     getReviewsHandler,
-    getReviewsByIdHandler
+    getReviewsByIdHandler,
+    getReviewsByIProductHandler
 } = require('../handlers/getReviewsHandler');
-const { createReviewsHandler } = require('../handlers/postReviewsHandler');
+const { createReview } = require('../handlers/postReviewsHandler');
 
 const reviewRouter = Router();
 
 reviewRouter.get('/', getReviewsHandler);
 reviewRouter.get('/:id', getReviewsByIdHandler);
-reviewRouter.post('/create', createReviewsHandler);
+reviewRouter.get('/:product', getReviewsByIProductHandler);
+reviewRouter.post('/create', createReview);
 
 
 
