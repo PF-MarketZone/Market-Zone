@@ -9,7 +9,9 @@ const singOut = async (req, res, next) => {
 
     await revokedTokens.save();
 
-    res.status(200).json({ message: `Sesión cerrada exitosamente`, closed: true });
+    res
+      .status(200)
+      .json({ message: `Sesión cerrada exitosamente`, closed: true });
   } catch (error) {
     next(error);
   }

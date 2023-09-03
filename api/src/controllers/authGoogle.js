@@ -1,7 +1,7 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const Roles = require('../models/Roles.js');
-const { JWT_SECRET, JWT_REFRESH } = process.env;
+const { JWT_SECRET, JWT_REFRESH, DOMAIN_NAME_FRONT } = process.env;
 
 const singInGoogle = async (req, res, next) => {
   try {
@@ -25,7 +25,7 @@ const singInGoogle = async (req, res, next) => {
     };
 
     res.redirect(
-      `http://localhost:5173/login/success?session=${JSON.stringify(
+      `${DOMAIN_NAME_FRONT}/login/success?session=${JSON.stringify(
         userSession
       )}`
     );

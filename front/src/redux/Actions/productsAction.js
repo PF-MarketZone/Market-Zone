@@ -1,10 +1,12 @@
 import axios from "axios";
+import { backendUrl } from "../../deployConfig";
 
 export const GET_PRODUCTS = "GET_PRODUCTS";
 export const GET_PRODUCT_BY_ID = "GET_PRODUCT_BY_ID";
 export const ADD_PRODUCT = "ADD_PRODUCT";
 
 export const getProducts = () => {
+<<<<<<< HEAD
   return function (dispatch) {
     fetch("https://market-zone-api-v1.onrender.com/api/v1/product")
       .then((res) => res.json())
@@ -14,6 +16,17 @@ export const getProducts = () => {
           payload: data,
         })
       );
+=======
+    return function(dispatch){
+            fetch(`${backendUrl}/product` )
+            .then(res => res.json())
+            .then(data => dispatch({
+                type: GET_PRODUCTS, 
+                payload: data 
+            })
+        )}
+            
+>>>>>>> 69721458cf2f59b835f738e58f0f916ade3a2b54
   };
 };
 // descomentar esto cuando se tenga la api ⇓ y comentar esto ⇑
