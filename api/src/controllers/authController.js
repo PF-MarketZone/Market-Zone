@@ -54,6 +54,7 @@ const recoveryPassword = async (email) => {
     throw boom.unauthorized('Usuario no encontrado');
   }
   const payload = { sub: userFound['_id'] };
+
   const token = jwt.sign(payload, JWT_SECRET_RECOVERY, { expiresIn: '15min' }); // generar un nuevo jwtsecret para recuperar pass
   const link = `${DOMAIN_NAME}/recovery?token=${token}`;
   await userUpdate(userFound._id, { recoveryToken: token });
@@ -91,6 +92,7 @@ const recoveryPassword = async (email) => {
     `, // html body
   };
   const infoMail = await sendMail(emailData);
+
   return infoMail;
 };
 
