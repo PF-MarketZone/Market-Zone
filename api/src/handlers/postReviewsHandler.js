@@ -1,13 +1,13 @@
 
 const Order = require('../models/order')
 const Review = require('../models/reviews');
-const mongoose = require('mongoose');
+
 
 
  const createReview=  async(req, res, next) => {
   try {
     const { user }=req.query
-    const {products, rating, title, description } = req.body;
+    const { products, rating, title, description } = req.body;
   //Valido que le user tenga una order hecha con su id al mismo product( segun id)
  
 console.log("ID de usuario ",user);
@@ -50,4 +50,4 @@ console.log("ID de usuario ",user);
     
 
   
-module.exports = {createReview};
+module.exports = { createReview };
