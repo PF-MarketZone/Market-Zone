@@ -1,10 +1,11 @@
 import {
-    LOGIN_SUCCESS,
-    LOGIN_FAILURE,
-    LOGOUT,
-} from "../Actions/authAction"
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
+  LOGOUT,
+  ACTIVE_SESSION,
+} from '../Actions/authAction';
 
-const isAuthenticatedStored = sessionStorage.getItem('isAuthenticated') === 'true';
+const isAuthenticatedStored = !!sessionStorage.getItem('session-mz');
 
 const initialState = {
   user: null,
@@ -19,22 +20,31 @@ const authReducer = (state = initialState, action) => {
         user: action.payload,
         isAuthenticated: true,
       };
+
     case LOGIN_FAILURE:
+      return {
+        ...state,
+        user: null,
+        isAuthenticated: false,
+      };
+
     case LOGOUT:
       return {
         ...state,
         user: null,
         isAuthenticated: false,
       };
+
+    case ACTIVE_SESSION:
+      return {
+        ...state,
+        user: action.payload.user,
+        isAuthenticated: action.payload.auth,
+      };
+
     default:
       return state;
   }
 };
 
 export default authReducer;
-
-
-
-
-
-
