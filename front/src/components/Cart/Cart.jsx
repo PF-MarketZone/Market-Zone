@@ -2,8 +2,13 @@ import { Wallet, initMercadoPago } from "@mercadopago/sdk-react";
 import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { aumentarCantidad, disminuirCantidad, eliminarDelCarrito } from "../../redux/actions";
+import {
+  aumentarCantidad,
+  disminuirCantidad,
+  eliminarDelCarrito,
+} from "../../redux/actions";
 import styles from "./Cart.module.css";
+import { BsTrash } from "react-icons/bs";
 
 const Cart = () => {
   const [preferenceId, setPreferenceId] = useState(null);
@@ -60,7 +65,7 @@ const Cart = () => {
   const handleBuy = async () => {
     const id = await createPreference(cartItems);
     if (id) {
-      localStorage.setItem('tempCartItems', JSON.stringify(cartItems));
+      localStorage.setItem("tempCartItems", JSON.stringify(cartItems));
       setPreferenceId(id);
     }
   };
@@ -106,7 +111,7 @@ const Cart = () => {
                     className={styles["cart-item-delete"]}
                     onClick={() => eliminarProducto(item._id)}
                   >
-                    Eliminar
+                    <BsTrash />
                   </button>
                 </div>
               </li>

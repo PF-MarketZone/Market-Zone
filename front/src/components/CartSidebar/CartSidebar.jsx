@@ -7,6 +7,7 @@ import {
   eliminarDelCarrito,
 } from "../../redux/actions";
 import styles from "./CartSidebar.module.css";
+import { BsTrash } from "react-icons/bs";
 
 const CartSidebar = ({ onClose }) => {
   const cartItems = useSelector((state) => state.filters.cart);
@@ -94,7 +95,7 @@ const CartSidebar = ({ onClose }) => {
                     className={styles["cart-item-button"]}
                     onClick={() => eliminarProducto(item._id)}
                   >
-                    Eliminar
+                    <BsTrash />
                   </button>
                 </div>
               </li>
