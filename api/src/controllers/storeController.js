@@ -18,6 +18,7 @@ const storeByName = async (name) => {
   const store = await Store.findOne({ name: name });
   return store;
 };
+
 //=================================================================
 // Busca todas las tiendas que coincidan con el id recibido
 //=================================================================
@@ -26,12 +27,15 @@ const storeById = async (id) => {
   // Solicitamos la info de la tienda con el "id" pasado por parametro
   console.log('llegando al controller byid');
   const storeById = await Store.findById(id);
-  console.log(storeById)
+  console.log(storeById);
   return storeById;
-
 };
 
-const storeCreate = async ( user, name, logo, image, description) => {
+//=================================================================
+// Crea una Tienda
+//=================================================================
+
+const storeCreate = async (user, name, logo, image, description) => {
   console.log(name);
 
   // Creamos una tienda nuevo con los parametros recibidos
@@ -40,7 +44,7 @@ const storeCreate = async ( user, name, logo, image, description) => {
     name: name,
     logo: logo,
     image: image,
-    description: description
+    description: description,
   });
   await newStore.save();
 };

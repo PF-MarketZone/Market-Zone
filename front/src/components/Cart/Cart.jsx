@@ -42,8 +42,9 @@ const Cart = () => {
   const createPreference = async (cartItems) => {
     try {
       const items = cartItems.map((item) => {
+        // console.log(item._id);
         return {
-          id: item.id,
+          id: item._id,
           title: item.name,
           unit_price: parseInt(item.price),
           quantity: item.quantity,
