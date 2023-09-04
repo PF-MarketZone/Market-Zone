@@ -20,8 +20,8 @@ const modifyUserById = async (
   address,
   shippingAddress
 ) => {
+  // console.log({ userFinded });
   const userFinded = await Users.findById(_id);
-  console.log({ userFinded });
   if (name) {
     userFinded.name = name;
   }
@@ -41,8 +41,8 @@ const modifyUserById = async (
     userFinded.shippingAddress = shippingAddress;
   }
 
-  await orderFinded.save();
-  console.log(orderFinded);
+  await userFinded.save();
+  // console.log(userFinded);
 };
 
 module.exports = {

@@ -13,6 +13,6 @@ userRouter.post('/singup', singUp);
 
 userRouter.post('/singout', singOut);
 
-userRouter.put('/modify', updateUserHandler);
+userRouter.post('/modify', updateUserHandler);
 
 module.exports = userRouter;
