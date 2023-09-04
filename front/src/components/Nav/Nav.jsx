@@ -1,15 +1,17 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Link,useLocation  } from "react-router-dom";
+import { useState, useRef, useEffect } from "react";
+import { Link,useLocation } from "react-router-dom";
 import styles from "./Nav.module.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CartSidebar from "../CartSidebar/CartSidebar";
 import Logo from "../../images/Logo.png";
 import { AiOutlineLogin, AiOutlineLogout } from "react-icons/ai";
-import { FaShoppingCart } from "react-icons/fa";
+import { logoutFn } from "../../redux/Actions/authAction";
+import { FaShoppingCart } from "react-icons/fa"
 
 const Nav = () => {
+  const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.filters.cart);
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
   const [isCartSidebarVisible, setCartSidebarVisible] = useState(false);
   const location = useLocation();
 
@@ -33,13 +35,15 @@ const Nav = () => {
     };
   }, []);
 
-  const handleLogout = () => {
-    // Realiza las acciones necesarias para cerrar la sesión
-    // Por ejemplo, eliminar tokens, limpiar el sessionStorage, etc.
-    // Luego redirige a la página de inicio de sesión
-    // dispatch(logout()); // Llama a la acción de logout en tu authActions
-    // sessionStorage.clear(); // Limpia el sessionStorage
-    // history.push("/login");
+  const handleLogout = async () => {
+    const header = {
+      Authorization: `Bearer ${user.token}`,
+      "refresh-token": user.refreshToken,
+    };
+
+    const result = await dispatch(logoutFn(header));
+
+    result ? sessionStorage.clear("session-mz") : null;
   };
 
   return (
@@ -85,7 +89,10 @@ const Nav = () => {
         {isAuthenticated ? (
           // Mostrar botón de Perfil si está autenticado
           <Link to="/home" style={{ textDecoration: "none", color: "inherit" }}>
-            <AiOutlineLogout style={{ width: "10vh", height: "5vh" }} />
+            <AiOutlineLogout
+              onClick={handleLogout}
+              style={{ width: "10vh", height: "5vh" }}
+            />
           </Link>
         ) : (
           <Link

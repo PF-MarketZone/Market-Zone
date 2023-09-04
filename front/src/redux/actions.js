@@ -38,7 +38,7 @@ export const setOrdenAlfabetico = (orden) => ({
 export const agregarAlCarrito = (producto) => {
   return (dispatch, getState) => {
     dispatch({ type: AGREGAR_AL_CARRITO, payload: producto });
-    
+
     const state = getState();
     const carrito = state.filters.cart;
     localStorage.setItem('carrito', JSON.stringify(carrito));

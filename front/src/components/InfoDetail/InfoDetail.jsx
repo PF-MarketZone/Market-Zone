@@ -120,7 +120,7 @@ const InfoD = (props) => {
         <LineaDelgada />
         <div>
           <ButtonAddToCart onClick={agregarAlCarritoClick}>
-            Agregar al Carrrito
+            Agregar al Carrito
           </ButtonAddToCart>
           <ButtonFavorito>
             {<FontAwesomeIcon icon={faHeart} style={{ color: "white" }} />}
