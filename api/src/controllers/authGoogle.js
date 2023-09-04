@@ -10,6 +10,8 @@ const singInGoogle = async (req, res, next) => {
     const roles = await Roles.find({ _id: { $in: user.role } });
     const rolesName = roles.map((rol) => rol.name);
 
+    user['_doc']['role'] = rolesName;
+
     const payload = {
       sub: user['_id'],
       role: rolesName,
