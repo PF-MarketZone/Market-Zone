@@ -14,13 +14,14 @@ import Cart from "./components/Cart/Cart";
 import { useDispatch, useSelector } from "react-redux";
 import LogInSignUp from "./View/LogInSignUp/LogInSignUp";
 import ThankYouPage from "./components/ThankyouPage/ThankyouPage";
+import SearchBar from "./components/searchBar/searchBar";
 import { setCompraExitosa} from "../src/redux/actions";
 // import { GoogleOAuthProvider} from '@react-oauth/google';
 
 
 function App() {
   const location = useLocation();
-  const [categoriaFiltrada, setCategoriaFiltrada] = useState();
+  const [nombreTiendaFiltrado, setNombreTiendaFiltrado] = useState("");
   const [isCartSidebarVisible, setCartSidebarVisible] = useState(false);
   const cartItems = useSelector((state) => state.filters.cart);
 
@@ -30,9 +31,10 @@ function App() {
   };
 
   
-  const handleSearch = (categoria) => {
-    setCategoriaFiltrada(categoria);
+  const handleSearch = (nombreTienda) => {
+    setNombreTiendaFiltrado(nombreTienda);
   };
+  
 
   const dispatch = useDispatch();
 
@@ -73,7 +75,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/home" element={<Home categoriaFiltrada={categoriaFiltrada} />}/>
+          <Route path="/home" element={<Home nombreTiendaFiltrado={nombreTiendaFiltrado} />}/>
           <Route path="/login" element={<LogInSignUp />} />
           {/* <Route path="/login/success" element={<LogInSuccess />} /> */}
           <Route path="/dashboard" element={<Dashboard />} />
@@ -89,6 +91,7 @@ function App() {
       </div>
       {isCartSidebarVisible && <CartSidebar />}
       {/* </GoogleOAuthProvider> */}
+
     </>
   );
 }

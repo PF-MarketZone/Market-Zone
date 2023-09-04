@@ -2,7 +2,7 @@ import { Wallet, initMercadoPago } from "@mercadopago/sdk-react";
 import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { aumentarCantidad, disminuirCantidad, eliminarDelCarrito,guardarProductosTemporales } from "../../redux/actions";
+import { aumentarCantidad, disminuirCantidad, eliminarDelCarrito } from "../../redux/actions";
 import styles from "./Cart.module.css";
 
 const Cart = () => {
@@ -90,14 +90,14 @@ const Cart = () => {
                   <div className={styles["cart-item-quantity"]}>
                     <button
                       className={styles["quantity-button"]}
-                      onClick={() => handleDisminuirCantidad(item.id)}
+                      onClick={() => handleDisminuirCantidad(item._id)}
                     >
                       -
                     </button>
                     <span>{item.quantity}</span>
                     <button
                       className={styles["quantity-button"]}
-                      onClick={() => handleAumentarCantidad(item.id)}
+                      onClick={() => handleAumentarCantidad(item._id)}
                     >
                       +
                     </button>
