@@ -31,13 +31,9 @@ const Detail = (props) => {
   const [reviewsData, setReviewsData] = useState(false);
 
   useEffect(() => {
-    try {
-      axios(`${backendUrl}/reviews?productId=${detailId}`).then((response) =>
-        setReviewsData(response.data)
-      );
-    } catch (error) {
-      setReviewsData(false);
-    }
+    axios(`${backendUrl}/reviews?productId=${detailId}`)
+      .then((response) => setReviewsData(response.data))
+      .catch(setReviewsData(false));
   }, []);
 
   return (

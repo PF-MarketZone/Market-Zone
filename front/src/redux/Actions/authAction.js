@@ -96,9 +96,12 @@ export const sessionActive = () => {
         const userObject = JSON.parse(user);
         dispatch(activeSession({ user: userObject, auth: true }));
         return { user: userObject, auth: true };
+      } else {
+        return { user: null, auth: false };
       }
     } catch (error) {
       console.log(error);
+      return { user: null, auth: false };
     }
   };
 };

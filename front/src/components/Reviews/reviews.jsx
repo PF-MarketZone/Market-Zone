@@ -21,26 +21,26 @@ const Reviews = ({ reviews, idProduct }) => {
   const { user, isAuthenticated } = dispatch(sessionActive());
 
   useEffect(() => {
-    const reviewStatus = async () => {
+    const reviewStatus = async (auth) => {
       try {
-        const response =
-          isAuthenticated &&
-          (await axios.get(`${backendUrl}/reviews/validation`, {
-            params: {
-              userId: user.user["_id"],
-              productId: idProduct,
-            },
-          }));
+        const response = auth
+          ? await axios.get(`${backendUrl}/reviews/validation`, {
+              params: {
+                userId: user.user["_id"],
+                productId: idProduct,
+              },
+            })
+          : false;
 
-        const responseData = response.data;
+        const responseData = response && response.data;
 
         setStatus(responseData);
       } catch (error) {
-        console.error("Error al obtener el estado:", error);
+        console.log("Error al obtener el estado:", error);
       }
     };
 
-    reviewStatus();
+    reviewStatus(isAuthenticated);
   }, []);
 
   return (
