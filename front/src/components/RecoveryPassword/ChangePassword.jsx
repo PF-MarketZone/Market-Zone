@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { StyledForm, Input, P, H3, H5, Div, DivPrincipalReset } from "../LogIn/LogInStyledComponent";
+import { StyledForm, Input, P, H3, H5, Div, DivPrincipal } from "../LogIn/LogInStyledComponent"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -50,7 +50,7 @@ console.log(response)
   };
 
   return (
-    <DivPrincipalReset>
+    <DivPrincipal>
       <StyledForm>
         <H3>Restablecer Contraseña</H3>
         {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
@@ -72,7 +72,7 @@ console.log(response)
         <button type="button" onClick={handlePasswordChange}>Cambiar contraseña</button>
         <ToastContainer />
       </StyledForm>
-    </DivPrincipalReset>
+    </DivPrincipal>
   );
 };
 
