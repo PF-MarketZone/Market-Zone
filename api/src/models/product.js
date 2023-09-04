@@ -20,8 +20,9 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
     color: String,
-    deleted: Boolean,
+    deleted: { type: Boolean, default: false },
   },
+
   { collection: 'products' }
 );
 

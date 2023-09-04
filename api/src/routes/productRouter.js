@@ -9,7 +9,7 @@ const {
   updateProductHandler,
   updateStockProductHandler,
 } = require('../handlers/postProductHandler');
-const { putDeletedHandler} =require('../handlers/putProductHandler')
+const { putDeletedHandler } = require('../handlers/putProductHandler');
 const passport = require('passport');
 // const { checkRoles } = require('../middlewares/checkSellerRole');
 // const { verifyToken } = require('../middlewares/verifyToken');
@@ -28,7 +28,7 @@ productRouter.post(
   createProductHandler
 );
 productRouter.post('/update', updateProductHandler);
-productRouter.put('/:id', putDeletedHandler );
+productRouter.put('/:id', putDeletedHandler);
 
 productRouter.put('/update-stock', updateStockProductHandler);
 

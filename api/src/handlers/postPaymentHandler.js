@@ -42,7 +42,7 @@ const handleNotification = async (req, res) => {
   try {
     const { query } = req;
     // const { params } = req;
-    // console.log({ query });
+    // console.log({ params });
     const topic = query.topic || query.type;
     // console.log({ topic });
     var merchantOrder;
@@ -51,7 +51,7 @@ const handleNotification = async (req, res) => {
         const paymentId = query.id || query['data.id'];
         // console.log(topic, 'payment obtenido', paymentId);
         const payment = await mercadopago.payment.findById(paymentId);
-        console.log({ payment });
+        // console.log({ payment });
         merchantOrder = payment;
 
         const { id } = payment.body.order;
@@ -94,7 +94,7 @@ const handleNotification = async (req, res) => {
       //=========================
       // Notificacion
       //========================
-      console.log(merchantOrder);
+      // console.log(merchantOrder);
       //Crear Order-----v
       const order = await createOrder(merchantOrder);
       //Crear Sale-----v
