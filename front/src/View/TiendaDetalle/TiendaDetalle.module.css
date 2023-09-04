@@ -33,11 +33,7 @@
 }
 
 .precioFiltro {
-  margin-top: 20px;
-}
-
-.precioFiltro input[type="range"] {
-  width: 100%;
+  margin-top: 5px;
 }
 
 .precioFiltro p {

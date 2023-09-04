@@ -65,7 +65,7 @@ const Nav = () => {
           {location.pathname !== "/home" && (
             // Mostrar el botón del carrito solo en páginas distintas de /home
             <button className={styles.button2} onClick={toggleCartSidebar}>
-              <FaShoppingCart />
+              <FaShoppingCart style={{ fontSize: '24px' }}/>
               {cartItems.length > 0 && (
                 <span className={styles.cartItemCount}>{cartItems.length}</span>
               )}

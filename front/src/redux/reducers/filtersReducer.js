@@ -11,6 +11,7 @@ import {
   SET_COMPRA_EXITOSA,
   DISMINUIR_CANTIDAD,
   GUARDAR_PRODUCTOS_TEMPORALES,
+  SET_COLOR_FILTRO
 } from "../actions";
 
 const initialState = {
@@ -23,6 +24,7 @@ const initialState = {
   precioMax: 500,
   ordenAlfabetico: "",
   ordenPrecio: "",
+  color: "",
 };
 
 const filtersReducer = (state = initialState, action) => {
@@ -35,6 +37,8 @@ const filtersReducer = (state = initialState, action) => {
       return { ...state, precioMax: action.payload };
     case SET_ORDEN_ALFABETICO:
       return { ...state, ordenAlfabetico: action.payload };
+      case SET_COLOR_FILTRO:
+      return { ...state, color: action.payload }
     case AGREGAR_AL_CARRITO:
       const newItem = action.payload;
       const existingItemIndex = state.cart.findIndex(
