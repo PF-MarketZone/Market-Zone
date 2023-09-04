@@ -17,6 +17,8 @@ import ThankYouPage from "./components/ThankyouPage/ThankyouPage";
 import { setCompraExitosa } from "../src/redux/actions";
 import LogInSuccess from "./components/LogIn/LoginSuccess";
 import { refreshAccessToken, sessionActive } from "./redux/Actions/authAction";
+import Reset from "./components/RecoveryPassword/Reset"
+import ChangePassword from "./components/RecoveryPassword/ChangePassword";
 
 function App() {
   const location = useLocation();
@@ -111,6 +113,8 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/detail/:detailId" element={<Detail />} />
           <Route path="/thankyou" element={<ThankYouPage />} />
+          <Route path="/password-recovery" element={<Reset />} />
+          <Route path="/change-password" element={<ChangePassword />} />
         </Routes>
 
         <div>{location.pathname === "/" ? null : <Footer />}</div>
