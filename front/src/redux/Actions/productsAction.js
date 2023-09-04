@@ -28,7 +28,6 @@ export const getProductById = (id) => {
       console.log(productDetails);
       dispatch({ type: GET_PRODUCT_BY_ID, payload: productDetails });
     } catch (error) {
-      // Manejar el error en caso de que la llamada a la API falle
       console.error('Error al obtener detalles del producto:', error);
     }
   };
@@ -50,7 +49,7 @@ export const postProducts = (payload) => {
       }
 
       const response = await axios.post(
-        'https://market-zone-api-v1.onrender.com/api/v1/createproduct',
+        'https://market-zone-api-v1.onrender.com/api/v1/product/createproduct',
         formData,
         {
           headers: {

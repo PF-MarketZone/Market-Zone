@@ -45,7 +45,6 @@ const LogIn = () => {
 
     onSubmit: async (formData) => {
       try {
-        console.log(formData);
         const loginC = await dispatch(login(formData.email, formData.password));
         !loginC
           ? alert(`Error al iniciar sesión, usuario o contraseña incorrectos`)
