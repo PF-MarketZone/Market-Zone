@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaUsers, FaChartBar } from 'react-icons/fa';
 import { LiaProductHunt } from 'react-icons/lia';
+import { CgProfile } from 'react-icons/cg';
 import { MdOutlineCreateNewFolder, MdOutlineShoppingCartCheckout } from 'react-icons/md';
 import { AiOutlineStar } from 'react-icons/ai';
 
@@ -47,6 +48,10 @@ const Sidebar = ({ handleComponentClick }) => {
   return (
     <div>
       <Side>
+        <MenuItem isActive={activeButton === 'profile'} onClick={() => handleClick('profile')}>
+          <CgProfile />
+          Perfil
+        </MenuItem>
         <MenuItem isActive={activeButton === 'products'} onClick={() => handleClick('products')}>
           <LiaProductHunt />
           Productos

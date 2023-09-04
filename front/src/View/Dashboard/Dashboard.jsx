@@ -7,6 +7,7 @@ import Orders from '../../components/PanelDashboard/Orders/Orders';
 import Users from '../../components/PanelDashboard/Users/Users';
 import Sales from '../../components/PanelDashboard/Sales/Sales';
 import Reviews from '../../components/PanelDashboard/Reviews/Reviews'
+import Profile from '../../components/PanelDashboard/Profile/Profile'
 
 
 const AdminPanel = styled.div`
@@ -25,6 +26,8 @@ const Dashboard = () => {
 
    const renderSelected = () => {
     switch(selected){
+      case 'profile':
+        return <Profile/>;
       case 'products':
         return <Products/>;
       case 'add products':
