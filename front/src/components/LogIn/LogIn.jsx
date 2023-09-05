@@ -3,7 +3,7 @@ import { FcGoogle } from "react-icons/fc";
 import MyButton from "../Buttons/MainButton";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/Actions/authAction";
 import {
@@ -14,7 +14,7 @@ import {
   H3O,
   H5,
   Div,
-  DivPrincipal,
+  DivPrincipal
 } from "./LogInStyledComponent";
 import { backendUrl } from "../../deployConfig";
 
@@ -120,6 +120,7 @@ const LogIn = () => {
           type="button"
           onClick={openGoogleAuth}
         ></MyButton>
+        <Link to="/password-recovery">¿Olvidaste tu contraseña?</Link>
       </DivPrincipal>
     </>
   );
