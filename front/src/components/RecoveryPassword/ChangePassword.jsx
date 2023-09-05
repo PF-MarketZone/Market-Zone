@@ -1,10 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { StyledForm, Input, P, H3, H5, Div, DivPrincipal, CenteredContainer } from "../LogIn/LogInStyledComponent"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 
 const ChangePassword = () => {
   useEffect(() => {
@@ -19,43 +17,62 @@ const ChangePassword = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [savedToken, setSavedToken] = useState('');
 
+  // Función para verificar si la contraseña cumple con los requisitos
+  const isPasswordValid = (password) => {
+    // Debe tener al menos 6 caracteres
+    if (password.length < 6) {
+      return false;
+    }
+    // Debe contener al menos una letra y un número
+    const hasLetter = /[a-zA-Z]/.test(password);
+    const hasNumber = /\d/.test(password);
+    return hasLetter && hasNumber;
+  };
+
   const handlePasswordChange = async () => {
     if (newPassword === confirmPassword) {
-      try {
-        const requestBody = {
-          token: savedToken,
-          newPassword,
-        };
+      if (isPasswordValid(newPassword)) {
+        try {
+          const requestBody = {
+            token: savedToken,
+            newPassword,
+          };
 
-        const response = await axios.post(
-          'http://localhost:3004/api/v1/auth/changePassword',
-          requestBody
-        );
-console.log(response)
-        if (response.status === 200) {
-          // La solicitud fue exitosa, mostrar notificación de éxito
-          
-          toast.success('Contraseña cambiada con éxito');
-        } else {
-          // La solicitud no fue exitosa, mostrar notificación de error
+          const response = await axios.post(
+            'http://localhost:3004/api/v1/auth/changePassword',
+            requestBody
+          );
+          if (response.status === 200) {
+            toast.success('Contraseña cambiada con éxito');
+            setNewPassword('');
+            setConfirmPassword('');
+          } else {
+            toast.error('Error al cambiar la contraseña');
+         
+          };
+        } catch (error) {
+          console.error('Error al cambiar la contraseña:', error);
           toast.error('Error al cambiar la contraseña');
         }
-      } catch (error) {
-        console.error('Error al cambiar la contraseña:', error);
-        toast.error('Error al cambiar la contraseña');
+      } else {
+        setErrorMessage('La contraseña debe tener al menos 6 caracteres y contener letras y números');
       }
     } else {
       setErrorMessage('Las contraseñas no coinciden');
     }
+    
   };
 
   return (
     <DivPrincipal>
-      <Div></Div>
+    
       <StyledForm>
         <H3>Restablecer Contraseña</H3>
+        <H5>
+          Ingresa tu nueva contraseña* 
+          <p style={{ color: 'violet' }}>*Mínimo 6 caracteres. Debe contener letras y números.</p>
+        </H5>
         {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-        <H5>Ingresa tu nueva contraseña:</H5>
         <Input
           type="password"
           value={newPassword}
@@ -70,7 +87,9 @@ console.log(response)
           placeholder="Confirmar nueva contraseña"
         />
         
-        <button type="button" onClick={handlePasswordChange}>Cambiar contraseña</button>
+        <button type="button" onClick={handlePasswordChange}>
+          Cambiar contraseña
+        </button>
         <ToastContainer />
       </StyledForm>
     </DivPrincipal>
