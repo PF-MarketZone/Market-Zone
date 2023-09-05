@@ -13,6 +13,7 @@ export const SET_COMPRA_EXITOSA = "SET_COMPRA_EXITOSA";
 export const COMPRA_EXITOSA = "COMPRA_EXITOSA";
 export const GUARDAR_PRODUCTOS_TEMPORALES = "GUARDAR_PRODUCTOS_TEMPORALES";
 export const SET_ORDEN_PRECIO = "SET_ORDEN_PRECIO"
+export const SET_COLOR_FILTRO = "SET_COLOR_FILTRO";
 
 export const setCategoriaFiltro = (categories) => ({
   type: SET_CATEGORIA_FILTRO,
@@ -88,3 +89,7 @@ export const setOrdenPrecio = (orden) => ({
   payload: orden,
 });
 
+export const setColorFiltro = (color) => ({
+  type: SET_COLOR_FILTRO,
+  payload: color,
+});

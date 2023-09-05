@@ -7,12 +7,12 @@ import {
   setCategoriaFiltro,
   setOrdenAlfabetico,
   setOrdenPrecio,
+  setColorFiltro,
 } from "../../redux/actions";
 import styles from "./TiendaDetalle.module.css";
 
 const TiendaDetalle = () => {
   const { storeId } = useParams();
-  const navigate = useNavigate();
   const [productos, setProductos] = useState([]);
   const dispatch = useDispatch();
 
@@ -28,6 +28,10 @@ const TiendaDetalle = () => {
   const [selectedPriceOrder, setSelectedPriceOrder] = useState(
     localStorage.getItem("selectedPriceOrder") || ""
   );
+  const [selectedColor, setSelectedColor] = useState(
+    localStorage.getItem("selectedColor") || ""
+  );
+  const [coloresUnicos, setColoresUnicos] = useState([]);
 
   useEffect(() => {
     // Guardar los valores de los filtros en el estado local
@@ -35,9 +39,29 @@ const TiendaDetalle = () => {
     localStorage.setItem("searchQuery", searchQuery);
     localStorage.setItem("selectedOrder", selectedOrder);
     localStorage.setItem("selectedPriceOrder", selectedPriceOrder);
-  }, [selectedCategory, searchQuery, selectedOrder, selectedPriceOrder]);
+    localStorage.setItem("selectedColor", selectedColor);
+  }, [
+    selectedCategory,
+    searchQuery,
+    selectedOrder,
+    selectedPriceOrder,
+    selectedColor,
+  ]);
 
   useEffect(() => {
+    // Guardar la tienda actual en el localStorage
+    localStorage.setItem("currentStore", storeId);
+
+    // Verificar si la tienda actual es diferente de la almacenada en el localStorage
+    const currentStoreInLocalStorage = localStorage.getItem("currentStore");
+    if (currentStoreInLocalStorage !== storeId) {
+      // Limpiar los valores de los filtros en el estado local cuando cambias de tienda
+      localStorage.removeItem("selectedCategory");
+      localStorage.removeItem("searchQuery");
+      localStorage.removeItem("selectedOrder");
+      localStorage.removeItem("selectedPriceOrder");
+      localStorage.removeItem("selectedColor");
+    }
     axios
       .get(`https://market-zone-api-v1.onrender.com/api/v1/product`)
       .then((response) => {
@@ -45,6 +69,12 @@ const TiendaDetalle = () => {
           (producto) => producto.storeId === storeId
         );
         setProductos(productosTienda);
+
+        // Actualizar la lista de colores únicos
+        const allColors = productosTienda.reduce((colors, producto) => {
+          return [...colors, producto.color];
+        }, []);
+        setColoresUnicos([...new Set(allColors)]);
       })
       .catch((error) => {
         console.error("Error al obtener los productos:", error);
@@ -64,6 +94,10 @@ const TiendaDetalle = () => {
     dispatch(setOrdenAlfabetico(selectedOrder));
   }, [selectedOrder]);
 
+  useEffect(() => {
+    dispatch(setColorFiltro(selectedColor));
+  }, [selectedColor]);
+
   const handleCategoryChange = (e) => {
     setSelectedCategory(e.target.value);
   };
@@ -76,6 +110,10 @@ const TiendaDetalle = () => {
     setSelectedPriceOrder(e.target.value);
   };
 
+  const handleColorChange = (e) => {
+    setSelectedColor(e.target.value);
+  };
+
   const obtenerCategoriasUnicas = () => {
     const allCategories = productos.reduce((categories, producto) => {
       return [...categories, producto.categories.category];
@@ -85,17 +123,14 @@ const TiendaDetalle = () => {
 
   const categoriasUnicas = obtenerCategoriasUnicas();
 
-  // Filtrar productos por categoría, precio y búsqueda
+  // Filtrar productos
   const filteredProductos = productos
-    .filter(
-      (producto) =>
-        !selectedCategory || producto.categories.category === selectedCategory
-    )
-    .filter(
-      (producto) =>
-        searchQuery === "" ||
-        producto.name.toLowerCase().includes(searchQuery.toLowerCase())
-    )
+  .filter(
+    (producto) =>
+      (!selectedCategory || producto.categories.category === selectedCategory) &&
+      (!selectedColor || producto.color === selectedColor) &&
+      !producto.deleted 
+  )
     .sort((a, b) => {
       if (selectedOrder === "asc") {
         return a.name.localeCompare(b.name);
@@ -142,6 +177,15 @@ const TiendaDetalle = () => {
             <option value="desc">De mayor precio a menor precio</option>
           </select>
         </div>
+        <label>Color:</label>
+        <select value={selectedColor} onChange={handleColorChange}>
+          <option value="">Todos los colores</option>
+          {coloresUnicos.map((color) => (
+            <option key={color} value={color}>
+              {color}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className={styles.productosContainer}>
