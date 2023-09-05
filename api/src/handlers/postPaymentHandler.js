@@ -123,7 +123,7 @@ const handleNotification = async (req, res) => {
       }
     }
 
-    res.status(200).send();
+    res.status(200).send('ok');
   } catch (error) {
     res.status(500).send();
   }
