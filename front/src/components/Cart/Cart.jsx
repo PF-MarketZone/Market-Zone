@@ -2,8 +2,13 @@ import { Wallet, initMercadoPago } from "@mercadopago/sdk-react";
 import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { aumentarCantidad, disminuirCantidad } from "../../redux/actions";
+import {
+  aumentarCantidad,
+  disminuirCantidad,
+  eliminarDelCarrito,
+} from "../../redux/actions";
 import styles from "./Cart.module.css";
+import { BsTrash } from "react-icons/bs";
 
 const Cart = () => {
   const [preferenceId, setPreferenceId] = useState(null);
@@ -37,8 +42,9 @@ const Cart = () => {
   const createPreference = async (cartItems) => {
     try {
       const items = cartItems.map((item) => {
+        // console.log(item._id);
         return {
-          id: item.id,
+          id: item._id,
           title: item.name,
           unit_price: parseInt(item.price),
           quantity: item.quantity,
@@ -60,6 +66,7 @@ const Cart = () => {
   const handleBuy = async () => {
     const id = await createPreference(cartItems);
     if (id) {
+      localStorage.setItem("tempCartItems", JSON.stringify(cartItems));
       setPreferenceId(id);
     }
   };
@@ -89,14 +96,14 @@ const Cart = () => {
                   <div className={styles["cart-item-quantity"]}>
                     <button
                       className={styles["quantity-button"]}
-                      onClick={() => handleDisminuirCantidad(item.id)}
+                      onClick={() => handleDisminuirCantidad(item._id)}
                     >
                       -
                     </button>
                     <span>{item.quantity}</span>
                     <button
                       className={styles["quantity-button"]}
-                      onClick={() => handleAumentarCantidad(item.id)}
+                      onClick={() => handleAumentarCantidad(item._id)}
                     >
                       +
                     </button>
@@ -105,7 +112,7 @@ const Cart = () => {
                     className={styles["cart-item-delete"]}
                     onClick={() => eliminarProducto(item._id)}
                   >
-                    Eliminar
+                    <BsTrash />
                   </button>
                 </div>
               </li>

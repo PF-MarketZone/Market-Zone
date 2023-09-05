@@ -172,12 +172,13 @@ const updateProduct = async (
 // Actualiza el stock de un producto con los parametros recibidos
 //=================================================================
 
-const updateStock = async (id, stock) => {
-  // console.log(id, stock);
-  const result = await Product.findById(id);
+const updateStock = async (_id, stock) => {
+  // console.log('Id + stock' + _id, stock);
+  const result = await Product.findById(_id);
   console.log(result);
-  // result.stock = result.stock - stock;
-  // await result.save();
+  result.stock = result.stock - stock;
+  await result.save();
+  console.log(result);
   return result;
 };
 

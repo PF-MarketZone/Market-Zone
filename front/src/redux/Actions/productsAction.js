@@ -54,7 +54,7 @@ export const getProducts = () => {
       }
     };
   };
-    
+
 
   export const postProducts = (payload) => {
     return async function (dispatch) {
@@ -70,7 +70,6 @@ export const getProducts = () => {
             formData.append(key, payload[key]);
           }
         }
-  
         const response = await axios.post(
           `${backendUrl}/product/createproduct`,
           formData,
@@ -87,6 +86,7 @@ export const getProducts = () => {
       }
     };
   };
+
   
   export const updateProduct = (payload) => {
     return async function (dispatch) {

@@ -9,7 +9,6 @@
   box-shadow: -4px 0px 6px rgba(0, 0, 0, 0.6);
   z-index: 100;
   overflow: auto;
-  right: -400px;
   transition: right 0.3s ease;
 }
 
@@ -51,7 +50,6 @@
   border: none;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
-  margin-left: 15px; 
   margin-top: 20px;
 }
 

@@ -9,13 +9,16 @@ const fileUpload = require('express-fileupload');
 
 const server = express();
 server.use(helmet());
+
 createRoles();
 server.use(express.json());
 
-server.use (fileUpload({ 
-  useTempFiles : true , 
-  tempFileDir : './uploads' 
-}));
+server.use(
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: './uploads',
+  })
+);
 
 server.name = 'API Backend E-Commerce';
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
@@ -27,9 +30,9 @@ server.use((req, res, next) => {
   res.header('Access-Control-Allow-Credentials', 'true');
   res.header(
     'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization, refresh-token'
   );
-  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   next();
 });
 

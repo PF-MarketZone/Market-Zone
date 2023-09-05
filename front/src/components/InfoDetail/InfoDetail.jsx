@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getProductById } from "../../redux/Actions/productsAction";
 import { agregarAlCarrito } from "../../redux/actions";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   ButtonAddToCart,
   ButtonFavorito,
@@ -47,19 +49,28 @@ const InfoD = (props) => {
   };
 
   const agregarAlCarritoClick = () => {
-    if (quantity > 0) {
+    if (quantity > 0 && quantity <= details.stock) {
       const newItem = {
         _id: details._id,
         name: details.name,
         price: details.price,
+        image: details.image,
         quantity: quantity,
       };
       dispatch(agregarAlCarrito(newItem));
+      toast.success(
+        `Se agregaron ${quantity} ${
+          quantity === 1 ? "unidad" : "unidades"
+        } de ${details.name} al carrito.`
+      );
+    } else if (quantity > details.stock) {
+      toast.error("No hay suficiente stock disponible.");
     }
   };
 
   return (
     <>
+      <ToastContainer />
       <DivPrincipal>
         <H3Categories>
           {details.categories && details.categories.length > 0
@@ -69,7 +80,7 @@ const InfoD = (props) => {
         <H1Name>{details.name}</H1Name>
 
         <DivPriceStock>
-          <H2Price>${details.price}</H2Price>
+          <H2Price>${parseInt(details.price)}</H2Price>
           <H2Stock>
             {details.stock > 0 ? (
               <FontAwesomeIcon
@@ -109,7 +120,7 @@ const InfoD = (props) => {
         <LineaDelgada />
         <div>
           <ButtonAddToCart onClick={agregarAlCarritoClick}>
-            Agregar al Carrrito
+            Agregar al Carrito
           </ButtonAddToCart>
           <ButtonFavorito>
             {<FontAwesomeIcon icon={faHeart} style={{ color: "white" }} />}

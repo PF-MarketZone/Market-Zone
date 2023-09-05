@@ -10,9 +10,10 @@ export const SET_INITIAL_CART = "SET_INITIAL_CART";
 export const AUMENTAR_CANTIDAD = "AUMENTAR_CANTIDAD";
 export const DISMINUIR_CANTIDAD = "DISMINUIR_CANTIDAD";
 export const SET_COMPRA_EXITOSA = "SET_COMPRA_EXITOSA";
-
-
-
+export const COMPRA_EXITOSA = "COMPRA_EXITOSA";
+export const GUARDAR_PRODUCTOS_TEMPORALES = "GUARDAR_PRODUCTOS_TEMPORALES";
+export const SET_ORDEN_PRECIO = "SET_ORDEN_PRECIO"
+export const SET_COLOR_FILTRO = "SET_COLOR_FILTRO";
 
 export const setCategoriaFiltro = (categories) => ({
   type: SET_CATEGORIA_FILTRO,
@@ -37,7 +38,7 @@ export const setOrdenAlfabetico = (orden) => ({
 export const agregarAlCarrito = (producto) => {
   return (dispatch, getState) => {
     dispatch({ type: AGREGAR_AL_CARRITO, payload: producto });
-    
+
     const state = getState();
     const carrito = state.filters.cart;
     localStorage.setItem('carrito', JSON.stringify(carrito));
@@ -76,3 +77,19 @@ export const setCompraExitosa = (status) => ({
   payload: status,
 });
 
+export const guardarProductosTemporales = (productosTemporales) => {
+  return {
+    type: GUARDAR_PRODUCTOS_TEMPORALES,
+    payload: productosTemporales,
+  };
+};
+
+export const setOrdenPrecio = (orden) => ({
+  type: SET_ORDEN_PRECIO,
+  payload: orden,
+});
+
+export const setColorFiltro = (color) => ({
+  type: SET_COLOR_FILTRO,
+  payload: color,
+});

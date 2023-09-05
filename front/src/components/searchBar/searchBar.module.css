@@ -1,22 +1,45 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  background-color: #602894; /* Color de fondo */
+  border-radius: 40px; /* Bordes redondeados */
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1); /* Sombra */
+  padding: 8px; /* Espaciado interno */
+  width: 400px;
+  margin: 0 auto;
+}
+
 .searchInput {
-  padding: 6px 10px;
-  border: none;
-  border-radius: 4px;
-  margin-right: 90px;
-  width: 450px;
+  flex: 1;
+  border: none; /* Sin borde */
+  outline: none; /* Sin borde de enfoque */
+  padding: 8px; /* Espaciado interno */
+  font-size: 16px; /* Tamaño de fuente */
+  color: #fff;
+  background-color: transparent;
 }
 
+/* Icono de búsqueda */
+.searchInput::placeholder {
+  color: #ffffff; /* Color del texto de marcador de posición */
+}
+
+/* Estilo del botón de búsqueda (si lo agregas) */
 .searchButton {
-  background-color: #ffffff;
-  color: #3e3e3e;
-  border: none;
-  border-radius: 4px;
-  padding: 6px 10px;
-  cursor: pointer;
+  flex: 1; 
+  background-color: #007bff; /* Color de fondo del botón */
+  color: #fff; /* Color del texto del botón */
+  border: none; /* Sin borde */
+  border-radius: 4px; /* Bordes redondeados */
+  padding: 8px 12px; /* Espaciado interno */
+  margin-left: 8px; /* Espaciado a la izquierda del botón */
+  cursor: pointer; /* Cambio de cursor al pasar el mouse */
+  transition: background-color 0.3s ease; /* Transición suave de color */
 }
 
+/* Estilo del botón de búsqueda al pasar el mouse */
 .searchButton:hover {
-  background-color: #929292;
-  color: #ffffff;
+  background-color: #0056b3; /* Nuevo color de fondo al pasar el mouse */
 }
+
 
