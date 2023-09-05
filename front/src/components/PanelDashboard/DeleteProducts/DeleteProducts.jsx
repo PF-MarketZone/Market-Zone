@@ -1,9 +1,9 @@
 import React, {useState} from "react";
-import {useDispatch} from 'react-redux'
-import { deleteProducts } from "../../../redux/Actions/productsAction";
+import {AiOutlineDelete} from "react-icons/ai";
 
-const DeleteProducts = (id) => {
-    const dispatch = useDispatch();
+
+const DeleteProducts = ({id, onDelete}) => {
+
     const [showConfirmation, setShowConfirmation] = useState(false);
 
     const handleDeleteClick = () => {
@@ -11,15 +11,8 @@ const DeleteProducts = (id) => {
     }
 
     const handleDeleteOk = async () => {
-        try{
-            await dispatch(deleteProducts(id))
-            alert('Producto Eliminado Exitosamente')
-            setShowConfirmation(false);
-        }catch(error){
-            console.log('Error al eliminar el producto', error)
-            alert('No se pudo eliminar el producto')
-            setShowConfirmation(false)
-        }       
+        await onDelete(id);
+        setShowConfirmation(false)       
     }
 
     const handleDeleteCancel = () => {
@@ -29,7 +22,7 @@ const DeleteProducts = (id) => {
     return(
         <>
         <div>
-            <button onClick={handleDeleteClick}></button>
+            <AiOutlineDelete onClick={handleDeleteClick}></AiOutlineDelete>
             {
                 showConfirmation && (
                     <div>
@@ -39,6 +32,7 @@ const DeleteProducts = (id) => {
                     </div>
                 )
             }
+            
         </div>
         </>
     )

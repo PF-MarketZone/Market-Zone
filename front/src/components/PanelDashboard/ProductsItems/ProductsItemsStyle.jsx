@@ -2,24 +2,24 @@ import styled from 'styled-components';
 
 export const ProductContainer = styled.div`
   display: flex;
-  flex-direction: column; /* Muestra las filas de arriba a abajo */
-  border: 1px solid #ccc; /* Línea que separa las filas */
-  padding: 10px;
+  flex-direction: column;
+  border: 1px solid #ccc;
 `;
 
 export const FileProduct = styled.div`
   display: flex;
-  justify-content: space-between; /* Distribuye las columnas uniformemente */
-  border-bottom: 1px solid #ccc; /* Línea que separa las columnas */
-  padding: 5px 0; /* Espaciado vertical entre filas */
+  justify-content: space-between;
+  align-items: center; /* Alinea verticalmente los elementos en el centro */
+  border-bottom: 1px solid #ccc; 
 `;
 
 export const ColumnProduct = styled.div`
   flex: 1; /* Expande las columnas para ocupar el espacio disponible */
-  padding: 5px;
+  padding: 10px;
 `;
 
 export const ImgProduct = styled.img`
   width: 100px; /* Ancho deseado */
-  height: auto; /* Altura automática para mantener la proporción */
+  height: auto; /* Aler tura automática para mantenla proporción */
 `;
+

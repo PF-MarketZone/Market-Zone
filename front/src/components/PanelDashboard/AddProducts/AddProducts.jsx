@@ -38,7 +38,8 @@ const AddProducts = () => {
   const storesId = {
     "Tienda Deportiva": "64daf18450c25495a4a6a611",
     "Tienda de Electrónica": "64daf18450c25495a4a6a612",
-    "Tienda de Moda": "64daf18450c25495a4a6a613"
+    "Tienda de Moda": "64daf18450c25495a4a6a613",
+    "Tienda Farmaceutica": "64e3e64bb7533323e5d4b538",
   }
   
   const formik = useFormik({

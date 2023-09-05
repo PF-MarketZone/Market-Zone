@@ -4,7 +4,10 @@ import {backendUrl} from '../../config.js';
 export const GET_PRODUCTS = "GET_PRODUCTS";
 export const GET_PRODUCT_BY_ID = "GET_PRODUCT_BY_ID";
 export const ADD_PRODUCT = "ADD_PRODUCT";
-export const DELETE_PRODUCT ="DELETE_PRODUCT"
+export const DELETE_PRODUCT ="DELETE_PRODUCT";
+export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
+export const TOGGLE_PRODUCT = "TOGGLE_PRODUCT";
+
 
 export const getProducts = () => {
   return function(dispatch) {
@@ -41,7 +44,7 @@ export const getProducts = () => {
   export const getProductById = (id) => {
     return async function (dispatch) {
       try {
-        const response = await axios.get(`${backendUrl}product/${id}`);
+        const response = await axios.get(`${backendUrl}/product/${id}`);
         const productDetails = response.data.data;
         console.log(productDetails);
         dispatch({ type: GET_PRODUCT_BY_ID, payload: productDetails });
@@ -85,6 +88,44 @@ export const getProducts = () => {
     };
   };
   
+  export const updateProduct = (payload) => {
+    return async function (dispatch) {
+      try {
+        const formData = new FormData();
+  
+        for (const key in payload) {
+          if (key === 'image') {
+            payload[key].forEach((image) => {
+              formData.append('image', image);
+            });
+          } else {
+            formData.append(key, payload[key]);
+          }
+        }
+  
+        const response = await axios.post(
+          `${backendUrl}/product/update`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        );
+  
+        dispatch({
+          type: 'UPDATE_PRODUCT',
+          payload: response.data
+        })
+     
+        return response.data;
+      } catch (error) {
+        console.error('El producto no ha sido actualizado');
+        throw error;
+      }
+    };
+  };
+  
 
   export const deleteProducts = (id) => {
     return async function(dispatch){
@@ -101,3 +142,22 @@ export const getProducts = () => {
       }
     }
   }
+
+
+  export const toogleProduct = (id) => {
+    return async function(dispatch) {
+      try {
+        const response = await axios.put(`${backendUrl}/product/${id}`);
+        if (response.status === 200) {
+          dispatch({
+            type: TOGGLE_PRODUCT,
+            payload: { id },
+          });
+        } else {
+          console.log('No se pudo cambiar el estado del producto');
+        }
+      } catch (error) {
+        console.log('Error al cambiar el estado del producto', error);
+      }
+    };
+  };

@@ -6,9 +6,7 @@ import productsReducer from "./reducers/productsReducer";
 const rootReducer = combineReducers({
   filters: filtersReducer,
   auth: authReducer,
-  products: productsReducer,
-  details: productsReducer,
-  detail: productsReducer,
+  products: productsReducer
   // Otros reducers...
 });
 
