@@ -11,7 +11,7 @@ export default function SearchBar(props) {
     <div className={styles.navbar}>
       <input
         type="search"
-        placeholder="🔎 Buscar Tienda"
+        placeholder="🔎 Buscar tienda"
         className={styles.searchInput}
         onChange={handleChange}
       />

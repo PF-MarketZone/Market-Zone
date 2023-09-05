@@ -13,7 +13,6 @@ import styles from "./TiendaDetalle.module.css";
 
 const TiendaDetalle = () => {
   const { storeId } = useParams();
-  const navigate = useNavigate();
   const [productos, setProductos] = useState([]);
   const dispatch = useDispatch();
 
@@ -126,11 +125,12 @@ const TiendaDetalle = () => {
 
   // Filtrar productos
   const filteredProductos = productos
-    .filter(
-      (producto) =>
-        !selectedCategory || producto.categories.category === selectedCategory
-    )
-    .filter((producto) => !selectedColor || producto.color === selectedColor)
+  .filter(
+    (producto) =>
+      (!selectedCategory || producto.categories.category === selectedCategory) &&
+      (!selectedColor || producto.color === selectedColor) &&
+      !producto.deleted 
+  )
     .sort((a, b) => {
       if (selectedOrder === "asc") {
         return a.name.localeCompare(b.name);

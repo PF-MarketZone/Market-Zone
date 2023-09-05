@@ -4,7 +4,8 @@ import styles from "./CardsTienda.module.css";
 
 const Cards = ({ tiendas }) => {
   if (tiendas.length === 0) {
-    return <p>No hay tiendas disponibles para la categoría seleccionada.</p>;
+    return <p style={{ color: 'black', fontWeight: 'bold' }}>No se encontraron tiendas.</p>;
+
   }
 
   return (

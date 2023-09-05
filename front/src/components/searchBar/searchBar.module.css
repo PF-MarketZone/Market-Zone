@@ -1,9 +1,9 @@
 .navbar {
   display: flex;
   align-items: center;
-  background-color: #fff; /* Color de fondo */
+  background-color: #602894; /* Color de fondo */
   border-radius: 40px; /* Bordes redondeados */
-  box-shadow: 4px 4px 4px rgba(0.1, 0.1, 0.1, 0.1); /* Sombra */
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1); /* Sombra */
   padding: 8px; /* Espaciado interno */
   width: 400px;
   margin: 0 auto;
@@ -15,12 +15,13 @@
   outline: none; /* Sin borde de enfoque */
   padding: 8px; /* Espaciado interno */
   font-size: 16px; /* Tamaño de fuente */
-  color: #333; /* Color del texto */
+  color: #fff;
+  background-color: transparent;
 }
 
 /* Icono de búsqueda */
 .searchInput::placeholder {
-  color: #888; /* Color del texto de marcador de posición */
+  color: #ffffff; /* Color del texto de marcador de posición */
 }
 
 /* Estilo del botón de búsqueda (si lo agregas) */
