@@ -35,17 +35,16 @@ const ChangePassword = () => {
         try {
           const requestBody = {
             token: savedToken,
-            newPassword,
+            newPassword: newPassword
           };
-
+console.log("RB:", requestBody)
           const response = await axios.post(
             'http://localhost:3004/api/v1/auth/changePassword',
             requestBody
           );
           if (response.status === 200) {
             toast.success('Contraseña cambiada con éxito');
-            setNewPassword('');
-            setConfirmPassword('');
+           
           } else {
             toast.error('Error al cambiar la contraseña');
          

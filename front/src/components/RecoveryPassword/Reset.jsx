@@ -29,10 +29,10 @@ const Reset = () => {
         'http://localhost:3004/api/v1/auth/recovery',
         { email }
       );
-
+//console.log("En reset FRONT", response)
       if (response.status === 200) {
         toast.success('¡Enlace enviado!');
-        setEmail('');
+        
       } else {
         toast.error('Error al enviar el enlace.');
       }
@@ -49,7 +49,7 @@ const Reset = () => {
         <ToastContainer />
       <h3>¿Tienes problemas para iniciar sesión?</h3>
       <h5>Ingresa tu correo electrónico y te enviaremos un enlace para que recuperes el acceso a tu cuenta.</h5>
-<StyledForm> <input
+<StyledForm> <Input
         type="email"
         placeholder="Correo electrónico"
         value={email}
