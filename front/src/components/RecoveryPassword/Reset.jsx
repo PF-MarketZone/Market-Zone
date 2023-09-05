@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { StyledForm, Input, P, H3, H5, Div, DivPrincipal } from "../LogIn/LogInStyledComponent";
+import { StyledForm, Input, P, H3, H5, Div, DivPrincipalReset, CenteredContainer  } from "../LogIn/LogInStyledComponent";
 
 const Reset = () => {
+  
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -34,22 +35,26 @@ const Reset = () => {
   };
 
   return (
-    <DivPrincipal>
-      <ToastContainer />
+    <DivPrincipalReset>
+      <CenteredContainer>
+        <ToastContainer />
       <h3>¿Tienes problemas para iniciar sesión?</h3>
       <h5>Ingresa tu correo electrónico y te enviaremos un enlace para que recuperes el acceso a tu cuenta.</h5>
-<StyledForm> <input
+<StyledForm> <Input
         type="email"
         placeholder="Correo electrónico"
         value={email}
         onChange={handleEmailChange}
-      /></StyledForm>
+      />
+      </StyledForm>
      
 
       <button onClick={handleResetRequest} disabled={loading}>
         {loading ? 'Enviando...' : 'Enviar enlace'}
       </button>
-    </DivPrincipal>
+      </CenteredContainer>
+      
+    </DivPrincipalReset>
   );
 };
 
