@@ -132,7 +132,21 @@ const updateProduct = async (
     productFinded.description = description;
   }
   if (image) {
-    productFinded.image = image;
+    const imageObjects = [];
+
+    const images = Array.isArray(image) ? image : [image];
+    for (const imageFile of images) {
+      try {
+        const result = await uploadImage(imageFile.tempFilePath); 
+        imageObjects.push({
+          url: result.secure_url,
+          public_id: result.public_id,
+        });
+      } catch (uploadError) {
+        console.error('Error uploading image:', uploadError);
+      }
+    }
+    productToUpdate.image = imageObjects;
   }
   if (color) {
     productFinded.color = color;
