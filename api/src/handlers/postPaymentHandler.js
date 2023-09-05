@@ -38,95 +38,95 @@ const handleFailure = (req, res) => {
 // Handle
 
 const handleNotification = async (req, res) => {
-  // console.log('\x1b[32m%s\x1b[0m', 'notificacion de compra');
-  // try {
-  //   const { query } = req;
-  //   // const { params } = req;
-  //   // console.log({ params });
-  //   const topic = query.topic || query.type;
-  //   // console.log({ topic });
-  //   var merchantOrder;
-  //   switch (topic) {
-  //     case 'payment':
-  //       const paymentId = query.id || query['data.id'];
-  //       // console.log(topic, 'payment obtenido', paymentId);
-  //       const payment = await mercadopago.payment.findById(paymentId);
-  //       // console.log({ payment });
-  //       merchantOrder = payment;
+  console.log('\x1b[32m%s\x1b[0m', 'notificacion de compra');
+  try {
+    const { query } = req;
+    // const { params } = req;
+    // console.log({ params });
+    const topic = query.topic || query.type;
+    // console.log({ topic });
+    var merchantOrder;
+    switch (topic) {
+      case 'payment':
+        const paymentId = query.id || query['data.id'];
+        // console.log(topic, 'payment obtenido', paymentId);
+        const payment = await mercadopago.payment.findById(paymentId);
+        // console.log({ payment });
+        merchantOrder = payment;
 
-  //       const { id } = payment.body.order;
-  //       var { body } = await mercadopago.merchant_orders.findById(id);
-  //       // console.log({ body });
-  //       break;
-  //     case 'merchant_order':
-  //       const orderId = query.id;
-  //       var { body } = await mercadopago.merchant_orders.findById(orderId);
-  //       break;
-  //   }
+        const { id } = payment.body.order;
+        var { body } = await mercadopago.merchant_orders.findById(id);
+        // console.log({ body });
+        break;
+      case 'merchant_order':
+        const orderId = query.id;
+        var { body } = await mercadopago.merchant_orders.findById(orderId);
+        break;
+    }
 
-  //   // console.log(body);
+    // console.log(body);
 
-  //   var paidAmount = 0;
+    var paidAmount = 0;
 
-  //   body.payments.forEach((payment) => {
-  //     if (payment.status === 'approved') {
-  //       paidAmount = paidAmount + payment.transaction_amount;
-  //     }
-  //   });
+    body.payments.forEach((payment) => {
+      if (payment.status === 'approved') {
+        paidAmount = paidAmount + payment.transaction_amount;
+      }
+    });
 
-  //   //==================================================================
-  //   // Enviar notificacion / descontar stock
-  //   //==================================================================
+    //==================================================================
+    // Enviar notificacion / descontar stock
+    //==================================================================
 
-  //   if (paidAmount >= body.total_amount) {
-  //     console.log('\x1b[32m%s\x1b[0m', 'El pago se completo');
-  //     // console.log(body); // Para el envio de notificaciones acceder a "body.status": "closed" = venta concretada
+    if (paidAmount >= body.total_amount) {
+      console.log('\x1b[32m%s\x1b[0m', 'El pago se completo');
+      // console.log(body); // Para el envio de notificaciones acceder a "body.status": "closed" = venta concretada
 
-  //     //========================
-  //     // Descuento de stock
-  //     //========================
+      //========================
+      // Descuento de stock
+      //========================
 
-  //     await body.items.map(async (item) => {
-  //       // console.log(item.quantity);
-  //       await updateStock(item.id, item.quantity);
-  //     });
+      await body.items.map(async (item) => {
+        // console.log(item.quantity);
+        await updateStock(item.id, item.quantity);
+      });
 
-  //     //=========================
-  //     // Notificacion
-  //     //========================
-  //     // console.log(merchantOrder);
-  //     //Crear Order-----v
-  //     const order = await createOrder(merchantOrder);
-  //     //Crear Sale-----v
-  //     await createSale(merchantOrder);
-  //     //SendMail(comprador)---v
-  //     if (order) {
-  //       await sendConfirmationEmailBuyer(order);
-  //       //SendMail(vendedor)----v
-  //       await sendConfirmationEmailSeller(order);
-  //     } else {
-  //       throw Error('No se ha creado una Orden');
-  //     }
-  //   } else {
-  //     console.log('\x1b[32m%s\x1b[0m', 'El pago NO se completo');
-  //     //=========================
-  //     // Notificacion
-  //     //========================
-  //     //crear Order-----v
-  //     const order = await createOrder(merchantOrder);
-  //     //SendMail(comprador)----V
-  //     if (order) {
-  //       await sendRejectedEmailBuyer();
-  //     }
-  //     {
-  //       throw Error('No se ha creado una Orden');
-  //     }
-  //   }
+      //=========================
+      // Notificacion
+      //========================
+      // console.log(merchantOrder);
+      //Crear Order-----v
+      const order = await createOrder(merchantOrder);
+      //Crear Sale-----v
+      await createSale(merchantOrder);
+      //SendMail(comprador)---v
+      if (order) {
+        await sendConfirmationEmailBuyer(order);
+        //SendMail(vendedor)----v
+        await sendConfirmationEmailSeller(order);
+      } else {
+        throw Error('No se ha creado una Orden');
+      }
+    } else {
+      console.log('\x1b[32m%s\x1b[0m', 'El pago NO se completo');
+      //=========================
+      // Notificacion
+      //========================
+      //crear Order-----v
+      const order = await createOrder(merchantOrder);
+      //SendMail(comprador)----V
+      if (order) {
+        await sendRejectedEmailBuyer();
+      }
+      {
+        throw Error('No se ha creado una Orden');
+      }
+    }
 
-  res.status(200).send('ok');
-  // } catch (error) {
-  //   res.status(500).send();
-  // }
+    res.status(200).send('ok');
+  } catch (error) {
+    res.status(500).send();
+  }
 };
 
 module.exports = {
