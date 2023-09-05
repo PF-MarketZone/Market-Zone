@@ -10,9 +10,15 @@ const Products = () => {
     const allProducts = useSelector(state => state.products);
     const dispatch = useDispatch();
 
+    useEffect(() => {
+      dispatch(getProducts())
+  }, [dispatch])
+
+
   const handleDelete = async (id) => {
     try {
       await dispatch(deleteProducts(id));
+      dispatch(getProducts())
       alert('Producto Eliminado Exitosamente');
     } catch (error) {
       console.log('Error al eliminar el producto', error);
@@ -20,10 +26,7 @@ const Products = () => {
     }
   }
 
-      useEffect(() => {
-        dispatch(getProducts())
-    }, [dispatch])
-
+    
     return ( 
         <div>
                 <p>Productos</p>
