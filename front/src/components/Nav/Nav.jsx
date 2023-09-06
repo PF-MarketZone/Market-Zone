@@ -1,18 +1,19 @@
 import { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link,useLocation } from "react-router-dom";
 import styles from "./Nav.module.css";
-import SearchBar from "../searchBar/searchBar";
 import { useDispatch, useSelector } from "react-redux";
 import CartSidebar from "../CartSidebar/CartSidebar";
 import Logo from "../../images/Logo.png";
 import { AiOutlineLogin, AiOutlineLogout } from "react-icons/ai";
 import { logoutFn } from "../../redux/Actions/authAction";
+import { FaShoppingCart } from "react-icons/fa"
 
-const Nav = ({ onSearch }) => {
+const Nav = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.filters.cart);
   const { user, isAuthenticated } = useSelector((state) => state.auth);
   const [isCartSidebarVisible, setCartSidebarVisible] = useState(false);
+  const location = useLocation();
 
   const toggleCartSidebar = () => {
     setCartSidebarVisible(!isCartSidebarVisible);
@@ -56,7 +57,6 @@ const Nav = ({ onSearch }) => {
               alt="logo no disponible"
             />
           </Link>
-          <SearchBar onSearch={onSearch} />
         </div>
         {isAuthenticated && (
           // Mostrar botón de Dashboard solo si está autenticado
@@ -66,9 +66,15 @@ const Nav = ({ onSearch }) => {
         )}
 
         <div className={styles.cartButtonContainer}>
-          <button className={styles.button2} onClick={toggleCartSidebar}>
-            Carrito ({cartItems.length})
-          </button>
+          {location.pathname !== "/home" && (
+            // Mostrar el botón del carrito solo en páginas distintas de /home
+            <button className={styles.button2} onClick={toggleCartSidebar}>
+              <FaShoppingCart style={{ fontSize: '24px' }}/>
+              {cartItems.length > 0 && (
+                <span className={styles.cartItemCount}>{cartItems.length}</span>
+              )}
+            </button>
+          )}
 
           {isCartSidebarVisible && (
             <div

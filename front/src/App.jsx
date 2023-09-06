@@ -20,7 +20,7 @@ import { refreshAccessToken, sessionActive } from "./redux/Actions/authAction";
 
 function App() {
   const location = useLocation();
-  const [categoriaFiltrada, setCategoriaFiltrada] = useState();
+  const [nombreTiendaFiltrado, setNombreTiendaFiltrado] = useState("");
   const [isCartSidebarVisible, setCartSidebarVisible] = useState(false);
   const cartItems = useSelector((state) => state.filters.cart);
   const userStringify = sessionStorage.getItem("session-mz");
@@ -29,9 +29,11 @@ function App() {
     setCartSidebarVisible(!isCartSidebarVisible);
   };
 
-  const handleSearch = (categoria) => {
-    setCategoriaFiltrada(categoria);
+  
+  const handleSearch = (nombreTienda) => {
+    setNombreTiendaFiltrado(nombreTienda);
   };
+  
 
   const dispatch = useDispatch();
 
@@ -100,10 +102,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route
-            path="/home"
-            element={<Home categoriaFiltrada={categoriaFiltrada} />}
-          />
+          <Route path="/home" element={<Home nombreTiendaFiltrado={nombreTiendaFiltrado} />}/>
           <Route path="/login" element={<LogInSignUp />} />
           <Route path="/login/success" element={<LogInSuccess />} />
           <Route path="/dashboard" element={<Dashboard />} />
@@ -117,6 +116,7 @@ function App() {
       </div>
       {isCartSidebarVisible && <CartSidebar />}
       {/* </GoogleOAuthProvider> */}
+
     </>
   );
 }

@@ -38,6 +38,8 @@ const handleFailure = (req, res) => {
 // Handle
 
 const handleNotification = async (req, res) => {
+  // console.log(req);
+  // res.status(200).send('ok');
   console.log('\x1b[32m%s\x1b[0m', 'notificacion de compra');
   try {
     const { query } = req;
@@ -123,7 +125,7 @@ const handleNotification = async (req, res) => {
       }
     }
 
-    res.status(200).send();
+    res.status(200).send('ok');
   } catch (error) {
     res.status(500).send();
   }
