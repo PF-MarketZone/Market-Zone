@@ -20,7 +20,7 @@ const ChangePassword = () => {
   // Función para verificar si la contraseña cumple con los requisitos
   const isPasswordValid = (password) => {
     // Debe tener al menos 6 caracteres
-    if (password.length < 6) {
+    if (password.length < 8) {
       return false;
     }
     // Debe contener al menos una letra y un número
@@ -37,7 +37,7 @@ const ChangePassword = () => {
             token: savedToken,
             newPassword: newPassword
           };
-console.log("RB:", requestBody)
+//console.log("RB:", requestBody)
           const response = await axios.post(
             'http://localhost:3004/api/v1/auth/changePassword',
             requestBody
@@ -54,7 +54,7 @@ console.log("RB:", requestBody)
           toast.error('Error al cambiar la contraseña');
         }
       } else {
-        setErrorMessage('La contraseña debe tener al menos 6 caracteres y contener letras y números');
+        setErrorMessage('La contraseña debe tener un mínimo de 8 caracteres, incluyendo letras, números y al menos un carácter especial.');
       }
     } else {
       setErrorMessage('Las contraseñas no coinciden');
@@ -69,7 +69,7 @@ console.log("RB:", requestBody)
         <H3>Restablecer Contraseña</H3>
         <H5>
           Ingresa tu nueva contraseña* 
-          <p style={{ color: 'violet' }}>*Mínimo 6 caracteres. Debe contener letras y números.</p>
+          <p style={{ color: 'violet' }}>*Mínimo de 8 caracteres, incluyendo letras, números y al menos un carácter especial.</p>
         </H5>
         {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
         <Input

@@ -31,7 +31,7 @@ const Reset = () => {
       );
 //console.log("En reset FRONT", response)
       if (response.status === 200) {
-        toast.success('¡Enlace enviado!');
+        toast.success('¡Enlace enviado! Revisa tu correo');
         
       } else {
         toast.error('Error al enviar el enlace.');
