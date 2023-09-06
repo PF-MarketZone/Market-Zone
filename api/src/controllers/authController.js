@@ -17,6 +17,11 @@ const singIn = async (req, res, next) => {
     const roles = await Roles.find({ _id: { $in: user.role } });
     const rolesName = roles.map((rol) => rol.name);
 
+    if (!user['_doc'].active) {
+      return next(boom.unauthorized());
+    }
+
+    delete user['_doc'].active;
     user['_doc']['role'] = rolesName;
 
     const payload = {
@@ -40,7 +45,7 @@ const userUpdate = async (id, changes) => {
   try {
     const user = await User.findOne({ _id: id });
     const rta = await user.updateOne(changes);
-    console.log('USUARIO', user);
+
     return rta;
   } catch (error) {
     console.error('Error al actualizar usuario:', error);
