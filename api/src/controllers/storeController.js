@@ -1,15 +1,16 @@
 // ---Requerimos los modelos de la BD
 const Store = require('../models/store');
+
 //=================================================================
 // Busca todas las tiendas
 //=================================================================
 
-const storeListDb = async () => {
-  //console.log('entramos en el controller de storeList');
-  // Solicitamos la info a la BD
-  const listOfStore = await Store.find();
-  return listOfStore;
-};
+// const storeListDb = async () => {
+//   //console.log('entramos en el controller de storeList');
+//   // Solicitamos la info a la BD
+//   const listOfStore = await Store.find();
+//   return listOfStore;
+// };
 //=================================================================
 // Busca todas las tiendas que coincidan con el nombre recibido
 //=================================================================
@@ -46,7 +47,7 @@ const storeCreate = async ( user, name, logo, image, description) => {
 };
 
 module.exports = {
-  storeListDb,
+
   storeByName,
   storeById,
   storeCreate,

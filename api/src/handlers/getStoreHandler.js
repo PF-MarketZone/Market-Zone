@@ -1,29 +1,41 @@
 const {
-  storeListDb,
   storeByName,
   storeById,
 } = require('../controllers/storeController');
 const { responseMaper } = require('../helpers/responseMaper');
+const Store = require('../models/store');
 
 const getAllStoreHandler = async (req, res) => {
   try {
-    // Si la ruta trae name por Query que haga la busqueda correspondiente de lo contrario que traiga todas las tiendas,
-    const { name } = req.query;
-    const stores = name ? await storeByName(name) : await storeListDb();
-    res.status(200).json(responseMaper(false, 'Estas son las tiendas', stores));
+    const { name, user } = req.query;
+    
+    if (user) {
+      // Si se proporciona un parámetro 'user', busca tiendas por usuario.
+      const storesByUser = await Store.find({ user: user });
+      return res.status(200).json(responseMaper(false, 'Estas son las tiendas', storesByUser));
+    }
+
+    if (name) {
+      // Si se proporciona un parámetro 'name', busca tiendas por nombre.
+      const stores = await storeByName(name);
+      return res.status(200).json(responseMaper(false, 'Estas son las tiendas', stores));
+    }
+
+    // Si no se proporcionan parámetros, busca todas las tiendas.
+    const stores = await Store.find();
+    return res.status(200).json(responseMaper(false, 'Estas son las tiendas', stores));
   } catch (error) {
     const { name } = req.query;
-    res
-      .status(404)
-      .json(
-        responseMaper(
-          true,
-          `No se encontraron tiendas con el nombre de ${name}`,
-          null
-        )
-      );
+    return res.status(404).json(
+      responseMaper(
+        true,
+        `No se encontraron tiendas con el nombre de ${name}`,
+        null
+      )
+    );
   }
 };
+
 const getByIdStoreHandler = async (req, res) => {
   try {
     const { id } = req.params;
