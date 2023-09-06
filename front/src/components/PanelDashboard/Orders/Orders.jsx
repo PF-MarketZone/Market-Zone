@@ -1,51 +1,62 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 import styles from "./Orders.module.css";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
-  const [users, setUsers] = useState({});
-  const [products, setProducts] = useState({});
   const [selectedUser, setSelectedUser] = useState("");
+
+  const { user } = useSelector((state) => state.auth.user);
+  const userRole = user ? user.role : null;
 
   useEffect(() => {
     axios
       .get("https://market-zone-api-v1.onrender.com/api/v1/order/")
       .then((response) => {
         const ordersData = response.data.data;
-        const userIds = ordersData.map((order) => order.user);
 
+        // Obtener la lista de ID de productos de todas las órdenes
+        const productIds = ordersData.reduce(
+          (ids, order) => [...ids, ...order.products],
+          []
+        );
+
+        // Realizar una solicitud para obtener la lista de productos basada en los ID
         axios
-          .get("https://market-zone-api-v1.onrender.com/api/v1/user/")
-          .then((userResponse) => {
-            const usersData = userResponse.data.data;
-            const usersMap = {};
-            usersData.forEach((user) => {
-              usersMap[user._id] = user.name;
+          .get("https://market-zone-api-v1.onrender.com/api/v1/product/", {
+            params: { ids: productIds.join(",") },
+          })
+          .then((productResponse) => {
+            const productsData = productResponse.data.data;
+            const productsMap = {};
+            productsData.forEach((product) => {
+              productsMap[product._id] = product.name;
             });
-            setUsers(usersMap);
 
-            // Obtener la lista de ID de productos de todas las ordenes
-            const productIds = ordersData.reduce(
-              (ids, order) => [...ids, ...order.products],
-              []
-            );
+            // Obtener la lista de ID de usuarios de todas las ordenes
+            const userIds = ordersData.map((order) => order.user);
 
-            // Realizar una solicitud para obtener la lista de productos basada en los ID
+            // Realizar una solicitud para obtener la lista de usuarios basada en los ID
             axios
-              .get("https://market-zone-api-v1.onrender.com/api/v1/product/", {
-                params: { ids: productIds.join(",") },
+              .get("https://market-zone-api-v1.onrender.com/api/v1/user/", {
+                params: { ids: userIds.join(",") },
               })
-              .then((productResponse) => {
-                const productsData = productResponse.data.data;
-                const productsMap = {};
-                productsData.forEach((product) => {
-                  productsMap[product._id] = product.name;
+              .then((userResponse) => {
+                const usersData = userResponse.data.data;
+                const usersMap = {};
+                usersData.forEach((user) => {
+                  usersMap[user._id] = user.name;
                 });
-                setProducts(productsMap);
+
+                // Filtrar las ordenes segun el rol del usuario
+                const filteredOrders =
+                  user && user.role.includes("customer")
+                    ? ordersData.filter((order) => order.user === user._id)
+                    : ordersData;
 
                 // Actualizar las ordenes con los nombres de usuario y nombres de productos
-                const ordersWithNames = ordersData.map((order) => ({
+                const ordersWithNames = filteredOrders.map((order) => ({
                   ...order,
                   userName:
                     usersMap[order.user] || "Nombre de usuario no encontrado",
@@ -59,19 +70,18 @@ const Orders = () => {
               });
           });
       });
-  }, []);
+  }, [user]);
 
-  // Función para manejar cambios en el usuario seleccionado
   const handleUserChange = (event) => {
     setSelectedUser(event.target.value);
   };
 
-  // Filtrar las órdenes según el usuario seleccionado
-  const filteredOrders = orders.filter(
+  // Filtrar las ordenes
+  const filteredOrdersByUser = orders.filter(
     (order) => !selectedUser || order.userName === selectedUser
   );
 
-  // Obtener la lista de nombres de usuarios únicos
+  // Obtener la lista de nombres de usuarios unicos
   const uniqueUserNames = Array.from(
     new Set(orders.map((order) => order.userName))
   );
@@ -94,7 +104,7 @@ const Orders = () => {
         </select>
       </div>
       <ul>
-        {filteredOrders.map((order) => (
+        {filteredOrdersByUser.map((order) => (
           <li key={order._id} className={styles.order}>
             <p className={styles.orderInfo}>ID de la Orden: {order._id}</p>
             <p className={styles.orderInfo}>
@@ -114,6 +124,9 @@ const Orders = () => {
             <p className={styles.orderInfo}>
               Método de Pago: {order.paymentMethod}
             </p>
+            {userRole === "admin" && (
+              <p className={styles.orderInfo}>Rol del Usuario: {userRole}</p>
+            )}
           </li>
         ))}
       </ul>
