@@ -65,9 +65,9 @@ const createNewProduct = async (
   console.log(category, subcategory);
   const storeidBody = storeId;
   const storeDefault = '64daf18450c25495a4a6a611';
-
+console.log(req)
   const imageObjects = await uploadProductImages(req);
-
+console.log("IMAGE OBJEEEECT!!", imageObjects)
   const productData = new Product({
     req: req,
     storeId: storeId ? storeidBody : storeDefault,
@@ -105,7 +105,7 @@ const updateProduct = async (
   subcategory,
 ) => {
   // Buscamos el producto a actualizar
-
+ 
   const productFinded = await searchByIdProduct(_id);
   if (storeId) {
     productFinded.storeId = storeId;

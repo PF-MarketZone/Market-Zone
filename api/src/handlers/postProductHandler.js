@@ -5,9 +5,10 @@ const {
   updateStock,
 } = require('../controllers/productController');
 const { responseMaper } = require('../helpers/responseMaper');
-
+const { uploadProductImages } = require('../utils/cloudinary/uploadProductImage');
 const createProductHandler = async (req, res) => {
   try {
+
     const {
       storeId,
       name,
@@ -22,6 +23,7 @@ const createProductHandler = async (req, res) => {
     // if (!name || !description || !image || !price || !tags) {
     //   res.status(404).json(true, 'Completa los campos requeridos', null);
     // }
+    console.log("IMAGEEE CREATEEE", image)
     const newProduct = createNewProduct(
       req,
       storeId,
@@ -54,14 +56,19 @@ const updateProductHandler = async (req, res) => {
       storeId,
       name,
       description,
-      image,
+      
       color,
       price,
       stock,
       category,
       subcategory,
     } = req.body;
-    console.log('Datos recibidos en la solicitud:', req.body);
+    console.log("REQQQQ",  req)
+    const imagen = await uploadProductImages(req);
+    console.log("HANDLER", imagen)
+    
+  
+
     if (!_id) {
       return res
         .status(404)
@@ -72,7 +79,7 @@ const updateProductHandler = async (req, res) => {
       storeId,
       name,
       description,
-      image,
+      imagen,
       color,
       price,
       stock,

@@ -4,15 +4,16 @@ const fs = require('fs-extra');
 const uploadProductImages = async (req) => {
   
   const imageObjects = [];
-
+console.log("UPLOAD", req.files)
   if (req.files && req.files.image) {
-    // console.log(req.files)
+     
     const images = Array.isArray(req.files.image)
       ? req.files.image
       : [req.files.image];
     for (const imageFile of images) {
       try {
         const result = await uploadImage(imageFile.tempFilePath);
+        
         imageObjects.push({
           url: result.secure_url,
           public_id: result.public_id,
@@ -25,7 +26,7 @@ const uploadProductImages = async (req) => {
       }
     }
   }
-
+console.log("IMAGE OBJECT", imageObjects)
   return imageObjects;
 };
 

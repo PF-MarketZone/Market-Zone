@@ -112,7 +112,7 @@ export const getProducts = () => {
             },
           }
         );
-  
+  console.log(response)
         dispatch({
           type: 'UPDATE_PRODUCT',
           payload: response.data
