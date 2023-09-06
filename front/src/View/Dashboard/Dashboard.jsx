@@ -21,9 +21,13 @@ const Content = styled.div`
 
 const Dashboard = () => {
 
-  const [selected, setSelected] = useState(null)
+  const [selected, setSelected] = useState(null);
+  const [editingProduct, setEditingProduct] = useState(null);
 
    const renderSelected = () => {
+    if (editingProduct) {
+      return <EditProduct id={editingProduct} onExitEdit={() => setEditingProduct(null)} />;
+    }
     switch(selected){
       case 'products':
         return <Products/>;
@@ -43,7 +47,13 @@ const Dashboard = () => {
   }
 
   const handleComponentClick = (component) => {
-    setSelected(component)
+    if (component === 'edit product') {
+      setEditingProduct(productToEditId); // Reemplaza productToEditId con el ID del producto que deseas editar
+      setSelected(null);
+    } else {
+      setSelected(component);
+      setEditingProduct(null); // Asegúrate de limpiar el ID del producto al cambiar a otros componentes
+    }
   }
   
 

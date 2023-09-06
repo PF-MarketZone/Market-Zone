@@ -1,7 +1,9 @@
 const Product = require('../models/product');
 const mongoose = require('mongoose');
-const { uploadImage, deleteImage } = require('../utils/cloudinary/cloudinary');
+const {  deleteImage } = require('../utils/cloudinary/cloudinary');
+const { uploadProductImages } = require('../utils/cloudinary/uploadProductImage');
 const fs = require('fs-extra');
+
 
 //=================================================================
 // Busca todos los productos
@@ -64,25 +66,7 @@ const createNewProduct = async (
   const storeidBody = storeId;
   const storeDefault = '64daf18450c25495a4a6a611';
 
-  const imageObjects = [];
-
-  if (req.files && req.files.image) {
-    const images = Array.isArray(req.files.image)
-      ? req.files.image
-      : [req.files.image];
-    for (const imageFile of images) {
-      try {
-        const result = await uploadImage(imageFile.tempFilePath);
-        imageObjects.push({
-          url: result.secure_url,
-          public_id: result.public_id,
-        });
-        await fs.unlink(imageFile.tempFilePath);
-      } catch (uploadError) {
-        console.error('Error al cargar la imagen:', uploadError);
-      }
-    }
-  }
+  const imageObjects = await uploadProductImages(req);
 
   const productData = new Product({
     req: req,
@@ -113,14 +97,15 @@ const updateProduct = async (
   storeId,
   name,
   description,
-  image,
+  image, 
   color,
   price,
   stock,
   category,
-  subcategory
+  subcategory,
 ) => {
   // Buscamos el producto a actualizar
+
   const productFinded = await searchByIdProduct(_id);
   if (storeId) {
     productFinded.storeId = storeId;
@@ -132,21 +117,7 @@ const updateProduct = async (
     productFinded.description = description;
   }
   if (image) {
-    const imageObjects = [];
-
-    const images = Array.isArray(image) ? image : [image];
-    for (const imageFile of images) {
-      try {
-        const result = await uploadImage(imageFile.tempFilePath); 
-        imageObjects.push({
-          url: result.secure_url,
-          public_id: result.public_id,
-        });
-      } catch (uploadError) {
-        console.error('Error uploading image:', uploadError);
-      }
-    }
-    productToUpdate.image = imageObjects;
+    productFinded.image = image;
   }
   if (color) {
     productFinded.color = color;
@@ -157,16 +128,18 @@ const updateProduct = async (
   if (stock) {
     productFinded.stock = stock;
   }
-
+  
   if (category && subcategory) {
     productFinded.categories = {
       category: category,
       subcategory: subcategory,
     };
   }
+
   await productFinded.save();
   console.log(productFinded);
 };
+
 
 //=================================================================
 // Actualiza el stock de un producto con los parametros recibidos

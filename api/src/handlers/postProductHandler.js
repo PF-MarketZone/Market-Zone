@@ -48,6 +48,7 @@ const createProductHandler = async (req, res) => {
 
 const updateProductHandler = async (req, res) => {
   try {
+    console.log('Entrando en updateProductHandler');
     const {
       _id,
       storeId,
@@ -60,6 +61,7 @@ const updateProductHandler = async (req, res) => {
       category,
       subcategory,
     } = req.body;
+    console.log('Datos recibidos en la solicitud:', req.body);
     if (!_id) {
       return res
         .status(404)
@@ -79,6 +81,7 @@ const updateProductHandler = async (req, res) => {
     );
     res.status(200).json(responseMaper(false, 'Producto actualizado', result));
   } catch (error) {
+    console.error('Error en updateProductHandler:', error);
     res
       .status(500)
       .json(responseMaper(true, 'No se pudo modificar el producto', null));
