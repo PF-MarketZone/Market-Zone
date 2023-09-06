@@ -1,4 +1,4 @@
-const { ACCESS_TOKEN_MP, NGROK_ACCESS, DOMAIN_NAME_FRONT } = process.env;
+const { ACCESS_TOKEN_MP, NGROK_ACCESS, DOMAIN_NAME } = process.env;
 // SDK Mercado Pago
 const mercadopago = require('mercadopago');
 
@@ -15,7 +15,7 @@ const createPreference = async (req) => {
       unit_price: item.unit_price,
       quantity: item.quantity,
     })),
-    notification_url: `https://market-zone-api-v1.onrender.com/api/v1/create-order/notification`,
+    notification_url: `${DOMAIN_NAME}/api/v1/create-order/notification`,
     back_urls: {
       success: `${DOMAIN_NAME_FRONT}/thankyou`, // crear componente para compra exitosa (componente del front, para mas estilo)
       failure: `${DOMAIN_NAME_FRONT}/cart`,

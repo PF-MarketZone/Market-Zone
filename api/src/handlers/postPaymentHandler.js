@@ -6,8 +6,8 @@ const { updateStock } = require('../controllers/productController');
 const {
   createOrder,
   createSale,
-  sendConfirmationEmailBuyer,
-  sendConfirmationEmailSeller,
+  // sendConfirmationEmailBuyer,
+  // sendConfirmationEmailSeller,
   sendRejectedEmailBuyer,
 } = require('../controllers/orderResponseController.js');
 const handleCreateOrder = async (req, res) => {
@@ -53,7 +53,7 @@ const handleNotification = async (req, res) => {
         const paymentId = query.id || query['data.id'];
         // console.log(topic, 'payment obtenido', paymentId);
         const payment = await mercadopago.payment.findById(paymentId);
-        // console.log({ payment });
+        // console.log(JSON.stringify(payment));
         merchantOrder = payment;
 
         const { id } = payment.body.order;
@@ -66,12 +66,13 @@ const handleNotification = async (req, res) => {
         break;
     }
 
-    // console.log(body);
+    // console.log(JSON.stringify(body));
 
     var paidAmount = 0;
-
+    var canContinue = false;
     body.payments.forEach((payment) => {
       if (payment.status === 'approved') {
+        canContinue = true;
         paidAmount = paidAmount + payment.transaction_amount;
       }
     });
@@ -80,52 +81,54 @@ const handleNotification = async (req, res) => {
     // Enviar notificacion / descontar stock
     //==================================================================
 
-    if (paidAmount >= body.total_amount) {
-      console.log('\x1b[32m%s\x1b[0m', 'El pago se completo');
-      // console.log(body); // Para el envio de notificaciones acceder a "body.status": "closed" = venta concretada
+    if (canContinue) {
+      if (paidAmount >= body.total_amount) {
+        console.log('\x1b[32m%s\x1b[0m', 'El pago se completo');
+        // console.log(body); // Para el envio de notificaciones acceder a "body.status": "closed" = venta concretada
 
-      //========================
-      // Descuento de stock
-      //========================
+        //========================
+        // Descuento de stock
+        //========================
 
-      await body.items.map(async (item) => {
-        // console.log(item.quantity);
-        await updateStock(item.id, item.quantity);
-      });
+        body.items.forEach(async (item) => {
+          // console.log(item.quantity);
+          await updateStock(item.id, item.quantity);
+        });
 
-      //=========================
-      // Notificacion
-      //========================
-      // console.log(merchantOrder);
-      //Crear Order-----v
-      const order = await createOrder(merchantOrder);
-      //Crear Sale-----v
-      await createSale(merchantOrder);
-      //SendMail(comprador)---v
-      if (order) {
-        await sendConfirmationEmailBuyer(order);
-        //SendMail(vendedor)----v
-        await sendConfirmationEmailSeller(order);
+        //=========================
+        // Notificacion
+        //========================
+        // console.log(merchantOrder);
+        //Crear Order-----v
+        // const order = await createOrder(merchantOrder);
+        // //Crear Sale-----v
+        // await createSale(merchantOrder);
+        // //SendMail(comprador)---v
+        // if (order) {
+        //   await sendConfirmationEmailBuyer(order);
+        //   //SendMail(vendedor)----v
+        //   await sendConfirmationEmailSeller(order);
+        // } else {
+        //   throw Error('No se ha creado una Orden');
+        // }
       } else {
-        throw Error('No se ha creado una Orden');
+        console.log('\x1b[32m%s\x1b[0m', 'El pago NO se completo');
+        //=========================
+        // Notificacion
+        //========================
+        //crear Order-----v
+        const order = await createOrder(merchantOrder);
+        //SendMail(comprador)----V
+        if (order) {
+          await sendRejectedEmailBuyer();
+        }
+        {
+          throw Error('No se ha creado una Orden');
+        }
       }
-    } else {
-      console.log('\x1b[32m%s\x1b[0m', 'El pago NO se completo');
-      //=========================
-      // Notificacion
-      //========================
-      //crear Order-----v
-      const order = await createOrder(merchantOrder);
-      //SendMail(comprador)----V
-      if (order) {
-        await sendRejectedEmailBuyer();
-      }
-      {
-        throw Error('No se ha creado una Orden');
-      }
-    }
 
-    res.status(200).send('ok');
+      res.status(200).send('ok');
+    }
   } catch (error) {
     res.status(500).send();
   }

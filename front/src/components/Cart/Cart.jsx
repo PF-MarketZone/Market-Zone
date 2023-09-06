@@ -1,6 +1,7 @@
 import { Wallet, initMercadoPago } from "@mercadopago/sdk-react";
 import axios from "axios";
 import React, { useState } from "react";
+import { BsTrash } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import {
   aumentarCantidad,
@@ -10,6 +11,7 @@ import {
 import styles from "./Cart.module.css";
 import { BsTrash } from "react-icons/bs";
 import { backendUrl } from "../../deployConfig";
+
 
 const Cart = () => {
   const [preferenceId, setPreferenceId] = useState(null);
@@ -54,7 +56,9 @@ const Cart = () => {
       });
 
       const response = await axios.post(
+
         `${backendUrl}/create-order/create-preference`,
+
         { items }
       );
       const id = response.data.data;
