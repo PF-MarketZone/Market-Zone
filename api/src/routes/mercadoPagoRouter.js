@@ -13,6 +13,6 @@ mercadoPagoRouter.post('/create-preference', handleCreateOrder);
 mercadoPagoRouter.get('/success', handleSuccess);
 mercadoPagoRouter.get('/pending', handlePending);
 mercadoPagoRouter.get('/failure', handleFailure);
-mercadoPagoRouter.post('/notification', handleNotification);
+mercadoPagoRouter.post('/notification/:id', handleNotification);
 
 module.exports = mercadoPagoRouter;
