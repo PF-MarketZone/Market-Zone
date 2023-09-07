@@ -26,17 +26,20 @@ import {
   LineaDelgada,
 } from "./InfoStyledComponent";
 
-const InfoD = (props) => {
+const InfoD = () => {
   const dispatch = useDispatch();
   const { detailId } = useParams();
+  const details = useSelector((state) => state.products.detail);
+
+  // Obtener el stock temporal para este producto desde el localStorage
+  const temporaryStockInStorage = JSON.parse(localStorage.getItem(`temporaryStock_${detailId}`)) || 0;
+
+  const [quantity, setQuantity] = useState(0);
+  const [temporaryStock, setTemporaryStock] = useState(temporaryStockInStorage);
 
   useEffect(() => {
     dispatch(getProductById(detailId));
   }, [dispatch, detailId]);
-
-  const details = useSelector((state) => state.products.detail);
-
-  const [quantity, setQuantity] = useState(0);
 
   const handleDecrease = () => {
     if (quantity > 0) {
@@ -45,25 +48,44 @@ const InfoD = (props) => {
   };
 
   const handleIncrease = () => {
-    setQuantity(quantity + 1);
+    const totalStock = details.stock - temporaryStock;
+    if (quantity < totalStock) {
+      setQuantity(quantity + 1);
+    } else {
+      toast.error("No hay suficiente stock disponible.");
+    }
   };
 
   const agregarAlCarritoClick = () => {
-    if (quantity > 0 && quantity <= details.stock) {
+    const totalStock = details.stock - temporaryStock;
+
+    if (quantity > 0 && quantity <= totalStock) {
       const newItem = {
         _id: details._id,
         name: details.name,
         price: details.price,
         image: details.image,
         quantity: quantity,
+        stock: details.stock,
       };
+
+      // Actualizar stock temporal en LocalStorage para este producto
+      const updatedTemporaryStock = temporaryStock + quantity;
+      localStorage.setItem(`temporaryStock_${detailId}`, JSON.stringify(updatedTemporaryStock));
+
+      setTemporaryStock(updatedTemporaryStock); // Actualizar el estado local también
+
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.push(newItem);
+      localStorage.setItem("cart", JSON.stringify(cart));
       dispatch(agregarAlCarrito(newItem));
+
       toast.success(
         `Se agregaron ${quantity} ${
           quantity === 1 ? "unidad" : "unidades"
         } de ${details.name} al carrito.`
       );
-    } else if (quantity > details.stock) {
+    } else if (quantity > totalStock) {
       toast.error("No hay suficiente stock disponible.");
     }
   };

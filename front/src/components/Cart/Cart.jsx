@@ -9,6 +9,8 @@ import {
   eliminarDelCarrito,
 } from "../../redux/actions";
 import styles from "./Cart.module.css";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Cart = () => {
   const [preferenceId, setPreferenceId] = useState(null);
@@ -18,21 +20,25 @@ const Cart = () => {
   const dispatch = useDispatch();
 
   const eliminarProducto = (id) => {
+    localStorage.removeItem("temporaryStock");
     dispatch(eliminarDelCarrito(id));
   };
 
-  const handleAumentarCantidad = (itemId) => {
-    dispatch(aumentarCantidad(itemId));
+  
+  const handleAumentarCantidad = (itemId, stock) => {
+    const cartItem = cartItems.find((item) => item._id === itemId);
+
+    if (cartItem.quantity + 1 <= stock) {
+      dispatch(aumentarCantidad(itemId));
+    } else {
+      toast.error(
+        "No puedes agregar más de este producto. Stock insuficiente."
+      );
+    }
   };
 
   const handleDisminuirCantidad = (itemId) => {
     dispatch(disminuirCantidad(itemId));
-  };
-
-  const handleAgregarAlCarrito = (product) => {
-    dispatch(agregarAlCarrito(product));
-    const updatedCart = [...cartItems, product];
-    localStorage.setItem("cartItems", JSON.stringify(updatedCart));
   };
 
   const totalPrecio = cartItems.reduce((total, item) => {
@@ -53,7 +59,7 @@ const Cart = () => {
       });
 
       const response = await axios.post(
-        "https://market-zone-api-v1.onrender.com/api/v1/create-order/create-preference",
+        "http://localhost:3004/api/v1/create-order/create-preference",
         { items }
       );
       const id = response.data.data;
@@ -103,7 +109,9 @@ const Cart = () => {
                     <span>{item.quantity}</span>
                     <button
                       className={styles["quantity-button"]}
-                      onClick={() => handleAumentarCantidad(item._id)}
+                      onClick={() =>
+                        handleAumentarCantidad(item._id, item.stock)
+                      }
                     >
                       +
                     </button>
@@ -129,6 +137,7 @@ const Cart = () => {
         Comprar
       </button>
       {preferenceId && <Wallet initialization={{ preferenceId }} />}
+      <ToastContainer />
     </div>
   );
 };
