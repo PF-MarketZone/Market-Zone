@@ -3,20 +3,20 @@ import axios from "axios";
 import React, { useState } from "react";
 import { BsTrash } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
+import { backendUrl } from "../../deployConfig";
 import {
   aumentarCantidad,
   disminuirCantidad,
   eliminarDelCarrito,
 } from "../../redux/actions";
 import styles from "./Cart.module.css";
-import { backendUrl } from "../../deployConfig";
-
 
 const Cart = () => {
   const [preferenceId, setPreferenceId] = useState(null);
   initMercadoPago("APP_USR-30f4d3f9-4b95-410f-b2fd-331973191e15"); // ingresar Public key comprador
 
   const cartItems = useSelector((state) => state.filters.cart);
+  const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 
   const eliminarProducto = (id) => {
@@ -43,8 +43,11 @@ const Cart = () => {
 
   const createPreference = async (cartItems) => {
     try {
+      // validar si el usuario esta logueado
+
+      // preguntamos si el usuario que va a hacer la compra esta autorizado
+
       const items = cartItems.map((item) => {
-        // console.log(item._id);
         return {
           id: item._id,
           title: item.name,
@@ -53,12 +56,15 @@ const Cart = () => {
           currency_id: "COP",
         };
       });
+      const data = {
+        userId: user.user._id,
+        items,
+      };
+      console.log(data);
 
       const response = await axios.post(
-
-        `${backendUrl}/create-order/create-preference`,
-
-        { items }
+        `${backendUrl}/api/v1/create-order/create-preference`,
+        { data }
       );
       const id = response.data.data;
       return id;
@@ -130,7 +136,7 @@ const Cart = () => {
         </div>
       )}
       <button className={styles["cart-buy"]} onClick={handleBuy}>
-        Comprar
+        Ir a pagar
       </button>
       {preferenceId && <Wallet initialization={{ preferenceId }} />}
     </div>
