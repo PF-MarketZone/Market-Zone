@@ -38,12 +38,11 @@ const handleFailure = (req, res) => {
 // Handle
 
 const handleNotification = async (req, res) => {
-  // console.log(req);
   // res.status(200).send('ok');
   console.log('\x1b[32m%s\x1b[0m', 'notificacion de compra');
   try {
     const { query } = req;
-    // const { params } = req;
+    const { params } = req;
     // console.log({ params });
     const topic = query.topic || query.type;
     // console.log({ topic });
@@ -98,10 +97,12 @@ const handleNotification = async (req, res) => {
         //=========================
         // Notificacion
         //========================
-        // console.log(merchantOrder);
+        // console.log({merchantOrder});
         //Crear Order-----v
         // const order = await createOrder(merchantOrder);
-        // //Crear Sale-----v
+
+        // console.log({order});
+        // // //Crear Sale-----v
         // await createSale(merchantOrder);
         // //SendMail(comprador)---v
         // if (order) {

@@ -17,6 +17,8 @@ import ThankYouPage from "./components/ThankyouPage/ThankyouPage";
 import { setCompraExitosa } from "../src/redux/actions";
 import LogInSuccess from "./components/LogIn/LoginSuccess";
 import { refreshAccessToken, sessionActive } from "./redux/Actions/authAction";
+import Reset from "./components/RecoveryPassword/Reset"
+import ChangePassword from "./components/RecoveryPassword/ChangePassword";
 
 function App() {
   const location = useLocation();
@@ -29,11 +31,9 @@ function App() {
     setCartSidebarVisible(!isCartSidebarVisible);
   };
 
-  
   const handleSearch = (nombreTienda) => {
     setNombreTiendaFiltrado(nombreTienda);
   };
-  
 
   const dispatch = useDispatch();
 
@@ -60,7 +60,7 @@ function App() {
   useEffect(() => {
     dispatch(sessionActive());
     return;
-  }, [userStringify]);
+  }, []);
 
   useEffect(() => {
     const user = JSON.parse(sessionStorage.getItem("session-mz"));
@@ -69,7 +69,7 @@ function App() {
       const tokenExpirationTime = 900; // Tiempo de expiración en segundos
       const refreshTokenTimer = setInterval(() => {
         dispatch(refreshAccessToken(refreshtkn));
-      }, (tokenExpirationTime - 60) * 1000); // Refrescar a 60 segundos antes de la expiración
+      }, (tokenExpirationTime - 120) * 1000); // Refrescar a 60 segundos antes de la expiración
 
       // Limpieza cuando el componente se desmonta
       return () => {
@@ -102,7 +102,10 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/home" element={<Home nombreTiendaFiltrado={nombreTiendaFiltrado} />}/>
+          <Route
+            path="/home"
+            element={<Home nombreTiendaFiltrado={nombreTiendaFiltrado} />}
+          />
           <Route path="/login" element={<LogInSignUp />} />
           <Route path="/login/success" element={<LogInSuccess />} />
           <Route path="/dashboard" element={<Dashboard />} />
@@ -110,13 +113,14 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/detail/:detailId" element={<Detail />} />
           <Route path="/thankyou" element={<ThankYouPage />} />
+          <Route path="/password-recovery" element={<Reset />} />
+          <Route path="/change-password" element={<ChangePassword />} />
         </Routes>
 
         <div>{location.pathname === "/" ? null : <Footer />}</div>
       </div>
       {isCartSidebarVisible && <CartSidebar />}
       {/* </GoogleOAuthProvider> */}
-
     </>
   );
 }

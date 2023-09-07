@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/Users.js');
 const Roles = require('../models/Roles.js');
 
-const { JWT_SECRET, JWT_REFRESH, EMAIL, JWT_SECRET_RECOVERY, DOMAIN_NAME } =
+const { JWT_SECRET, JWT_REFRESH, EMAIL, JWT_SECRET_RECOVERY, DOMAIN_NAME_FRONT } =
   process.env;
 const boom = require('@hapi/boom');
 const { sendMail } = require('./emailController.js');
@@ -17,6 +17,11 @@ const singIn = async (req, res, next) => {
     const roles = await Roles.find({ _id: { $in: user.role } });
     const rolesName = roles.map((rol) => rol.name);
 
+    if (!user['_doc'].active) {
+      return next(boom.unauthorized());
+    }
+
+    delete user['_doc'].active;
     user['_doc']['role'] = rolesName;
 
     const payload = {
@@ -40,7 +45,7 @@ const userUpdate = async (id, changes) => {
   try {
     const user = await User.findOne({ _id: id });
     const rta = await user.updateOne(changes);
-    console.log('USUARIO', user);
+
     return rta;
   } catch (error) {
     console.error('Error al actualizar usuario:', error);
@@ -49,15 +54,18 @@ const userUpdate = async (id, changes) => {
 };
 
 const recoveryPassword = async (email) => {
+  console.log("CONTROLLER:", email)
   const userFound = await User.findOne({ email: email });
-  console.log(userFound._id);
+  console.log("CONTROLLER user:",userFound._id);
   // console.log("auth controller:", userFound.email);
   if (!userFound) {
     throw boom.unauthorized('Usuario no encontrado');
   }
   const payload = { sub: userFound['_id'] };
   const token = jwt.sign(payload, JWT_SECRET_RECOVERY, { expiresIn: '15min' }); // generar un nuevo jwtsecret para recuperar pass
-  const link = `${DOMAIN_NAME}/recovery?token=${token}`;
+  const link = `${DOMAIN_NAME_FRONT}change-password?token=${token}`;
+  console.log("TOKEN", token)
+  console.log("URL", link)
   await userUpdate(userFound._id, { recoveryToken: token });
 
   const emailData = {
@@ -99,9 +107,11 @@ const recoveryPassword = async (email) => {
 const changePassword = async (token, newPassword) => {
   try {
     //verificar token, para que retorne su payload si sale bien
+    console.log("TOKEN",token);
+    console.log("NewPassword", newPassword);
     const payload = jwt.verify(token, JWT_SECRET_RECOVERY);
     const user = await User.findById(payload.sub);
-    if (user.recoveryToken !== token) {
+    if (user.recoveryToken !== token) { 
       throw boom.unauthorized();
     }
     const hash = await bcryptjs.hash(newPassword, 10);
@@ -109,6 +119,8 @@ const changePassword = async (token, newPassword) => {
 
     return { message: 'password changed' };
   } catch (error) {
+ 
+    console.log("error al llegar a controller ChangePassword", error)   
     throw boom.unauthorized();
   }
 };
