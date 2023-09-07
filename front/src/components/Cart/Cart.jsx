@@ -9,7 +9,6 @@ import {
   eliminarDelCarrito,
 } from "../../redux/actions";
 import styles from "./Cart.module.css";
-import { BsTrash } from "react-icons/bs";
 import { backendUrl } from "../../deployConfig";
 
 
