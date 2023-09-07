@@ -17,7 +17,6 @@ storeRouter.post(
   '/create',
   verifyToken,
   passport.authenticate('jwt', { session: false }),
-  checkRoles('admin', 'seller'),
   createStoreHandler
 );
 
