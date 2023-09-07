@@ -4,8 +4,8 @@ import LetteredAvatar from "react-lettered-avatar";
 import { styled } from "styled-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { putInfoProfile } from "../../../redux/Actions/userAction";
-import { mapUserDataToAPI } from './mapUserDataToAPI';
+import { putInfoProfile } from "../../../redux/Actions/authAction";
+import { mapUserDataToAPI } from "./mapUserDataToAPI";
 
 const DivPrincipal = styled.div`
   display: flex;
@@ -84,8 +84,12 @@ const Profile = () => {
         street: user.user.address ? user.user.address.street : "",
         streetNumber: user.user.address ? user.user.address.streetNumber : "",
         postalCode: user.user.address ? user.user.address.postalCode : "",
-        townNeighborhood: user.user.address ? user.user.address.townNeighborhood : "",
-        floorApartment: user.user.address ? user.user.address.floorApartment : "",
+        townNeighborhood: user.user.address
+          ? user.user.address.townNeighborhood
+          : "",
+        floorApartment: user.user.address
+          ? user.user.address.floorApartment
+          : "",
         city: user.user.address ? user.user.address.city : "",
       },
       shippingAddress: user.user.shippingAddress.map((address) => ({
@@ -99,12 +103,14 @@ const Profile = () => {
         const transformedData = mapUserDataToAPI(user.user._id, formik.values);
         console.log(transformedData);
         // Realiza una acción para editar el usuario, por ejemplo, dispatch a Redux
-        await dispatch(putInfoProfile(transformedData));
+        await dispatch(
+          putInfoProfile(transformedData, user.token, user.refreshToke)
+        );
         alert("Usuario editado con éxito");
         setIsEditingName(false);
         setIsEditingAge(false);
         setIsEditingShippingAddress(false);
-    } catch (error) {
+      } catch (error) {
         console.error("Error al editar el usuario:", error);
         alert("No se pudo editar el usuario");
       }
@@ -126,7 +132,6 @@ const Profile = () => {
   const handleCancelEditAge = () => {
     setIsEditingAge(false);
   };
-
 
   return (
     <DivPrincipal>
@@ -226,7 +231,9 @@ const Profile = () => {
                     name={`shippingAddress[${index}].townNeighborhood`}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    value={formik.values.shippingAddress[index].townNeighborhood}
+                    value={
+                      formik.values.shippingAddress[index].townNeighborhood
+                    }
                   />
                   <input
                     type="text"
