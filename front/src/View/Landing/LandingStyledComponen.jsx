@@ -50,3 +50,12 @@ export const ImgTienda = styled.img`
     width: 20vw;
 
 `
+export const H1 = styled.h1`
+    font-size: 3.5rem;
+    color:#fbfbf3ff;
+    margin: 2vh 0;
+    `
+export const H3 = styled.h3`
+margin-bottom: 2vh;
+    color:#fbfbf3ff;
+    `
