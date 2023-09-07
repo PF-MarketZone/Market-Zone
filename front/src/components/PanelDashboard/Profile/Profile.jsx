@@ -6,6 +6,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { putInfoProfile } from "../../../redux/Actions/userAction";
 import { mapUserDataToAPI } from './mapUserDataToAPI';
+import { BiEditAlt } from 'react-icons/bi';
 
 const DivPrincipal = styled.div`
   display: flex;
@@ -15,7 +16,7 @@ const DivPrincipal = styled.div`
 const Div = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
 `;
 const DivDirection = styled.div`
   display: flex;
@@ -42,6 +43,9 @@ const H6 = styled.h6`
 `;
 const H3 = styled.h3`
   margin: 0;
+`;
+const DivEdit = styled.div`
+  display: flex;
 `;
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Nombre es requerido"),
@@ -132,7 +136,7 @@ const Profile = () => {
     <DivPrincipal>
       <Div>
         <Avatar>
-          <LetteredAvatar name={fullName || "Usuario"} size={80} font />
+          <LetteredAvatar name={fullName || "Usuario"} size={96} font />
         </Avatar>
         <DivRoll>
           <H6>Rol:</H6>
@@ -259,7 +263,7 @@ const Profile = () => {
                   </button>
                 </form>
               ) : (
-                <>
+                <DivEdit>
                   <H3>
                     {address.street} {address.streetNumber} CP.{" "}
                     {address.postalCode} {address.townNeighborhood}{" "}
@@ -267,6 +271,7 @@ const Profile = () => {
                     {address.additionalInformation}
                   </H3>
                   <button
+                    style={{ backgroundColor: "transparent", padding:"0 3vw", border: "none"}}
                     onClick={() => {
                       // Iniciar la edición
                       setIsEditingShippingAddress((prevState) =>
@@ -276,9 +281,9 @@ const Profile = () => {
                       );
                     }}
                   >
-                    Editar Dirección
+                  <BiEditAlt style={{ width: "1.5vw", height: "1.5vw"}} />
                   </button>
-                </>
+                </DivEdit>
               )}
             </DivDirection>
           ))}
