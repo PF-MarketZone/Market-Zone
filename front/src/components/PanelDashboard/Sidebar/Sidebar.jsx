@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import { FaUsers, FaChartBar } from 'react-icons/fa';
-import { LiaProductHunt } from 'react-icons/lia';
-import { CgProfile } from 'react-icons/cg';
-import { MdOutlineCreateNewFolder, MdOutlineShoppingCartCheckout } from 'react-icons/md';
-import { AiOutlineStar } from 'react-icons/ai';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { FaUsers, FaChartBar } from "react-icons/fa";
+import { LiaProductHunt } from "react-icons/lia";
+import { CgProfile } from "react-icons/cg";
+import {
+  MdOutlineCreateNewFolder,
+  MdOutlineShoppingCartCheckout,
+} from "react-icons/md";
+import { AiOutlineStar } from "react-icons/ai";
 import { useSelector } from "react-redux";
 
 const Side = styled.div`
@@ -50,11 +53,17 @@ const Sidebar = ({ handleComponentClick }) => {
   return (
     <div>
       <Side>
-        <MenuItem isActive={activeButton === 'profile'} onClick={() => handleClick('profile')}>
+        <MenuItem
+          isActive={activeButton === "profile"}
+          onClick={() => handleClick("profile")}
+        >
           <CgProfile />
           Perfil
         </MenuItem>
-        <MenuItem isActive={activeButton === 'products'} onClick={() => handleClick('products')}>
+        <MenuItem
+          isActive={activeButton === "products"}
+          onClick={() => handleClick("products")}
+        >
           <LiaProductHunt />
           Productos
         </MenuItem>
@@ -67,7 +76,7 @@ const Sidebar = ({ handleComponentClick }) => {
           Crear Producto
         </MenuItem>
 
-        {role.includes("admin") && (
+        {role && role.includes("admin") && (
           <MenuItem
             isActive={activeButton === "users"}
             onClick={() => handleClick("users")}
