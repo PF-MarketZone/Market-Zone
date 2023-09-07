@@ -21,8 +21,7 @@ const Content = styled.div`
 `;
 
 const Dashboard = () => {
-
-  const [selected, setSelected] = useState(null)
+  const [selected, setSelected] = useState(null);
 
    const renderSelected = () => {
     switch(selected){
@@ -43,20 +42,17 @@ const Dashboard = () => {
       default:
         return null;
     }
-  }
+  };
 
   const handleComponentClick = (component) => {
-    setSelected(component)
-  }
-  
+    setSelected(component);
+  };
 
   return (
     <AdminPanel>
-      <Sidebar handleComponentClick={handleComponentClick}/>
+      <Sidebar handleComponentClick={handleComponentClick} />
       <Content>
-      <div>
-        {renderSelected()}
-      </div>
+        <div>{renderSelected()}</div>
       </Content>
     </AdminPanel>
   );

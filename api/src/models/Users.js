@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true },
     recoveryToken: { type: String },
     age: { type: Number, min: 14, max: 99 },
-    role: [{ref: 'Rol', type: mongoose.Schema.Types.ObjectId,},],
+    role: [{ ref: 'Rol', type: mongoose.Schema.Types.ObjectId }],
     phoneNumber: Number,
     address: {
       street: String,
@@ -34,6 +34,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: 'local',
     },
+    active: { type: Boolean, default: true },
   },
   { collection: 'users', timestamps: true }
 );
