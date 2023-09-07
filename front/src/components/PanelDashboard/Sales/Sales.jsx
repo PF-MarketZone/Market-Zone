@@ -6,7 +6,7 @@ const Sales = () => {
   const [stores, setStores] = useState([]);
   const [selectedStoreId, setSelectedStoreId] = useState(null);
   const { user } = useSelector((state) => state.auth.user);
-console.log(user)
+//console.log(user)
   useEffect(() => {
     // me traigo las storeporid
     axios.get(`http://localhost:3004/api/v1/store?user=${user._id}`)

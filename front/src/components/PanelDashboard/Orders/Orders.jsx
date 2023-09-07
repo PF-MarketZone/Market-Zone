@@ -7,9 +7,9 @@ const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [selectedUser, setSelectedUser] = useState("");
 
-  const { user } = useSelector((state) => state.auth.user);
+  const {  user, token, refreshToken }  = useSelector((state) => state.auth.user);
   const userRole = user ? user.role : null;
-
+//console.log(user)
   useEffect(() => {
     axios
       .get("https://market-zone-api-v1.onrender.com/api/v1/order/")
@@ -38,20 +38,33 @@ const Orders = () => {
             const userIds = ordersData.map((order) => order.user);
 
             // Realizar una solicitud para obtener la lista de usuarios basada en los ID
-            axios
-              .get("https://market-zone-api-v1.onrender.com/api/v1/user/", {
-                params: { ids: userIds.join(",") },
-              })
-              .then((userResponse) => {
-                const usersData = userResponse.data.data;
-                const usersMap = {};
-                usersData.forEach((user) => {
-                  usersMap[user._id] = user.name;
-                });
-
+          
+           console.log({
+            Authorization: `Bearer ${token}`,
+            "refresh-token": refreshToken,
+          },)
+                axios({
+                  url: `https://market-zone-api-v1.onrender.com/api/v1/user`,
+                  method: "get",
+                  params: { ids: userIds.join(',') },
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                    "refresh-token": refreshToken,
+                  },
+                })
+                  .then((userResponse) => {
+                    const usersData = userResponse.data.data;
+                    const usersMap = {};
+                    usersData.forEach((user) => {
+                      usersMap[user._id] = user.name;
+                      console.log(usersData)
+                    });
+                    
+                 
+                 
                 // Filtrar las ordenes segun el rol del usuario
                 const filteredOrders =
-                  user && user.role.includes("customer")
+                  user&& user.role.includes("customer")
                     ? ordersData.filter((order) => order.user === user._id)
                     : ordersData;
 
