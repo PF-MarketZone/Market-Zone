@@ -9,7 +9,7 @@ const Sales = () => {
 //console.log(user)
   useEffect(() => {
     // me traigo las storeporid
-    axios.get(`http://localhost:3004/api/v1/store?user=${user._id}`)
+    axios.get(`https://market-zone-api-v1.onrender.com/store?user=${user._id}`)
       .then((response) => {
         setStores(response.data.data);
       })
