@@ -9,6 +9,8 @@ import {
   eliminarDelCarrito,
 } from "../../redux/actions";
 import styles from "./Cart.module.css";
+import { backendUrl } from "../../deployConfig";
+
 
 const Cart = () => {
   const [preferenceId, setPreferenceId] = useState(null);
@@ -53,7 +55,9 @@ const Cart = () => {
       });
 
       const response = await axios.post(
-        "https://market-zone-api-v1.onrender.com/api/v1/create-order/create-preference",
+
+        `${backendUrl}/create-order/create-preference`,
+
         { items }
       );
       const id = response.data.data;

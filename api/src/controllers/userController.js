@@ -18,7 +18,9 @@ const modifyUserById = async (
   age,
   phoneNumber,
   address,
-  shippingAddress
+  shippingAddress,
+  active,
+  role
 ) => {
   // console.log({ userFinded });
   const userFinded = await Users.findById(_id);
@@ -31,6 +33,9 @@ const modifyUserById = async (
   if (age) {
     userFinded.age = age;
   }
+  if (active) {
+    userFinded.active = !userFinded.active;
+  }
   if (phoneNumber) {
     userFinded.phoneNumber = phoneNumber;
   }
@@ -40,9 +45,11 @@ const modifyUserById = async (
   if (shippingAddress) {
     userFinded.shippingAddress = shippingAddress;
   }
+  if (role) {
+    userFinded.role = role;
+  }
 
-  await userFinded.save();
-  // console.log(userFinded);
+  return await userFinded.save();
 };
 
 module.exports = {
