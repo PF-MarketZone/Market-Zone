@@ -4,8 +4,11 @@ import styles from "./CardsTienda.module.css";
 
 const Cards = ({ tiendas }) => {
   if (tiendas.length === 0) {
-    return <p style={{ color: 'black', fontWeight: 'bold' }}>No se encontraron tiendas.</p>;
-
+    return (
+      <p style={{ color: "black", fontWeight: "bold" }}>
+        No se encontraron tiendas.
+      </p>
+    );
   }
 
   return (
@@ -15,8 +18,9 @@ const Cards = ({ tiendas }) => {
           key={tienda._id}
           _id={tienda._id}
           name={tienda.name}
+          image={tienda.image}
           logo={tienda.image}
-          description={tienda.description} 
+          description={tienda.description}
         />
       ))}
     </div>
@@ -24,5 +28,3 @@ const Cards = ({ tiendas }) => {
 };
 
 export default Cards;
-
-

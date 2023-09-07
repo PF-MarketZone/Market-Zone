@@ -5,7 +5,6 @@ import styles from "./Home.module.css";
 import Cards from "../../components/CardsTienda/CardsTienda";
 import SearchBar from "../../components/searchBar/searchBar";
 
-
 const Home = () => {
   const [tiendas, setTiendas] = useState([]);
   const [nombreTiendaFiltrado, setNombreTiendaFiltrado] = useState("");
@@ -38,7 +37,7 @@ const Home = () => {
       <Banner />
       <div className={styles.ContainerTienda}>
         <h1>Conoce nuestras Tiendas</h1>
-        <SearchBar onSearch={handleSearch} /> 
+        <SearchBar onSearch={handleSearch} />
         <Cards tiendas={tiendasFiltradas} />
       </div>
     </div>

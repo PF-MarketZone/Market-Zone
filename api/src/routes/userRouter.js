@@ -15,7 +15,6 @@ userRouter.get(
   '/',
   verifyToken,
   passport.authenticate('jwt', { session: false }),
-  checkRoles('admin'),
   getAllUsersHandler
 );
 
@@ -27,7 +26,6 @@ userRouter.post(
   '/modify',
   verifyToken,
   passport.authenticate('jwt', { session: false }),
-  checkRoles('admin'),
   updateUserHandler
 );
 

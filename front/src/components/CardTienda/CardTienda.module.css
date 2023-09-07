@@ -3,7 +3,7 @@
   border-radius: 8px;
   padding: 14px;
   width: 250px;
-  height: 200px;
+  height: 230px;
   margin: 16px;
   text-align: center;
   background-color: #fff;
@@ -18,7 +18,7 @@
 
 .logo {
   width: 60%;
-  max-height: 110px;
+  max-height: 100px;
   object-fit: cover;
   border-radius: 8px;
   margin-bottom: 8px;
@@ -31,7 +31,7 @@ h2 {
 }
 
 p {
-  font-size: 0.6em;
-  margin-top: 8px;
+  font-size: 0.5em;
+  margin-top: 3px;
   color: #777;
 }
