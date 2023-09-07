@@ -1,18 +1,28 @@
+
 .tiendaDetalleContainer {
   display: flex;
   align-items: stretch;
   overflow: hidden;
 }
 
+.tiendaDetalleContainer h2 {
+  font-size: large; /* Cambia el tamaño de la fuente a grande */
+  color: #333; /* Cambia el color del texto a tu elección */
+  margin-bottom: 10px; /* Agrega un margen inferior para separar los títulos */
+  /* Otros estilos que desees agregar, como fuente, peso, etc. */
+}
+
 .filtrosContainer {
   width: 240px;
   min-height: calc(100vh - 40px);
   padding: 20px;
-  background-color: #ededed;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(127, 80, 207, 0.9));
   border-radius: 18px;
-  border: 1px solid #d7d7d7;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1), 0 0 10px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(5px); /* Efecto de desenfoque del fondo */
   overflow-y: hidden;
   margin-left: 30px;
+  transition: background 0.3s ease; /* Agregamos una transición suave de color */
 }
 
 .filtrosContainer h2 {
@@ -21,23 +31,28 @@
 
 .filtrosContainer select {
   width: 100%;
-  padding: 10px;
+  padding: 15px; /* Aumentar el padding para que sea más visible y coherente con el diseño general */
   font-size: 16px;
-  border: 1px solid #b3b3b3;
-  border-radius: 4px;
-  margin-bottom: 50px;
+  border: none; /* Eliminar el borde para que los selects se mezclen con el fondo */
+  background: rgba(255, 255, 255, 0.8); /* Un fondo semi-transparente */
+  border-radius: 15px;
+  margin-bottom: 20px; /* Reducir el margen inferior para que queden más cerca de otros elementos */
+  color: #333; /* Cambiar el color del texto para que sea más visible */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Agregar una pequeña sombra */
+  transition: background 0.3s ease; /* Agregamos una transición suave de color */
 }
+
+.filtrosContainer select:hover {
+  background: rgba(255, 255, 255, 0.9); /* Cambiar el fondo al pasar el mouse sobre los selects */
+}
+
 
 .filtrosContainer select option {
   font-size: 14px;
 }
 
 .precioFiltro {
-  margin-top: 20px;
-}
-
-.precioFiltro input[type="range"] {
-  width: 100%;
+  margin-top: 5px;
 }
 
 .precioFiltro p {

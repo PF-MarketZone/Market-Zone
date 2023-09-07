@@ -22,7 +22,7 @@ import ChangePassword from "./components/RecoveryPassword/ChangePassword";
 
 function App() {
   const location = useLocation();
-  const [categoriaFiltrada, setCategoriaFiltrada] = useState();
+  const [nombreTiendaFiltrado, setNombreTiendaFiltrado] = useState("");
   const [isCartSidebarVisible, setCartSidebarVisible] = useState(false);
   const cartItems = useSelector((state) => state.filters.cart);
   const userStringify = sessionStorage.getItem("session-mz");
@@ -31,8 +31,8 @@ function App() {
     setCartSidebarVisible(!isCartSidebarVisible);
   };
 
-  const handleSearch = (categoria) => {
-    setCategoriaFiltrada(categoria);
+  const handleSearch = (nombreTienda) => {
+    setNombreTiendaFiltrado(nombreTienda);
   };
 
   const dispatch = useDispatch();
@@ -60,7 +60,7 @@ function App() {
   useEffect(() => {
     dispatch(sessionActive());
     return;
-  }, [userStringify]);
+  }, []);
 
   useEffect(() => {
     const user = JSON.parse(sessionStorage.getItem("session-mz"));
@@ -69,7 +69,7 @@ function App() {
       const tokenExpirationTime = 900; // Tiempo de expiración en segundos
       const refreshTokenTimer = setInterval(() => {
         dispatch(refreshAccessToken(refreshtkn));
-      }, (tokenExpirationTime - 60) * 1000); // Refrescar a 60 segundos antes de la expiración
+      }, (tokenExpirationTime - 120) * 1000); // Refrescar a 60 segundos antes de la expiración
 
       // Limpieza cuando el componente se desmonta
       return () => {
@@ -104,7 +104,7 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route
             path="/home"
-            element={<Home categoriaFiltrada={categoriaFiltrada} />}
+            element={<Home nombreTiendaFiltrado={nombreTiendaFiltrado} />}
           />
           <Route path="/login" element={<LogInSignUp />} />
           <Route path="/login/success" element={<LogInSuccess />} />

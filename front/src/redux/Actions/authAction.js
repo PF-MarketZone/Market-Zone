@@ -87,7 +87,7 @@ export const checkUserRegistration = (email) => {
 
 //Validamos si hay sesion activa en el storage
 export const sessionActive = () => {
-  return async (dispatch) => {
+  return (dispatch) => {
     try {
       // Extraemos los datos del session storage
       const user = sessionStorage.getItem('session-mz');
@@ -95,9 +95,13 @@ export const sessionActive = () => {
       if (user) {
         const userObject = JSON.parse(user);
         dispatch(activeSession({ user: userObject, auth: true }));
+        return { user: userObject, auth: true };
+      } else {
+        return { user: null, auth: false };
       }
     } catch (error) {
       console.log(error);
+      return { user: null, auth: false };
     }
   };
 };

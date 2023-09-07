@@ -9,6 +9,7 @@ import bannerImage3 from "../../images/banner3.png";
 
 
 const Banner = () => {
+  
   const images = [bannerImage1, bannerImage2, bannerImage3];
 
   return (
