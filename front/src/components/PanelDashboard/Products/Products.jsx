@@ -3,18 +3,34 @@ import {useSelector, useDispatch} from 'react-redux';
 import { getProducts, deleteProducts } from "../../../redux/Actions/productsAction";
 import ProductsList from '../ProductsList/ProductsList';
 import FormEditCard from '../FormEditCard/FormEditCard';
+import Pagination from '../Pagination/Pagination';
 
 
 
 const Products = () => {
 
-    const allProducts = useSelector(state => state.products);
+    const allProducts = useSelector(state => state.products.products.data);
+    console.log(allProducts);
     const dispatch = useDispatch();
     const [editingProductId, setEditingProductId] = useState(null);
 
     useEffect(() => {
       dispatch(getProducts())
   }, [dispatch])
+
+  const [page, setPage] = useState(1); //aranca en la primer pagina
+  const [cardsPage, setCardsPage] = useState(5); //guarda cuantas cartas quiero por pagina
+
+
+  const indexLastCard = page * cardsPage; //pagina actual q estoy * la cantidad de recetas x pagina '9'
+  const indexFirstCard = indexLastCard - cardsPage; //indice del ultimo personaje - los recetas por pag
+
+  const currentCards = allProducts.slice(indexFirstCard, indexLastCard);  //va tener las recetas que tiene en la pagina actual
+
+  const pagination = (pageNumber) => {
+      setPage(pageNumber)
+  }
+
 
   const handleEdit = (id) => {
     setEditingProductId(id);
@@ -41,8 +57,14 @@ const Products = () => {
       <div>
       <p>Productos</p>
       <div>
-        {allProducts.products.data && allProducts.products.data.length > 0 ? (
-          allProducts.products.data.map((product) => (
+      <Pagination
+                cardsPage={cardsPage}
+                recipes={allProducts.length}
+                pagination={pagination}
+                page={page}
+            />
+        {currentCards && currentCards.length > 0 ? (
+          currentCards.map((product) => (
             <div key={product._id}>
               {editingProductId === product._id ? (
                 // Mostrar el componente de edición

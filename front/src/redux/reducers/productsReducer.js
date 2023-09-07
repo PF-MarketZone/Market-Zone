@@ -41,18 +41,18 @@ const productsReducer = (state = initialState, action) => {
                 ...state,
                 products: filterProduct
             }
-        case UPDATE_PRODUCT:
-            const productUpdate = action.payload;
-            const updateProducts = state.products.data.map((product) => {
-                if(product._id === productUpdate.id){
-                    return productUpdate;
-                }
-                return product;
-            })
-            return{
-                ...state,
-                products: updateProducts
-            }
+            case UPDATE_PRODUCT:
+                const updatedProduct = action.payload;
+                console.log(updatedProduct);
+                const updatedProducts = state.products.data.map((product) =>
+                  product._id === updatedProduct._id ? updatedProduct : product
+                );
+                console.log(updatedProducts);
+                return {
+                  ...state,
+                  products: updatedProducts, 
+                };
+                
             case TOGGLE_PRODUCT:
                 const statusProducts = state.products.map((product) =>
                     product._id === action.payload.id

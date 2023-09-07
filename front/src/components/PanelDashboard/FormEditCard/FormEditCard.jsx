@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react'
-import { updateProduct } from '../../../redux/Actions/productsAction';
+import React, {useEffect, useState} from 'react';
 import { useDispatch} from 'react-redux';
+import { updateProduct } from '../../../redux/Actions/productsAction';
 import { useFormik } from 'formik';
 import * as Yup from "yup";
 import ImageUpload from '../../ImageUpload/ImageUpload';
@@ -31,7 +31,7 @@ import {
 
 const FormEditCard = ({product, onCancelEdit }) => {
     const dispatch = useDispatch();
-    const [editedImages, setEditedImages] = useState(product.image.length > 0 ? [product.image[0].url] : []);
+    const [editedImages, setEditedImages] = useState(product.image.map((image) => image.url));
     const [loading, setLoading] = useState(false);
     const [initialFormValues, setInitialFormValues] = useState({
           storeId: product.storeId || "",
@@ -59,14 +59,21 @@ const FormEditCard = ({product, onCancelEdit }) => {
         onSubmit: async (formData) => {
           try {
             const updatedImages = editedImages.map((image) => {
-              // Aquí puedes manejar la lógica para subir las imágenes al servidor si es necesario
-              // Devuelve la URL de la imagen actualizada o el objeto de archivo según tus necesidades
               return image instanceof File ? image : { url: image };
             });
+        
+            // Si hay imágenes nuevas, agrégalas a formData
+            if (updatedImages.length > 0) {
+              formData.image = updatedImages;
+            }
+        
             setLoading(true);
-            await dispatch(updateProduct(product, { ...formData, image: updatedImages }));
+             await dispatch(updateProduct(product, formData));
             setLoading(false);
             alert("Producto actualizado con éxito");
+        
+            console.log("Producto actualizado exitosamente");
+            console.log("Datos actualizados:", formik.values);
           } catch (error) {
             console.error("Error al actualizar el producto:", error);
             setLoading(false);
@@ -74,17 +81,10 @@ const FormEditCard = ({product, onCancelEdit }) => {
           }
         },
         
+        
+        
       });
 
-      
-     
-      useEffect(() => {
-        if (product && Object.keys(product).length > 0) {
-          setInitialFormValues(product);
-        }
-      }, [product]);
-      
-    
     return(
     
         <ProductFormContainer>
@@ -203,14 +203,13 @@ const FormEditCard = ({product, onCancelEdit }) => {
             ) : null}
           </FormGroup>
           <FormGroup>
-          <ImageUpload
-            images={editedImages} // Usar las imágenes editadas
-            onImageChange={(newImages) => {
-              const validImages = newImages.filter((image) => image instanceof File);
-              setEditedImages(validImages);
-            }}
-            
-          />
+            <ImageUpload
+              images={editedImages}
+              onImageChange={(newImages) => {
+                setEditedImages(newImages);
+              }}
+            />
+
           {formik.touched.image && formik.errors.image && (
             <ErrorMessage>{formik.errors.image}</ErrorMessage>
           )}

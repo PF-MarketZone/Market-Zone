@@ -87,45 +87,38 @@ export const getProducts = () => {
     };
   };
 
-  
-  export const updateProduct = (payload) => {
+  export const updateProduct = (formData) => {
+    console.log(formData);
     return async function (dispatch) {
       try {
-        const formData = new FormData();
-  
-        for (const key in payload) {
-          if (key === 'image') {
-            payload[key].forEach((image) => {
-              formData.append('image', image);
-            });
-          } else {
-            formData.append(key, payload[key]);
-          }
-        }
-  
-        const response = await axios.post(
-          `${backendUrl}/product/update`,
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          }
-        );
-  console.log(response)
+        const infoData = await axios.post(`${backendUrl}/product/update`,formData);
+        console.log(infoData);
+        const updateData = infoData.data;
+        console.log(updateData);
         dispatch({
           type: 'UPDATE_PRODUCT',
-          payload: response.data
-        })
-     
-        return response.data;
+          payload: updateData
+        }) 
       } catch (error) {
-        console.error('El producto no ha sido actualizado');
-        throw error;
-      }
+          console.error('El producto no ha sido actualizado');
+          throw error;
+        }
+      };
     };
-  };
-  
+    
+
+
+        // for (const key in payload) {
+        //   if (key === 'image') {
+        //     payload[key].forEach((image) => {
+        //       formData.append('image', image);
+        //     });
+        //   } else {
+        //     formData.append(key, payload[key]);
+        //   }
+        // }
+
+     
 
   export const deleteProducts = (id) => {
     return async function(dispatch){
