@@ -5,20 +5,11 @@ import axios from "axios";
 const Sales = () => {
   const [stores, setStores] = useState([]);
   const [selectedStoreId, setSelectedStoreId] = useState(null);
-  const {  user, token, refreshToken }  = useSelector((state) => state.auth.user);
+  const { user } = useSelector((state) => state.auth.user);
 //console.log(user)
   useEffect(() => {
     // me traigo las storeporid
-  
-    axios({
-      url: `https://market-zone-api-v1.onrender.com/store?user=${user._id}`,
-      method: "get",
-  
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "refresh-token": refreshToken,
-      },
-    })
+    axios.get(`https://market-zone-api-v1.onrender.com/api/v1/store?user=${user._id}`)
       .then((response) => {
         setStores(response.data.data);
       })
