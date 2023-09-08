@@ -3,16 +3,15 @@ import axios from "axios";
 import React, { useState } from "react";
 import { BsTrash } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
+  actualizarInfoD,
   aumentarCantidad,
   disminuirCantidad,
   eliminarDelCarrito,
-  actualizarInfoD,
 } from "../../redux/actions";
 import styles from "./Cart.module.css";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { backendUrl } from "../../deployConfig";
 
 const Cart = () => {
   const [preferenceId, setPreferenceId] = useState(null);

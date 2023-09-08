@@ -1,5 +1,6 @@
 // ---Requerimos los modelos de la BD
 const Store = require('../models/store');
+const Product = require('../models/product');
 
 const { uploadImage } = require('../utils/cloudinary/cloudinary');
 const fs = require('fs-extra');
@@ -73,9 +74,21 @@ const storeCreate = async (req, user, name, image, description) => {
   return createdNewStore;
 };
 
-module.exports = {
+//==========================================
+// Busca los productos en la tienda con el id asignado
+//===========================================
 
+const productsInStore = async (id) => {
+  console.log(id);
+  // const result = await Products.find({ storeId: { $in: id } });
+  const result = Product.find({ storeId: id }).populate('storeId');
+  // console.log({ result });
+  return result;
+};
+
+module.exports = {
   storeByName,
+  productsInStore,
   storeById,
   storeCreate,
 };
