@@ -52,8 +52,8 @@ const Sales = () => {
             border: "none",
             borderRadius: "2px",
             boxShadow: "0 2px 10px 0 rgba(70, 76, 79, .2)",
-            width: "100vw",
-            height: "100vh",
+            width: "165vh",
+            height: "75vh",
           }}
           src={`https://charts.mongodb.com/charts-marketzone-jmrft/embed/dashboards?id=${selectedStore.chart}&theme=dark&autoRefresh=true&maxDataAge=60&showTitleAndDesc=false&scalingWidth=scale&scalingHeight=scale`}
         ></iframe>

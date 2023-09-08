@@ -61,6 +61,30 @@ const CartSidebar = ({ onClose }) => {
     0
   );
 
+  const handleFinalizarPedido = () => {
+    // Verificar si el usuario está autenticado
+    const user = useSelector((state) => state.auth.user);
+  
+    if (!user) {
+      // Si no está autenticado, redirige al usuario a la página de inicio de sesión utilizando Link
+      return (
+        <Link to="/login">
+          <button className={styles.finalizarPedidoButton} onClick={onClose}>
+            Finalizar Pedido
+          </button>
+        </Link>
+      );
+    } else {
+      return (
+        <Link to="/cart">
+          <button className={styles.finalizarPedidoButton} onClick={onClose}>
+            Finalizar Pedido
+          </button>
+        </Link>
+      )
+    }
+  };
+
   return (
     <div
       className={`${styles.cartSidebar} ${
@@ -121,11 +145,7 @@ const CartSidebar = ({ onClose }) => {
           </div>
         </div>
       )}
-      <Link to="/cart">
-        <button className={styles.finalizarPedidoButton} onClick={onClose}>
-          Finalizar Pedido
-        </button>
-      </Link>
+      {handleFinalizarPedido()}
       <ToastContainer />
     </div>
   );
