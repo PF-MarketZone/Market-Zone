@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect } from "react";
-import { Link,useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styles from "./Nav.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import CartSidebar from "../CartSidebar/CartSidebar";
 import Logo from "../../images/Logo.png";
 import { AiOutlineLogin, AiOutlineLogout } from "react-icons/ai";
 import { logoutFn } from "../../redux/Actions/authAction";
-import { FaShoppingCart } from "react-icons/fa"
+import { FaShoppingCart } from "react-icons/fa";
 
 const Nav = () => {
   const dispatch = useDispatch();
@@ -61,7 +61,7 @@ const Nav = () => {
         {isAuthenticated && (
           // Mostrar botón de Dashboard solo si está autenticado
           <Link to="/dashboard">
-            <button className={styles.button1}>Dashboard</button>
+            <button className={styles.button1}>Panel de aministración</button>
           </Link>
         )}
 
@@ -69,13 +69,12 @@ const Nav = () => {
           {location.pathname !== "/home" && (
             // Mostrar el botón del carrito solo en páginas distintas de /home
             <button className={styles.button2} onClick={toggleCartSidebar}>
-              <FaShoppingCart style={{ fontSize: '24px' }}/>
+              <FaShoppingCart style={{ fontSize: "24px" }} />
               {cartItems.length > 0 && (
                 <span className={styles.cartItemCount}>{cartItems.length}</span>
               )}
             </button>
           )}
-
           {isCartSidebarVisible && (
             <div
               className={`${styles.cartSidebarOverlay} ${

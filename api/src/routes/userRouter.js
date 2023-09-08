@@ -15,7 +15,7 @@ userRouter.get(
   '/',
   verifyToken,
   passport.authenticate('jwt', { session: false }),
- 
+
   getAllUsersHandler
 );
 
@@ -27,7 +27,6 @@ userRouter.post(
   '/modify',
   verifyToken,
   passport.authenticate('jwt', { session: false }),
-  
   updateUserHandler
 );
 
