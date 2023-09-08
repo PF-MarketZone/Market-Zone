@@ -5,7 +5,6 @@ import styles from "./Home.module.css";
 import Cards from "../../components/CardsTienda/CardsTienda";
 import SearchBar from "../../components/searchBar/searchBar";
 
-
 const Home = () => {
   const [tiendas, setTiendas] = useState([]);
   const [nombreTiendaFiltrado, setNombreTiendaFiltrado] = useState("");
@@ -13,6 +12,15 @@ const Home = () => {
   const handleSearch = (nombreTienda) => {
     setNombreTiendaFiltrado(nombreTienda);
   };
+
+  useEffect(() => {
+    // Borrar los valores del localStorage cuando se navega a /home
+    localStorage.removeItem("selectedCategory");
+    localStorage.removeItem("searchQuery");
+    localStorage.removeItem("selectedOrder");
+    localStorage.removeItem("selectedPriceOrder");
+    localStorage.removeItem("selectedColor");
+  }, []);
 
   useEffect(() => {
     // Hacer la llamada a la API para obtener las tiendas
@@ -38,7 +46,7 @@ const Home = () => {
       <Banner />
       <div className={styles.ContainerTienda}>
         <h1>Conoce nuestras Tiendas</h1>
-        <SearchBar onSearch={handleSearch} /> 
+        <SearchBar onSearch={handleSearch} />
         <Cards tiendas={tiendasFiltradas} />
       </div>
     </div>

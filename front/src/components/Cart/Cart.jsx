@@ -1,38 +1,47 @@
 import { Wallet, initMercadoPago } from "@mercadopago/sdk-react";
 import axios from "axios";
 import React, { useState } from "react";
+import { BsTrash } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import {
   aumentarCantidad,
   disminuirCantidad,
   eliminarDelCarrito,
+  actualizarInfoD,
 } from "../../redux/actions";
 import styles from "./Cart.module.css";
-import { BsTrash } from "react-icons/bs";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { backendUrl } from "../../deployConfig";
 
 const Cart = () => {
   const [preferenceId, setPreferenceId] = useState(null);
   initMercadoPago("APP_USR-30f4d3f9-4b95-410f-b2fd-331973191e15"); // ingresar Public key comprador
 
   const cartItems = useSelector((state) => state.filters.cart);
+  const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 
   const eliminarProducto = (id) => {
+    localStorage.removeItem("temporaryStock");
     dispatch(eliminarDelCarrito(id));
+    dispatch(actualizarInfoD());
   };
 
-  const handleAumentarCantidad = (itemId) => {
-    dispatch(aumentarCantidad(itemId));
+  const handleAumentarCantidad = (itemId, stock) => {
+    const cartItem = cartItems.find((item) => item._id === itemId);
+
+    if (cartItem.quantity + 1 <= stock) {
+      dispatch(aumentarCantidad(itemId));
+    } else {
+      toast.error(
+        "No puedes agregar más de este producto. Stock insuficiente."
+      );
+    }
   };
 
   const handleDisminuirCantidad = (itemId) => {
     dispatch(disminuirCantidad(itemId));
-  };
-
-  const handleAgregarAlCarrito = (product) => {
-    dispatch(agregarAlCarrito(product));
-    const updatedCart = [...cartItems, product];
-    localStorage.setItem("cartItems", JSON.stringify(updatedCart));
   };
 
   const totalPrecio = cartItems.reduce((total, item) => {
@@ -41,8 +50,11 @@ const Cart = () => {
 
   const createPreference = async (cartItems) => {
     try {
+      // validar si el usuario esta logueado
+
+      // preguntamos si el usuario que va a hacer la compra esta autorizado
+
       const items = cartItems.map((item) => {
-        // console.log(item._id);
         return {
           id: item._id,
           title: item.name,
@@ -51,10 +63,15 @@ const Cart = () => {
           currency_id: "COP",
         };
       });
+      const data = {
+        userId: user.user._id,
+        items,
+      };
+      console.log(data);
 
       const response = await axios.post(
-        "http://localhost:3004/api/v1/create-order/create-preference",
-        { items }
+        `${backendUrl}/create-order/create-preference`,
+        { data }
       );
       const id = response.data.data;
       return id;
@@ -103,7 +120,9 @@ const Cart = () => {
                     <span>{item.quantity}</span>
                     <button
                       className={styles["quantity-button"]}
-                      onClick={() => handleAumentarCantidad(item._id)}
+                      onClick={() =>
+                        handleAumentarCantidad(item._id, item.stock)
+                      }
                     >
                       +
                     </button>
@@ -126,9 +145,10 @@ const Cart = () => {
         </div>
       )}
       <button className={styles["cart-buy"]} onClick={handleBuy}>
-        Comprar
+        Ir a pagar
       </button>
       {preferenceId && <Wallet initialization={{ preferenceId }} />}
+      <ToastContainer />
     </div>
   );
 };

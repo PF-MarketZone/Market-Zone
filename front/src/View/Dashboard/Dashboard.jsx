@@ -3,10 +3,12 @@ import styled from 'styled-components';
 import Sidebar from '../../components/PanelDashboard/Sidebar/Sidebar';
 import Products from '../../components/PanelDashboard/Products/Products';
 import AddProducts from '../../components/PanelDashboard/AddProducts/AddProducts';
+import AddStore from "../../components/PanelDashboard/AddStore/AddStore";
 import Orders from '../../components/PanelDashboard/Orders/Orders';
 import Users from '../../components/PanelDashboard/Users/Users';
 import Sales from '../../components/PanelDashboard/Sales/Sales';
 import Reviews from '../../components/PanelDashboard/Reviews/Reviews'
+import Profile from '../../components/PanelDashboard/Profile/Profile'
 
 
 const AdminPanel = styled.div`
@@ -20,15 +22,18 @@ const Content = styled.div`
 `;
 
 const Dashboard = () => {
-
-  const [selected, setSelected] = useState(null)
+  const [selected, setSelected] = useState(null);
 
    const renderSelected = () => {
     switch(selected){
+      case 'profile':
+        return <Profile/>;
       case 'products':
         return <Products/>;
       case 'add products':
         return <AddProducts/>
+      case "add store":
+        return <AddStore />;
       case 'users':
         return <Users/>
       case 'orders':
@@ -40,20 +45,17 @@ const Dashboard = () => {
       default:
         return null;
     }
-  }
+  };
 
   const handleComponentClick = (component) => {
-    setSelected(component)
-  }
-  
+    setSelected(component);
+  };
 
   return (
     <AdminPanel>
-      <Sidebar handleComponentClick={handleComponentClick}/>
+      <Sidebar handleComponentClick={handleComponentClick} />
       <Content>
-      <div>
-        {renderSelected()}
-      </div>
+        <div>{renderSelected()}</div>
       </Content>
     </AdminPanel>
   );

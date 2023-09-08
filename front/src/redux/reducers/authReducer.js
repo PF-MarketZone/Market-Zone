@@ -3,6 +3,7 @@ import {
   LOGIN_FAILURE,
   LOGOUT,
   ACTIVE_SESSION,
+  PUT_INFO_PROFILE,
 } from '../Actions/authAction';
 
 const isAuthenticatedStored = !!sessionStorage.getItem('session-mz');
@@ -40,6 +41,12 @@ const authReducer = (state = initialState, action) => {
         ...state,
         user: action.payload.user,
         isAuthenticated: action.payload.auth,
+      };
+
+    case PUT_INFO_PROFILE:
+      return {
+        ...state,
+        user: action.payload,
       };
 
     default:

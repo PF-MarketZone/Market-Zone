@@ -3,7 +3,7 @@ const { recoveryPassword, changePassword } = require('../controllers/authControl
 const recoveryHandler = async (req, res, next) => {
     try {
         const { email } = req.body;
-        console.log(email)
+        console.log("HANDLER:", email)
         const rta = await recoveryPassword(email);
         
         res.json(rta);
@@ -16,7 +16,7 @@ const changeHandler = async (req, res, next) => {
     try {
         const { token, newPassword } = req.body; //agregar un esquema de validacion;
         const rta = await changePassword(token, newPassword);
-        res.send(rta);
+        res.status(200).send(rta);
     } catch (error) {
         console.log(error); 
         res.status(500).json({ error: 'Error al intentar cambiar la contraseña' });

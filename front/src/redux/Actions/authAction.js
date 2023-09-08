@@ -6,6 +6,7 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 export const LOGOUT = 'LOGOUT';
 export const ACTIVE_SESSION = 'ACTIVE_SESSION'; //Valida si hay session activa o no
+export const PUT_INFO_PROFILE = 'PUT_INFO_PROFILE';
 
 // Acción: inicio de sesión exitoso
 export const loginSuccess = (user) => ({
@@ -151,6 +152,43 @@ export const refreshAccessToken = (refreshtkn) => {
       }
     } catch (error) {
       console.log('error al refrescar el tkn', error);
+    }
+  };
+};
+
+export const putInfoProfile = (formData, tkn, rtkn) => {
+  return async function (dispatch) {
+    try {
+      const apiData = await axios({
+        url: `${backendUrl}/user/modify`,
+        method: 'post',
+        headers: {
+          Authorization: `Bearer ${tkn}`,
+          'refresh-token': rtkn,
+        },
+        data: formData,
+      });
+
+      const modifiProfile = apiData.data.data;
+      if (modifiProfile) {
+        delete modifiProfile.active;
+        delete modifiProfile.role;
+        delete modifiProfile.password;
+
+        const user = JSON.parse(sessionStorage.getItem('session-mz'));
+
+        const userUpdate = {
+          ...user,
+          user: { ...user.user, ...modifiProfile },
+        };
+
+        sessionStorage.clear('session-mz');
+        sessionStorage.setItem('session-mz', JSON.stringify(userUpdate));
+
+        dispatch(sessionActive());
+      }
+    } catch (error) {
+      window.alert(error);
     }
   };
 };

@@ -1,9 +1,12 @@
-const { ACCESS_TOKEN_MP, NGROK_ACCESS, DOMAIN_NAME_FRONT } = process.env;
+const { ACCESS_TOKEN_MP, DOMAIN_NAME, DOMAIN_NAME_FRONT } = process.env;
 // SDK Mercado Pago
 const mercadopago = require('mercadopago');
 
 const createPreference = async (req) => {
-  const itemsList = req.items;
+  const itemsList = req.data.items;
+  const userId = req.data.userId;
+  // console.log({ itemsList });
+  // console.log({ userId });
   mercadopago.configure({
     access_token: ACCESS_TOKEN_MP, // acces token del vendedor
   });
@@ -15,9 +18,9 @@ const createPreference = async (req) => {
       unit_price: item.unit_price,
       quantity: item.quantity,
     })),
-    notification_url: `https://89d3-190-176-84-112.ngrok.io/api/v1/create-order/notification/`,
+    notification_url: `https://6705-190-176-99-34.ngrok.io/api/v1/create-order/notification/${userId}`,
     back_urls: {
-      success: `${DOMAIN_NAME_FRONT}/thankyou`,// crear componente para compra exitosa (componente del front, para mas estilo)
+      success: `${DOMAIN_NAME_FRONT}/thankyou`, // crear componente para compra exitosa (componente del front, para mas estilo)
       failure: `${DOMAIN_NAME_FRONT}/cart`,
       pending: `${DOMAIN_NAME_FRONT}/cart`,
     },
@@ -25,6 +28,7 @@ const createPreference = async (req) => {
   };
 
   const response = await mercadopago.preferences.create(preference);
+  // console.log(response);
 
   const id = response.body.id;
   return id;

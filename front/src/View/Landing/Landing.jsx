@@ -4,7 +4,7 @@ import videoSourceMp4 from '../../images/animationLanding.mp4';
 import videoSourceWebm from '../../images/animationLanding.webm';
 import Logo from '../../images/Logo.png';
 import TiendaOnline from '../../images/tiendaenlinea.png';
-import { VideoBackground, ContentContainer, Div, ContentDiv, DivPrin, ImgLogo, ImgTienda} from './LandingStyledComponen';
+import { VideoBackground, ContentContainer, Div, ContentDiv, DivPrin, ImgLogo, ImgTienda, H1, H3} from './LandingStyledComponen';
 
 const Landing = (props) => {
     const [showContent, setShowContent] = useState(false);
@@ -41,8 +41,8 @@ const Landing = (props) => {
                 <ContentDiv>
                 <Div>
                     <div>
-                        <h3>Muéstrale al mundo de lo que eres capaz</h3>
-                        <h1>Crea Tu Tienda <br /> En Linea Facil</h1>
+                        <H3>Muéstrale al mundo de lo que eres capaz</H3>
+                        <H1>Crea Tu Tienda <br /> En Linea Facil</H1>
                     </div>
                     <div>
                         <MyButton text="Ir a la página de inicio" route="/home" variant="inicio" />
