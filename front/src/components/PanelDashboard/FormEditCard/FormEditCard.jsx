@@ -12,7 +12,6 @@ import {
   ErrorMessage,
 } from "../AddProducts/StyleComponenteAdd";
 
-
 const validationSchema = Yup.object({
   storeId: Yup.string().required("Selecciona una tienda"),
   name: Yup.string().required("El Campo no puede estar vacío"),
@@ -43,6 +42,10 @@ const FormEditCard = ({ update, product, onCancelEdit }) => {
     product.image.map((image) => image.url)
   );
 
+  const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [updateError, setUpdateError] = useState(null);
+
   const [loading, setLoading] = useState(false);
   const [initialFormValues, setInitialFormValues] = useState({
     _id: product._id,
@@ -63,7 +66,7 @@ const FormEditCard = ({ update, product, onCancelEdit }) => {
     "Tienda de Electrónica": "64daf18450c25495a4a6a612",
     "Tienda de Moda": "64daf18450c25495a4a6a613",
   };
-  
+
   const formik = useFormik({
     initialValues: initialFormValues,
     validationSchema: validationSchema,
@@ -78,15 +81,19 @@ const FormEditCard = ({ update, product, onCancelEdit }) => {
         formData.image = newImages;
         formData.oldImages = coincidentURLs;
 
-        setLoading(true);
+        setIsSubmitting(true);
         await dispatch(updateProduct(formData));
-        setLoading(false);
-        alert("Producto actualizado con éxito");
+        setIsSubmitting(false);
+        setUpdateSuccess(true);
         update();
+        formik.setValues({
+          ...formik.values,
+          ...formData,
+        });
       } catch (error) {
         console.error("Error al actualizar el producto:", error);
-        setLoading(false);
-        alert("No se pudo actualizar el producto");
+        setIsSubmitting(false);
+        setUpdateError(error.message);
       }
     },
   });
@@ -239,7 +246,9 @@ const FormEditCard = ({ update, product, onCancelEdit }) => {
           )}
         </FormGroup> */}
 
-          <button type="submit">Actualizar Producto</button>
+          <button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Actualizando..." : "Actualizar Producto"}
+          </button>
           <button onClick={onCancelEdit}>Cancelar Edición</button>
         </form>
       )}
