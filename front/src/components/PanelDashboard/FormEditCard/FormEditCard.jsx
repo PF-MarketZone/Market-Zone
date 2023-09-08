@@ -29,9 +29,13 @@ import {
   });
 
 
+
 const FormEditCard = ({product, onCancelEdit }) => {
     const dispatch = useDispatch();
-    const [editedImages, setEditedImages] = useState(product.image.map((image) => image.url));
+    const [editedImages, setEditedImages] = useState(product.image.map((image) => ({
+      public_id: image.public_id,
+      url: image.url,
+    })));
     const [loading, setLoading] = useState(false);
     const [initialFormValues, setInitialFormValues] = useState({
           storeId: product.storeId || "",
@@ -74,12 +78,12 @@ const FormEditCard = ({product, onCancelEdit }) => {
             formData.subcategory = formik.values.subcategory;
         
             setLoading(true);
-            await dispatch(updateProduct(formData));
+            await dispatch(updateProduct(formik.values));
             setLoading(false);
             alert("Producto actualizado con éxito");
         
             console.log("Producto actualizado exitosamente");
-            console.log("Datos actualizados:", formData);
+            console.log("Datos actualizados:", formik.values);
           } catch (error) {
             console.error("Error al actualizar el producto:", error);
             setLoading(false);

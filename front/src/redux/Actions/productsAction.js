@@ -87,26 +87,21 @@ export const getProducts = () => {
     };
   };
 
-export const updateProduct = (formData) => {
-  console.log(formData)
+export const updateProduct = (payload) => {
+  console.log(payload)
   return async function (dispatch) {
     try {
       const updatedFormData = new FormData();
 
-      for (const key in formData) {
+      for (const key in payload) {
         if (key === 'image') {
-          // Handle image updates here by passing the URLs to the backend
-          const updatedImageUrls = formData[key].map((image) => {
-            return image.url || image; // Use the URL if it's already present, otherwise use the original image
+           payload[key].forEach((image) => {
+            updatedFormData.append('image', image);
           });
-
-          updatedFormData.append('image', JSON.stringify(updatedImageUrls));
         } else {
-          updatedFormData.append(key, formData[key]);
+          updatedFormData.append(key, payload[key]);
         }
       }
-      console.log(updatedImageUrls)
-      // Send the updatedFormData to your backend API for product update
       const infoData = await axios.post(
         `${backendUrl}/product/update`,
         updatedFormData,
@@ -117,13 +112,8 @@ export const updateProduct = (formData) => {
         }
       );
 
-      dispatch({
-        type: 'UPDATE_PRODUCT',
-        payload: formData,
-      });
-
-      console.log(infoData);
-      console.log('El producto se actualizó');
+      return infoData.data
+      
     } catch (error) {
       console.error('El producto no ha sido actualizado', error);
       throw error;
