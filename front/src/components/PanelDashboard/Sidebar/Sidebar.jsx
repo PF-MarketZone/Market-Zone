@@ -7,6 +7,7 @@ import { CgProfile } from "react-icons/cg";
 import {
   MdOutlineCreateNewFolder,
   MdOutlineShoppingCartCheckout,
+  MdStore,
 } from "react-icons/md";
 import { AiOutlineStar } from "react-icons/ai";
 import { useSelector } from "react-redux";
@@ -67,6 +68,16 @@ const Sidebar = ({ handleComponentClick }) => {
           <LiaProductHunt />
           Productos
         </MenuItem>
+
+        {role && (role.includes("admin") || role.includes("seller")) && (
+          <MenuItem
+            isActive={activeButton === "add store"}
+            onClick={() => handleClick("add store")}
+          >
+            <MdStore />
+            Crear Tienda
+          </MenuItem>
+        )}
 
         <MenuItem
           isActive={activeButton === "add products"}

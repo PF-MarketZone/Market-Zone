@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Sidebar from '../../components/PanelDashboard/Sidebar/Sidebar';
 import Products from '../../components/PanelDashboard/Products/Products';
 import AddProducts from '../../components/PanelDashboard/AddProducts/AddProducts';
+import AddStore from "../../components/PanelDashboard/AddStore/AddStore";
 import Orders from '../../components/PanelDashboard/Orders/Orders';
 import Users from '../../components/PanelDashboard/Users/Users';
 import Sales from '../../components/PanelDashboard/Sales/Sales';
@@ -31,6 +32,8 @@ const Dashboard = () => {
         return <Products/>;
       case 'add products':
         return <AddProducts/>
+      case "add store":
+        return <AddStore />;
       case 'users':
         return <Users/>
       case 'orders':

@@ -11,20 +11,21 @@ import {
   SET_COMPRA_EXITOSA,
   DISMINUIR_CANTIDAD,
   GUARDAR_PRODUCTOS_TEMPORALES,
-  SET_COLOR_FILTRO
-} from "../actions";
+  SET_COLOR_FILTRO,
+  ACTUALIZAR_INFO_D,
+} from '../actions';
 
 const initialState = {
   cart: [],
   tempCartItems: [],
   categoriasSeleccionadas: [],
   compraExitosa: false,
-  categoria: "",
+  categoria: '',
   precioMin: 0,
   precioMax: 500,
-  ordenAlfabetico: "",
-  ordenPrecio: "",
-  color: "",
+  ordenAlfabetico: '',
+  ordenPrecio: '',
+  infoDUpdated: false,
 };
 
 const filtersReducer = (state = initialState, action) => {
@@ -37,8 +38,8 @@ const filtersReducer = (state = initialState, action) => {
       return { ...state, precioMax: action.payload };
     case SET_ORDEN_ALFABETICO:
       return { ...state, ordenAlfabetico: action.payload };
-      case SET_COLOR_FILTRO:
-      return { ...state, color: action.payload }
+    case SET_COLOR_FILTRO:
+      return { ...state, color: action.payload };
     case AGREGAR_AL_CARRITO:
       const newItem = action.payload;
       const existingItemIndex = state.cart.findIndex(
@@ -65,16 +66,16 @@ const filtersReducer = (state = initialState, action) => {
 
     case AUMENTAR_CANTIDAD:
       const itemIdToIncrease = action.payload;
-  const updatedCartAumentar = state.cart.map((item) =>
-    item._id === itemIdToIncrease
-      ? { ...item, quantity: item.quantity + 1 }
-      : item
-  );
-  localStorage.setItem("carrito", JSON.stringify(updatedCartAumentar));
-  return {
-    ...state,
-    cart: updatedCartAumentar,
-  };
+      const updatedCartAumentar = state.cart.map((item) =>
+        item._id === itemIdToIncrease
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      );
+      localStorage.setItem('carrito', JSON.stringify(updatedCartAumentar));
+      return {
+        ...state,
+        cart: updatedCartAumentar,
+      };
 
     case DISMINUIR_CANTIDAD:
       const itemToDecrease = state.cart.find(
@@ -86,7 +87,7 @@ const filtersReducer = (state = initialState, action) => {
             ? { ...item, quantity: item.quantity - 1 }
             : item
         );
-        localStorage.setItem("carrito", JSON.stringify(updatedCartDecrease));
+        localStorage.setItem('carrito', JSON.stringify(updatedCartDecrease));
         return {
           ...state,
           cart: updatedCartDecrease,
@@ -108,6 +109,11 @@ const filtersReducer = (state = initialState, action) => {
       return {
         ...state,
         ordenPrecio: action.payload,
+      };
+    case ACTUALIZAR_INFO_D:
+      return {
+        ...state,
+        infoDUpdated: false,
       };
     default:
       return state;

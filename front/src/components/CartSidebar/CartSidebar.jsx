@@ -5,9 +5,12 @@ import {
   aumentarCantidad,
   disminuirCantidad,
   eliminarDelCarrito,
+  actualizarInfoD,
 } from "../../redux/actions";
 import styles from "./CartSidebar.module.css";
 import { BsTrash } from "react-icons/bs";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CartSidebar = ({ onClose }) => {
   const cartItems = useSelector((state) => state.filters.cart);
@@ -31,8 +34,16 @@ const CartSidebar = ({ onClose }) => {
     };
   }, [onClose]);
 
-  const handleAumentarCantidadSidebar = (itemId) => {
-    dispatch(aumentarCantidad(itemId));
+  const handleAumentarCantidadSidebar = (itemId, stock) => {
+    const cartItem = cartItems.find((item) => item._id === itemId);
+
+    if (cartItem.quantity + 1 <= stock) {
+      dispatch(aumentarCantidad(itemId));
+    } else {
+      toast.error(
+        "No puedes agregar más de este producto. Stock insuficiente."
+      );
+    }
   };
 
   const handleDisminuirCantidadSidebar = (itemId) => {
@@ -40,7 +51,9 @@ const CartSidebar = ({ onClose }) => {
   };
 
   const eliminarProducto = (id) => {
+    localStorage.removeItem(`temporaryStock_${id}`);
     dispatch(eliminarDelCarrito(id));
+    dispatch(actualizarInfoD());
   };
 
   const totalPrecio = cartItems.reduce(
@@ -86,7 +99,9 @@ const CartSidebar = ({ onClose }) => {
                     </p>
                     <button
                       className={styles["quantity-button"]}
-                      onClick={() => handleAumentarCantidadSidebar(item._id)}
+                      onClick={() =>
+                        handleAumentarCantidadSidebar(item._id, item.stock)
+                      }
                     >
                       +
                     </button>
@@ -111,6 +126,7 @@ const CartSidebar = ({ onClose }) => {
           Finalizar Pedido
         </button>
       </Link>
+      <ToastContainer />
     </div>
   );
 };
