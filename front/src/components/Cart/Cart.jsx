@@ -7,8 +7,11 @@ import {
   aumentarCantidad,
   disminuirCantidad,
   eliminarDelCarrito,
+  actualizarInfoD,
 } from "../../redux/actions";
 import styles from "./Cart.module.css";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Cart = () => {
   const [preferenceId, setPreferenceId] = useState(null);
@@ -19,21 +22,25 @@ const Cart = () => {
   const dispatch = useDispatch();
 
   const eliminarProducto = (id) => {
+    localStorage.removeItem("temporaryStock");
     dispatch(eliminarDelCarrito(id));
+    dispatch(actualizarInfoD());
   };
 
-  const handleAumentarCantidad = (itemId) => {
-    dispatch(aumentarCantidad(itemId));
+  const handleAumentarCantidad = (itemId, stock) => {
+    const cartItem = cartItems.find((item) => item._id === itemId);
+
+    if (cartItem.quantity + 1 <= stock) {
+      dispatch(aumentarCantidad(itemId));
+    } else {
+      toast.error(
+        "No puedes agregar más de este producto. Stock insuficiente."
+      );
+    }
   };
 
   const handleDisminuirCantidad = (itemId) => {
     dispatch(disminuirCantidad(itemId));
-  };
-
-  const handleAgregarAlCarrito = (product) => {
-    dispatch(agregarAlCarrito(product));
-    const updatedCart = [...cartItems, product];
-    localStorage.setItem("cartItems", JSON.stringify(updatedCart));
   };
 
   const totalPrecio = cartItems.reduce((total, item) => {
@@ -112,7 +119,9 @@ const Cart = () => {
                     <span>{item.quantity}</span>
                     <button
                       className={styles["quantity-button"]}
-                      onClick={() => handleAumentarCantidad(item._id)}
+                      onClick={() =>
+                        handleAumentarCantidad(item._id, item.stock)
+                      }
                     >
                       +
                     </button>
@@ -138,6 +147,7 @@ const Cart = () => {
         Ir a pagar
       </button>
       {preferenceId && <Wallet initialization={{ preferenceId }} />}
+      <ToastContainer />
     </div>
   );
 };
