@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getProductById } from "../../redux/Actions/productsAction";
-import { agregarAlCarrito } from "../../redux/actions";
+import { agregarAlCarrito,actualizarInfoD } from "../../redux/actions";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -30,12 +30,24 @@ const InfoD = () => {
   const dispatch = useDispatch();
   const { detailId } = useParams();
   const details = useSelector((state) => state.products.detail);
+  const infoDUpdated = useSelector((state) => state.filters.infoDUpdated);
+  console.log(infoDUpdated)
 
   // Obtener el stock temporal para este producto desde el localStorage
-  const temporaryStockInStorage = JSON.parse(localStorage.getItem(`temporaryStock_${detailId}`)) || 0;
+  const temporaryStockInStorage =
+    JSON.parse(localStorage.getItem(`temporaryStock_${detailId}`)) || 0;
 
   const [quantity, setQuantity] = useState(0);
   const [temporaryStock, setTemporaryStock] = useState(temporaryStockInStorage);
+
+  useEffect(() => {
+    if (infoDUpdated) {
+      dispatch(getProductById(detailId));
+
+      // Restablece infoDUpdated a false para evitar un bucle infinito
+      dispatch(actualizarInfoD());
+    }
+  }, [dispatch, detailId, infoDUpdated]);
 
   useEffect(() => {
     dispatch(getProductById(detailId));
@@ -71,7 +83,10 @@ const InfoD = () => {
 
       // Actualizar stock temporal en LocalStorage para este producto
       const updatedTemporaryStock = temporaryStock + quantity;
-      localStorage.setItem(`temporaryStock_${detailId}`, JSON.stringify(updatedTemporaryStock));
+      localStorage.setItem(
+        `temporaryStock_${detailId}`,
+        JSON.stringify(updatedTemporaryStock)
+      );
 
       setTemporaryStock(updatedTemporaryStock); // Actualizar el estado local también
 

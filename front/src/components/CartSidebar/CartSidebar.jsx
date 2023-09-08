@@ -5,6 +5,7 @@ import {
   aumentarCantidad,
   disminuirCantidad,
   eliminarDelCarrito,
+  actualizarInfoD,
 } from "../../redux/actions";
 import styles from "./CartSidebar.module.css";
 import { BsTrash } from "react-icons/bs";
@@ -15,7 +16,6 @@ const CartSidebar = ({ onClose }) => {
   const cartItems = useSelector((state) => state.filters.cart);
   const dispatch = useDispatch();
   const cartSidebarRef = useRef(null);
-  
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -51,8 +51,9 @@ const CartSidebar = ({ onClose }) => {
   };
 
   const eliminarProducto = (id) => {
-    localStorage.removeItem("temporaryStock");
+    localStorage.removeItem(`temporaryStock_${id}`);
     dispatch(eliminarDelCarrito(id));
+    dispatch(actualizarInfoD());
   };
 
   const totalPrecio = cartItems.reduce(
@@ -125,7 +126,7 @@ const CartSidebar = ({ onClose }) => {
           Finalizar Pedido
         </button>
       </Link>
-      <ToastContainer /> 
+      <ToastContainer />
     </div>
   );
 };

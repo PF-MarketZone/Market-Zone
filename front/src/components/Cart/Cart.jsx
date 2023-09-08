@@ -8,6 +8,7 @@ import {
   aumentarCantidad,
   disminuirCantidad,
   eliminarDelCarrito,
+  actualizarInfoD,
 } from "../../redux/actions";
 import styles from "./Cart.module.css";
 import { toast, ToastContainer } from "react-toastify";
@@ -24,9 +25,9 @@ const Cart = () => {
   const eliminarProducto = (id) => {
     localStorage.removeItem("temporaryStock");
     dispatch(eliminarDelCarrito(id));
+    dispatch(actualizarInfoD());
   };
 
-  
   const handleAumentarCantidad = (itemId, stock) => {
     const cartItem = cartItems.find((item) => item._id === itemId);
 
@@ -70,8 +71,7 @@ const Cart = () => {
 
       const response = await axios.post(
         "http://localhost:3004/api/v1/create-order/create-preference",
-        { items }
-        `${backendUrl}/create-order/create-preference`,
+        { items }`${backendUrl}/create-order/create-preference`,
         { data }
       );
       const id = response.data.data;
