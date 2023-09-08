@@ -1,16 +1,15 @@
-import axios from "axios";
-import {backendUrl} from '../../config.js';
+import axios from 'axios';
+import { backendUrl } from '../../config.js';
 
-export const GET_PRODUCTS = "GET_PRODUCTS";
-export const GET_PRODUCT_BY_ID = "GET_PRODUCT_BY_ID";
-export const ADD_PRODUCT = "ADD_PRODUCT";
-export const DELETE_PRODUCT ="DELETE_PRODUCT";
-export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
-export const TOGGLE_PRODUCT = "TOGGLE_PRODUCT";
-
+export const GET_PRODUCTS = 'GET_PRODUCTS';
+export const GET_PRODUCT_BY_ID = 'GET_PRODUCT_BY_ID';
+export const ADD_PRODUCT = 'ADD_PRODUCT';
+export const DELETE_PRODUCT = 'DELETE_PRODUCT';
+export const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
+export const TOGGLE_PRODUCT = 'TOGGLE_PRODUCT';
 
 export const getProducts = () => {
-  return function(dispatch) {
+  return function (dispatch) {
     fetch(`${backendUrl}/product`)
       .then((res) => res.json())
       .then((data) => {
@@ -20,17 +19,16 @@ export const getProducts = () => {
         });
       })
       .catch((error) => {
-        console.error("Error al recuperar datos:", error);
+        console.error('Error al recuperar datos:', error);
       });
   };
 };
-
 
 /* export const getProductById = (id) => {
     return function (dispatch, getState) {
       const state = getState(); // Obtener el estado actual
       const productDetails = state.product.details?.find(detail => detail.id === parseInt(id));
-  
+
       if (productDetails) {
         dispatch({ type: GET_PRODUCT_BY_ID, payload: productDetails });
       } else {
@@ -39,77 +37,73 @@ export const getProducts = () => {
       }
     };
   }; */
-  
-  // descomentar esto cuando se tenga la api ⇓ y comentar esto ⇑
-  export const getProductById = (id) => {
-    return async function (dispatch) {
-      try {
-        const response = await axios.get(`${backendUrl}/product/${id}`);
-        const productDetails = response.data.data;
-        console.log(productDetails);
-        dispatch({ type: GET_PRODUCT_BY_ID, payload: productDetails });
-      } catch (error) {
-        // Manejar el error en caso de que la llamada a la API falle
-        console.error("Error al obtener detalles del producto:", error);
-      }
-    };
-  };
 
-
-  export const postProducts = (payload) => {
-    return async function (dispatch) {
-      try {
-        const formData = new FormData();
-  
-        for (const key in payload) {
-          if (key === 'image') {
-            payload[key].forEach((image) => {
-              formData.append('image', image);
-            });
-          } else {
-            formData.append(key, payload[key]);
-          }
-        }
-        const response = await axios.post(
-          `${backendUrl}/product/createproduct`,
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }
-          }
-        );
-        return response.data;
-      } catch (error) {
-        console.log('El Producto no ha sido creado');
-        throw error;
-      }
-    };
-  };
-
-export const updateProduct = (formData) => {
-  console.log(formData)
+// descomentar esto cuando se tenga la api ⇓ y comentar esto ⇑
+export const getProductById = (id) => {
   return async function (dispatch) {
     try {
-      const updatedFormData = new FormData();
+      const response = await axios.get(`${backendUrl}/product/${id}`);
+      const productDetails = response.data.data;
+      console.log(productDetails);
+      dispatch({ type: GET_PRODUCT_BY_ID, payload: productDetails });
+    } catch (error) {
+      // Manejar el error en caso de que la llamada a la API falle
+      console.error('Error al obtener detalles del producto:', error);
+    }
+  };
+};
 
-      for (const key in formData) {
+export const postProducts = (payload) => {
+  return async function (dispatch) {
+    try {
+      const formData = new FormData();
+
+      for (const key in payload) {
         if (key === 'image') {
-          // Handle image updates here by passing the URLs to the backend
-          const updatedImageUrls = formData[key].map((image) => {
-            return image.url || image; // Use the URL if it's already present, otherwise use the original image
+          payload[key].forEach((image) => {
+            formData.append('image', image);
           });
-
-          updatedFormData.append('image', JSON.stringify(updatedImageUrls));
         } else {
-          updatedFormData.append(key, formData[key]);
+          formData.append(key, payload[key]);
         }
       }
-      console.log(updatedImageUrls)
-      // Send the updatedFormData to your backend API for product update
+      const response = await axios.post(
+        `${backendUrl}/product/createproduct`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.log('El Producto no ha sido creado');
+      throw error;
+    }
+  };
+};
+
+export const updateProduct = (payload) => {
+  console.log(payload);
+  return async function (dispatch) {
+    try {
+      const formData = new FormData();
+      payload.oldImages = JSON.stringify(payload.oldImages);
+
+      for (const key in payload) {
+        if (key === 'image') {
+          payload[key].forEach((image) => {
+            formData.append('image', image);
+          });
+        } else {
+          formData.append(key, payload[key]);
+        }
+      }
+
       const infoData = await axios.post(
         `${backendUrl}/product/update`,
-        updatedFormData,
+        formData,
         {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -117,13 +111,7 @@ export const updateProduct = (formData) => {
         }
       );
 
-      dispatch({
-        type: 'UPDATE_PRODUCT',
-        payload: formData,
-      });
-
-      console.log(infoData);
-      console.log('El producto se actualizó');
+      getProducts();
     } catch (error) {
       console.error('El producto no ha sido actualizado', error);
       throw error;
@@ -131,37 +119,36 @@ export const updateProduct = (formData) => {
   };
 };
 
-  export const deleteProducts = (id) => {
-    return async function(dispatch){
-      try{
-        const response = await axios.delete(`${backendUrl}/product/remove/${id}`)
-        dispatch({
-          type: DELETE_PRODUCT,
-          payload: id
-        })
-        return response.data
-      }catch(error){
-        console.log('No se puede eliminar el producto', error);
-        throw error;
-      }
+export const deleteProducts = (id) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.delete(`${backendUrl}/product/remove/${id}`);
+      dispatch({
+        type: DELETE_PRODUCT,
+        payload: id,
+      });
+      return response.data;
+    } catch (error) {
+      console.log('No se puede eliminar el producto', error);
+      throw error;
     }
-  }
-
-
-  export const toogleProduct = (id) => {
-    return async function(dispatch) {
-      try {
-        const response = await axios.put(`${backendUrl}/product/${id}`);
-        if (response.status === 200) {
-          dispatch({
-            type: TOGGLE_PRODUCT,
-            payload: { id },
-          });
-        } else {
-          console.log('No se pudo cambiar el estado del producto');
-        }
-      } catch (error) {
-        console.log('Error al cambiar el estado del producto', error);
-      }
-    };
   };
+};
+
+export const toogleProduct = (id) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.put(`${backendUrl}/product/${id}`);
+      if (response.status === 200) {
+        dispatch({
+          type: TOGGLE_PRODUCT,
+          payload: { id },
+        });
+      } else {
+        console.log('No se pudo cambiar el estado del producto');
+      }
+    } catch (error) {
+      console.log('Error al cambiar el estado del producto', error);
+    }
+  };
+};
