@@ -12,6 +12,7 @@ import {
 import styles from "./Cart.module.css";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { backendUrl } from "../../deployConfig";
 
 const Cart = () => {
   const [preferenceId, setPreferenceId] = useState(null);
@@ -69,7 +70,7 @@ const Cart = () => {
       console.log(data);
 
       const response = await axios.post(
-        `http://localhost:3004/api/v1/create-order/create-preference`,
+        `${backendUrl}/create-order/create-preference`,
         { data }
       );
       const id = response.data.data;

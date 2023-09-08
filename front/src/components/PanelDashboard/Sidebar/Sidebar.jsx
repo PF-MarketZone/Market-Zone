@@ -79,13 +79,15 @@ const Sidebar = ({ handleComponentClick }) => {
           </MenuItem>
         )}
 
-        <MenuItem
-          isActive={activeButton === "add products"}
-          onClick={() => handleClick("add products")}
-        >
-          <MdOutlineCreateNewFolder />
-          Crear Producto
-        </MenuItem>
+        {role && (role.includes("admin") || role.includes("seller")) && (
+          <MenuItem
+            isActive={activeButton === "add products"}
+            onClick={() => handleClick("add products")}
+          >
+            <MdOutlineCreateNewFolder />
+            Crear Producto
+          </MenuItem>
+        )}
 
         {role && role.includes("admin") && (
           <MenuItem
@@ -112,13 +114,16 @@ const Sidebar = ({ handleComponentClick }) => {
           <AiOutlineStar />
           Reseñas
         </MenuItem>
-        <MenuItem
-          isActive={activeButton === "sales"}
-          onClick={() => handleClick("sales")}
-        >
-          <FaChartBar />
-          Ventas
-        </MenuItem>
+
+        {role && (role.includes("admin") || role.includes("seller")) && (
+          <MenuItem
+            isActive={activeButton === "sales"}
+            onClick={() => handleClick("sales")}
+          >
+            <FaChartBar />
+            Ventas
+          </MenuItem>
+        )}
       </Side>
     </div>
   );

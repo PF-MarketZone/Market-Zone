@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { backendUrl } from "../../../deployConfig";
 
 const Sales = () => {
   const [stores, setStores] = useState([]);
   const [selectedStoreId, setSelectedStoreId] = useState(null);
   const { user } = useSelector((state) => state.auth.user);
-//console.log(user)
+  //console.log(user)
   useEffect(() => {
     // me traigo las storeporid
-    axios.get(`http://localhost:3004/api/v1/store?user=${user._id}`)
+    axios
+      .get(`${backendUrl}/store?user=${user._id}`)
       .then((response) => {
         setStores(response.data.data);
       })
@@ -20,7 +22,7 @@ const Sales = () => {
 
   const handleStoreChange = (storeId) => {
     setSelectedStoreId(storeId);
-  }
+  };
 
   // Busco la tienda que coindcida con la selected (id)
   const selectedStore = stores.find((store) => store._id === selectedStoreId);
@@ -42,7 +44,7 @@ const Sales = () => {
           </label>
         ))}
       </div>
-      
+
       {selectedStore && (
         <iframe
           style={{
@@ -51,13 +53,13 @@ const Sales = () => {
             borderRadius: "2px",
             boxShadow: "0 2px 10px 0 rgba(70, 76, 79, .2)",
             width: "100vw",
-            height: "100vh"
+            height: "100vh",
           }}
           src={`https://charts.mongodb.com/charts-marketzone-jmrft/embed/dashboards?id=${selectedStore.chart}&theme=dark&autoRefresh=true&maxDataAge=60&showTitleAndDesc=false&scalingWidth=scale&scalingHeight=scale`}
         ></iframe>
       )}
     </div>
   );
-}
+};
 
 export default Sales;
