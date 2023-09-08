@@ -49,9 +49,6 @@ export const DivPrincipal = styled.div`
   border-radius: 20px;
   padding: 5vh;
   height: 30%;
-  margin:auto;
-  margin-top:5%;
-  margin-bottom:5%
 `;
 export const CenteredContainer = styled.div`
   display: flex;
@@ -73,4 +70,16 @@ border: 1px solid #8b3dff;
 border-radius: 20px;
 padding: 5vh;
 margin:auto
+`;
+
+export const DivPrincipal2 = styled.div`
+  background-color: #1d1e18;
+  width: 30%;
+  border: 1px solid #8b3dff;
+  border-radius: 20px;
+  padding: 5vh;
+  height: 30%;
+  margin:auto;
+  margin-top:5%;
+  margin-bottom:5%
 `;

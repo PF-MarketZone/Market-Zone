@@ -116,6 +116,7 @@ const Orders = () => {
           ))}
         </select>
       </div>
+      <div className={styles.ordersContainer}>
       <ul>
         {filteredOrdersByUser.map((order) => (
           <li key={order._id} className={styles.order}>
@@ -143,6 +144,7 @@ const Orders = () => {
           </li>
         ))}
       </ul>
+      </div>
     </div>
   );
 };
