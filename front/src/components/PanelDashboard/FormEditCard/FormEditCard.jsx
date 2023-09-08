@@ -62,28 +62,40 @@ const FormEditCard = ({product, onCancelEdit }) => {
               return image instanceof File ? image : { url: image };
             });
         
-            // Si hay imágenes nuevas, agrégalas a formData
-            if (updatedImages.length > 0) {
-              formData.image = updatedImages;
-            }
+            // Update the formData object with the new values
+            formData.storeId = formik.values.storeId;
+            formData.name = formik.values.name;
+            formData.description = formik.values.description;
+            formData.image = updatedImages;
+            formData.color = formik.values.color;
+            formData.price = formik.values.price;
+            formData.stock = formik.values.stock;
+            formData.category = formik.values.category;
+            formData.subcategory = formik.values.subcategory;
         
             setLoading(true);
-             await dispatch(updateProduct(product, formData));
+            await dispatch(updateProduct(formData));
             setLoading(false);
             alert("Producto actualizado con éxito");
         
             console.log("Producto actualizado exitosamente");
-            console.log("Datos actualizados:", formik.values);
+            console.log("Datos actualizados:", formData);
           } catch (error) {
             console.error("Error al actualizar el producto:", error);
             setLoading(false);
             alert("No se pudo actualizar el producto");
           }
-        },
-        
-        
+        },     
         
       });
+        
+      const handleImageChange = (newImages) => {
+        // Create a copy of formData and update the image field
+        const updatedFormData = { ...formik.values };
+        updatedFormData.image = newImages;
+        formik.setValues(updatedFormData);
+        setEditedImages(newImages);
+      };
 
     return(
     
@@ -203,6 +215,13 @@ const FormEditCard = ({product, onCancelEdit }) => {
             ) : null}
           </FormGroup>
           <FormGroup>
+            <ImageUpload images={editedImages} onImageChange={handleImageChange} />
+            {formik.touched.image && formik.errors.image && (
+              <ErrorMessage>{formik.errors.image}</ErrorMessage>
+            )}
+          </FormGroup>
+
+          {/* <FormGroup>
             <ImageUpload
               images={editedImages}
               onImageChange={(newImages) => {
@@ -213,7 +232,7 @@ const FormEditCard = ({product, onCancelEdit }) => {
           {formik.touched.image && formik.errors.image && (
             <ErrorMessage>{formik.errors.image}</ErrorMessage>
           )}
-        </FormGroup>
+        </FormGroup> */}
   
         <button type="submit">Actualizar Producto</button>
         <button onClick={onCancelEdit}>Cancelar Edición</button>

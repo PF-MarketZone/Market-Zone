@@ -2,9 +2,10 @@ const { uploadImage } = require("./cloudinary");
 const fs = require('fs-extra');
 
 const uploadProductImages = async (req) => {
+  console.log(req)
   
   const imageObjects = [];
-console.log("UPLOAD", req.files)
+// console.log("UPLOAD", req.files)
   if (req.files && req.files.image) {
      
     const images = Array.isArray(req.files.image)

@@ -104,40 +104,49 @@ const updateProduct = async (
   category,
   subcategory,
 ) => {
-  // Buscamos el producto a actualizar
- 
-  const productFinded = await searchByIdProduct(_id);
-  if (storeId) {
-    productFinded.storeId = storeId;
-  }
-  if (name) {
-    productFinded.name = name;
-  }
-  if (description) {
-    productFinded.description = description;
-  }
-  if (image) {
-    productFinded.image = image;
-  }
-  if (color) {
-    productFinded.color = color;
-  }
-  if (price) {
-    productFinded.price = price;
-  }
-  if (stock) {
-    productFinded.stock = stock;
-  }
-  
-  if (category && subcategory) {
-    productFinded.categories = {
-      category: category,
-      subcategory: subcategory,
-    };
-  }
+  try {
+    // Find the product to update
+    const productFinded = await searchByIdProduct(_id);
 
-  await productFinded.save();
-  console.log(productFinded);
+    // Update the fields with new values
+    if (storeId) {
+      productFinded.storeId = storeId;
+    }
+    if (name) {
+      productFinded.name = name;
+    }
+    if (description) {
+      productFinded.description = description;
+    }
+    if (image) {
+      // Append the new image data to the existing images array
+      productFinded.image.push(...image);
+    }
+    if (color) {
+      productFinded.color = color;
+    }
+    if (price) {
+      productFinded.price = price;
+    }
+    if (stock) {
+      productFinded.stock = stock;
+    }
+    
+    if (category && subcategory) {
+      productFinded.categories = {
+        category: category,
+        subcategory: subcategory,
+      };
+    }
+
+    // Save the updated product
+    const updatedProduct = await productFinded.save();
+
+    return updatedProduct;
+  } catch (error) {
+    console.error('Error updating product:', error);
+    throw error;
+  }
 };
 
 

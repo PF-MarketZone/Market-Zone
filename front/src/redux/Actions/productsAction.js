@@ -87,38 +87,49 @@ export const getProducts = () => {
     };
   };
 
-  export const updateProduct = (formData) => {
-    console.log(formData);
-    return async function (dispatch) {
-      try {
-        const infoData = await axios.post(`${backendUrl}/product/update`,formData);
-        console.log(infoData);
-        const updateData = infoData.data;
-        console.log(updateData);
-        dispatch({
-          type: 'UPDATE_PRODUCT',
-          payload: updateData
-        }) 
-      } catch (error) {
-          console.error('El producto no ha sido actualizado');
-          throw error;
+export const updateProduct = (formData) => {
+  console.log(formData)
+  return async function (dispatch) {
+    try {
+      const updatedFormData = new FormData();
+
+      for (const key in formData) {
+        if (key === 'image') {
+          // Handle image updates here by passing the URLs to the backend
+          const updatedImageUrls = formData[key].map((image) => {
+            return image.url || image; // Use the URL if it's already present, otherwise use the original image
+          });
+
+          updatedFormData.append('image', JSON.stringify(updatedImageUrls));
+        } else {
+          updatedFormData.append(key, formData[key]);
         }
-      };
-    };
-    
+      }
+      console.log(updatedImageUrls)
+      // Send the updatedFormData to your backend API for product update
+      const infoData = await axios.post(
+        `${backendUrl}/product/update`,
+        updatedFormData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
 
+      dispatch({
+        type: 'UPDATE_PRODUCT',
+        payload: formData,
+      });
 
-        // for (const key in payload) {
-        //   if (key === 'image') {
-        //     payload[key].forEach((image) => {
-        //       formData.append('image', image);
-        //     });
-        //   } else {
-        //     formData.append(key, payload[key]);
-        //   }
-        // }
-
-     
+      console.log(infoData);
+      console.log('El producto se actualizó');
+    } catch (error) {
+      console.error('El producto no ha sido actualizado', error);
+      throw error;
+    }
+  };
+};
 
   export const deleteProducts = (id) => {
     return async function(dispatch){

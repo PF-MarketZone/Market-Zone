@@ -55,17 +55,17 @@ const updateProductHandler = async (req, res) => {
       _id,
       storeId,
       name,
-      description,
-      
+      description,  
       color,
       price,
       stock,
       category,
       subcategory,
     } = req.body;
-    console.log("REQQQQ",  req)
+    // console.log("REQQQQ",  req)
+    console.log(req.body)
     const imagen = await uploadProductImages(req);
-    console.log("HANDLER", imagen)
+    // console.log("HANDLER", imagen)
     
   
 

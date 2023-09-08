@@ -41,17 +41,17 @@ const productsReducer = (state = initialState, action) => {
                 ...state,
                 products: filterProduct
             }
-            case UPDATE_PRODUCT:
-                const updatedProduct = action.payload;
-                console.log(updatedProduct);
-                const updatedProducts = state.products.data.map((product) =>
-                  product._id === updatedProduct._id ? updatedProduct : product
-                );
-                console.log(updatedProducts);
-                return {
-                  ...state,
-                  products: updatedProducts, 
-                };
+            // case UPDATE_PRODUCT:
+            //     const updatedProduct = action.payload;
+            //     console.log(updatedProduct);
+            //     const updatedProducts = state.products.data.map((product) =>
+            //       product._id === updatedProduct._id ? updatedProduct : product
+            //     );
+            //     console.log(updatedProducts);
+            //     return {
+            //       ...state,
+            //       products: updatedProducts, 
+            //     };
                 
             case TOGGLE_PRODUCT:
                 const statusProducts = state.products.map((product) =>

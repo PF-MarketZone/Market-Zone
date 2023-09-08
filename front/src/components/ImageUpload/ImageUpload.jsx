@@ -35,7 +35,7 @@ const ImageUpload = ({ images, onImageChange }) => {
                 />
               ) : (
                 <img
-                  src={image} // Si ya es una URL válida, no necesitas crear una URL
+                  src={image} 
                   alt={`Vista previa de la imagen ${index}`}
                   style={{
                     width: "150px",
