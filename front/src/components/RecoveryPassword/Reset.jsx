@@ -10,6 +10,7 @@ import {
   H5,
   Div,
   DivPrincipal,
+  DivPrincipal2
 } from "../LogIn/LogInStyledComponent";
 import { backendUrl } from "../../deployConfig";
 
@@ -46,7 +47,7 @@ const Reset = () => {
   };
 
   return (
-    <DivPrincipal>
+    <DivPrincipal2>
       <ToastContainer />
       <h3>¿Tienes problemas para iniciar sesión?</h3>
       <h5>
@@ -66,7 +67,7 @@ const Reset = () => {
       <button onClick={handleResetRequest} disabled={!isValidEmail || loading}>
         {loading ? "Enviando..." : "Enviar enlace"}
       </button>
-    </DivPrincipal>
+    </DivPrincipal2>
   );
 };
 
