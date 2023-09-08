@@ -70,7 +70,7 @@ const Cart = () => {
       console.log(data);
 
       const response = await axios.post(
-        `${backendUrl}/create-order/create-preference`,
+        `http://localhost:3004/api/v1/create-order/create-preference`,
         { data }
       );
       const id = response.data.data;
