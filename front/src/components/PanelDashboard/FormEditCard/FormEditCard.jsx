@@ -12,6 +12,7 @@ import {
   ErrorMessage,
 } from "../AddProducts/StyleComponenteAdd";
 
+
 const validationSchema = Yup.object({
   storeId: Yup.string().required("Selecciona una tienda"),
   name: Yup.string().required("El Campo no puede estar vacío"),
@@ -62,7 +63,7 @@ const FormEditCard = ({ update, product, onCancelEdit }) => {
     "Tienda de Electrónica": "64daf18450c25495a4a6a612",
     "Tienda de Moda": "64daf18450c25495a4a6a613",
   };
-
+  
   const formik = useFormik({
     initialValues: initialFormValues,
     validationSchema: validationSchema,

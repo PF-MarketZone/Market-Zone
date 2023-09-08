@@ -23,7 +23,7 @@ const EditProducts = ({id, onEdit}) => {
        return(
         <>
         <div>
-            <AiOutlineEdit onClick={handleEditClick}></AiOutlineEdit>
+            <AiOutlineEdit style={{ fontSize: "24px" }} onClick={handleEditClick}></AiOutlineEdit>
             {
                 showConfirmation && (
                     <div>

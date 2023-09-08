@@ -5,7 +5,6 @@ import ProductsList from "../ProductsList/ProductsList";
 import FormEditCard from "../FormEditCard/FormEditCard";
 import {
   TittleForm,
-  ProductFormContainer,
 } from "../AddProducts/StyleComponenteAdd";
 import {
   getProducts,
@@ -14,7 +13,6 @@ import {
 
 const Products = () => {
   const allProducts = useSelector((state) => state.products);
-  console.log(allProducts);
   const dispatch = useDispatch();
   const [editingProductId, setEditingProductId] = useState(null);
 
@@ -48,6 +46,7 @@ const Products = () => {
   return (
     <>
       <TittleForm>Mis productos</TittleForm>
+      <br />
       <section className={styles["products-container"]}>
         {allProducts.products.data && allProducts.products.data.length > 0 ? (
           allProducts.products.data.map((product) => (
@@ -63,7 +62,7 @@ const Products = () => {
                 // Mostrar el componente de visualización de productos
                 <ProductsList
                   id={product._id}
-                  // image={product.image[0].url}
+                  image={product.image[0].url}
                   name={product.name}
                   stock={product.stock}
                   price={product.price}

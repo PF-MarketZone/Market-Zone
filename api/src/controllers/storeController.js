@@ -73,9 +73,17 @@ const storeCreate = async (req, user, name, image, description) => {
   return createdNewStore;
 };
 
-module.exports = {
+const productsInStore = async (id) => {
+  console.log(id);
+  // const result = await Products.find({ storeId: { $in: id } });
+  const result = Product.find({ storeId: id }).populate('storeId');
+  // console.log({ result });
+  return result;
+};
 
+module.exports = {
   storeByName,
+  productsInStore,
   storeById,
   storeCreate,
 };

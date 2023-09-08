@@ -22,7 +22,7 @@ const DeleteProducts = ({id, onDelete}) => {
     return(
         <>
         <div>
-            <AiOutlineDelete onClick={handleDeleteClick}></AiOutlineDelete>
+            <AiOutlineDelete style={{ fontSize: "24px" }} onClick={handleDeleteClick}></AiOutlineDelete>
             {
                 showConfirmation && (
                     <div>

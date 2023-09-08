@@ -3,15 +3,33 @@ import EditProducts from "../EditProducts/EditProducts";
 import { toogleProduct } from "../../../redux/Actions/productsAction";
 import { useDispatch } from 'react-redux';
 import { useState } from "react";
-
 import {
   ProductContainer,
   FileProduct,
   ColumnProduct,
-  ImgProduct
+  ImgProduct, 
+  ToggleButton 
 } from './ProductsListStyle';
 
-
+const HeaderRow = () => {
+  const headerCellStyle = {
+    fontWeight: 'bold',
+    fontSize: '15px' 
+  };
+  return (
+    <ProductContainer>
+      <FileProduct>
+        <ColumnProduct style={headerCellStyle}>Estado</ColumnProduct>
+        <ColumnProduct style={headerCellStyle}>Imagen</ColumnProduct>
+        <ColumnProduct style={headerCellStyle}>Nombre</ColumnProduct>
+        <ColumnProduct style={headerCellStyle}>Stock</ColumnProduct>
+        <ColumnProduct style={headerCellStyle}>Precio</ColumnProduct>
+        <ColumnProduct/>
+        <ColumnProduct/>
+      </FileProduct>
+    </ProductContainer>
+  );
+};
 
 const ProductsList = ({id, image, name, stock, price, onDelete, onEdit, enabled}) => {
 
@@ -27,11 +45,16 @@ const ProductsList = ({id, image, name, stock, price, onDelete, onEdit, enabled}
     }
   };
   
+  
     return(
+      <>
+      <HeaderRow />
       <ProductContainer>
         <FileProduct>
-          <ColumnProduct onClick={handleToggle}>
-            {isChecked ? 'DESACTIVADO' : 'ACTIVADO'}
+          <ColumnProduct>
+            <ToggleButton isActive={isChecked} onClick={handleToggle}>
+              {isChecked ? 'DESACTIVADO' : 'ACTIVADO'}
+            </ToggleButton>
           </ColumnProduct>
           <ColumnProduct id={id}> 
             <ImgProduct src={image} alt="" />
@@ -45,9 +68,9 @@ const ProductsList = ({id, image, name, stock, price, onDelete, onEdit, enabled}
           <ColumnProduct>
           <DeleteProducts id={id} onDelete={onDelete} />
           </ColumnProduct>
-
         </FileProduct>  
       </ProductContainer>
+      </>
   )
 }
 
