@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { FaUsers, FaChartBar } from "react-icons/fa";
 import { LiaProductHunt } from "react-icons/lia";
+import { CgProfile } from "react-icons/cg";
 import {
   MdOutlineCreateNewFolder,
   MdOutlineShoppingCartCheckout,
@@ -53,6 +54,13 @@ const Sidebar = ({ handleComponentClick }) => {
   return (
     <div>
       <Side>
+        <MenuItem
+          isActive={activeButton === "profile"}
+          onClick={() => handleClick("profile")}
+        >
+          <CgProfile />
+          Perfil
+        </MenuItem>
         <MenuItem
           isActive={activeButton === "products"}
           onClick={() => handleClick("products")}

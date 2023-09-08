@@ -110,8 +110,8 @@ const InfoD = () => {
       <ToastContainer />
       <DivPrincipal>
         <H3Categories>
-          {details.categories && details.categories.length > 0
-            ? details.categories.join(", ")
+          {details.categories && details.categories.category
+            ? details.categories.category
             : "N/A"}
         </H3Categories>
         <H1Name>{details.name}</H1Name>
