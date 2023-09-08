@@ -2,9 +2,13 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { postProducts } from "../../../redux/Actions/productsAction";
+import styles from "./AddProduct.module.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import ImageUpload from "../../ImageUpload/ImageUpload";
+import { sessionActive } from "../../../redux/Actions/authAction";
+import { backendUrl } from "../../../deployConfig";
+import axios from "axios";
 
 import {
   TittleForm,
@@ -45,13 +49,40 @@ const validationSchema = Yup.object({
 
 const AddProducts = () => {
   const dispatch = useDispatch();
+  const { user, auth } = dispatch(sessionActive());
 
-  //estas store son las creadas en db, por ahora se maneja este objeto hasta que se pueda usar las tiendas del usuario logueado
-  const storesId = {
-    "Tienda Deportiva": "64daf18450c25495a4a6a611",
-    "Tienda de Electrónica": "64daf18450c25495a4a6a612",
-    "Tienda de Moda": "64daf18450c25495a4a6a613",
+  const [storesId, setStoresId] = React.useState(false);
+
+  const getMyStores = async () => {
+    if (auth) {
+      try {
+        const response = await axios({
+          url: `${backendUrl}/store`,
+          method: "get",
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+            "refresh-token": user.refreshToken,
+          },
+        });
+
+        const allStore = response.data.data;
+        const myStores = allStore.filter(
+          (store) => store.user === user.user._id
+        );
+
+        if (!response.data.error) {
+          setStoresId(myStores);
+        }
+      } catch (error) {
+        console.log("error de algo", error);
+      }
+    }
   };
+
+  React.useEffect(() => {
+    getMyStores();
+    return setStoresId(false);
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -82,131 +113,139 @@ const AddProducts = () => {
   return (
     <ProductFormContainer>
       <TittleForm>Crea tu producto</TittleForm>
-      <form onSubmit={formik.handleSubmit}>
-        <FormGroup>
-          <select
-            name="storeId"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.storeId}
-          >
-            <option value="">Tiendas</option>
-            {Object.keys(storesId).map((storeName) => (
-              <option key={storeName} value={storesId[storeName]}>
-                {storeName}
-              </option>
-            ))}
-          </select>
-          {(formik.touched.storeId && formik.values.storeId === "") ||
-          (formik.errors.storeId && formik.values.storeId === "") ? (
-            <ErrorMessage>{formik.errors.storeId}</ErrorMessage>
-          ) : null}
-        </FormGroup>
-        <FormGroup>
-          <InputField
-            type="text"
-            name="name"
-            placeholder="Nombre del Producto"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.name}
-          />
-          {formik.touched.name && formik.errors.name ? (
-            <ErrorMessage>{formik.errors.name}</ErrorMessage>
-          ) : null}
-        </FormGroup>
-        <FormGroup>
-          <InputField
-            type="text"
-            name="description"
-            placeholder="Descripcion del Producto"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.description}
-          />
-          {formik.touched.description && formik.errors.description ? (
-            <ErrorMessage>{formik.errors.description}</ErrorMessage>
-          ) : null}
-        </FormGroup>
-        <FormGroup>
-          <InputField
-            type="text"
-            name="color"
-            placeholder="Color"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.color}
-          />
-          {formik.touched.color && formik.errors.color ? (
-            <ErrorMessage>{formik.errors.color}</ErrorMessage>
-          ) : null}
-        </FormGroup>
-        <FormGroup>
-          <InputField
-            type="number"
-            name="price"
-            placeholder="Precio"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.price}
-          />
-          {formik.touched.price && formik.errors.price ? (
-            <ErrorMessage>{formik.errors.price}</ErrorMessage>
-          ) : null}
-        </FormGroup>
-        <FormGroup>
-          <InputField
-            type="number"
-            name="stock"
-            placeholder="Stock"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.stock}
-          />
-          {formik.touched.stock && formik.errors.stock ? (
-            <ErrorMessage>{formik.errors.stock}</ErrorMessage>
-          ) : null}
-        </FormGroup>
-        <FormGroup>
-          <InputField
-            type="text"
-            name="category"
-            placeholder="Categoria"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.category}
-          />
-          {formik.touched.category && formik.errors.category ? (
-            <ErrorMessage>{formik.errors.category}</ErrorMessage>
-          ) : null}
-        </FormGroup>
-        <FormGroup>
-          <InputField
-            type="text"
-            name="subcategory"
-            placeholder="Subcategoria"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.subcategory}
-          />
-          {formik.touched.subcategory && formik.errors.subcategory ? (
-            <ErrorMessage>{formik.errors.subcategory}</ErrorMessage>
-          ) : null}
-        </FormGroup>
-        <FormGroup>
-          <ImageUpload
-            images={formik.values.image}
-            onImageChange={(newImages) => {
-              formik.setFieldValue("image", newImages);
-            }}
-          />
-          {formik.touched.image && formik.errors.image && (
-            <ErrorMessage>{formik.errors.image}</ErrorMessage>
-          )}
-        </FormGroup>
+      {!storesId ? (
+        <section className={styles["container-loader"]}>
+          <div className={styles["loader"]}></div>
+        </section>
+      ) : storesId.length === 0 ? (
+        <h2>No tienes tiendas creadas, primero debes crear una tienda</h2>
+      ) : (
+        <form onSubmit={formik.handleSubmit}>
+          <FormGroup>
+            <select
+              name="storeId"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.storeId}
+            >
+              <option value="">--Seleciona una de tus tiendas--</option>
+              {storesId.map((storeName) => (
+                <option key={storeName._id} value={storeName.name}>
+                  {storeName.name}
+                </option>
+              ))}
+            </select>
+            {(formik.touched.storeId && formik.values.storeId === "") ||
+            (formik.errors.storeId && formik.values.storeId === "") ? (
+              <ErrorMessage>{formik.errors.storeId}</ErrorMessage>
+            ) : null}
+          </FormGroup>
+          <FormGroup>
+            <InputField
+              type="text"
+              name="name"
+              placeholder="Nombre del Producto"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.name}
+            />
+            {formik.touched.name && formik.errors.name ? (
+              <ErrorMessage>{formik.errors.name}</ErrorMessage>
+            ) : null}
+          </FormGroup>
+          <FormGroup>
+            <InputField
+              type="text"
+              name="description"
+              placeholder="Descripcion del Producto"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.description}
+            />
+            {formik.touched.description && formik.errors.description ? (
+              <ErrorMessage>{formik.errors.description}</ErrorMessage>
+            ) : null}
+          </FormGroup>
+          <FormGroup>
+            <InputField
+              type="text"
+              name="color"
+              placeholder="Color"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.color}
+            />
+            {formik.touched.color && formik.errors.color ? (
+              <ErrorMessage>{formik.errors.color}</ErrorMessage>
+            ) : null}
+          </FormGroup>
+          <FormGroup>
+            <InputField
+              type="number"
+              name="price"
+              placeholder="Precio"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.price}
+            />
+            {formik.touched.price && formik.errors.price ? (
+              <ErrorMessage>{formik.errors.price}</ErrorMessage>
+            ) : null}
+          </FormGroup>
+          <FormGroup>
+            <InputField
+              type="number"
+              name="stock"
+              placeholder="Stock"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.stock}
+            />
+            {formik.touched.stock && formik.errors.stock ? (
+              <ErrorMessage>{formik.errors.stock}</ErrorMessage>
+            ) : null}
+          </FormGroup>
+          <FormGroup>
+            <InputField
+              type="text"
+              name="category"
+              placeholder="Categoria"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.category}
+            />
+            {formik.touched.category && formik.errors.category ? (
+              <ErrorMessage>{formik.errors.category}</ErrorMessage>
+            ) : null}
+          </FormGroup>
+          <FormGroup>
+            <InputField
+              type="text"
+              name="subcategory"
+              placeholder="Subcategoria"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.subcategory}
+            />
+            {formik.touched.subcategory && formik.errors.subcategory ? (
+              <ErrorMessage>{formik.errors.subcategory}</ErrorMessage>
+            ) : null}
+          </FormGroup>
+          <FormGroup>
+            <ImageUpload
+              images={formik.values.image}
+              onImageChange={(newImages) => {
+                formik.setFieldValue("image", newImages);
+              }}
+            />
+            {formik.touched.image && formik.errors.image && (
+              <ErrorMessage>{formik.errors.image}</ErrorMessage>
+            )}
+          </FormGroup>
 
-        <button type="submit">Agregar Producto</button>
-      </form>
+          <button type="submit">Agregar Producto</button>
+        </form>
+      )}
     </ProductFormContainer>
   );
 };
