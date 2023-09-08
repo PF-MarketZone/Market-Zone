@@ -1,4 +1,5 @@
-const { EMAIL} = process.env;
+require('dotenv').config();
+const { EMAIL } = process.env;
 //Aqui van los cuerpos de los emails a enviar, en diferentes casos---vv
 
 
@@ -73,9 +74,9 @@ const { EMAIL} = process.env;
                 ${products.map((product) => `
                   <tr>
                     <td>${product.name}</td>
-                    <td>${product.quantity}</td>
+                      <td>${product.quantity}</td>
                     <td>${product.unit_price}</td>
-                    <td>${product.quantity * product.unit_price}</td>
+                     <td>${product.quantity * product.unit_price}</td>
                   </tr>
                 `).join('')}
               </tbody>

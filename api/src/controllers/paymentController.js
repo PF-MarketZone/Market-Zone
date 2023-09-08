@@ -2,11 +2,13 @@ const { ACCESS_TOKEN_MP, DOMAIN_NAME, DOMAIN_NAME_FRONT } = process.env;
 // SDK Mercado Pago
 const mercadopago = require('mercadopago');
 
+
+
 const createPreference = async (req) => {
   const itemsList = req.data.items;
   const userId = req.data.userId;
   // console.log({ itemsList });
-  // console.log({ userId });
+   //console.log({ userId });
   mercadopago.configure({
     access_token: ACCESS_TOKEN_MP, // acces token del vendedor
   });
@@ -18,7 +20,7 @@ const createPreference = async (req) => {
       unit_price: item.unit_price,
       quantity: item.quantity,
     })),
-    notification_url: `${DOMAIN_NAME}/api/v1/create-order/notification/${userId}`,
+    notification_url: `https://a8ca-190-15-201-57.ngrok.io/api/v1/create-order/notification/${userId}`,
     back_urls: {
       success: `${DOMAIN_NAME_FRONT}/thankyou`, // crear componente para compra exitosa (componente del front, para mas estilo)
       failure: `${DOMAIN_NAME_FRONT}/cart`,

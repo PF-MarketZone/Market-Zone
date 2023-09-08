@@ -12,32 +12,36 @@ const {emailOkOrderComprador,
 
 
 
-const createOrder = async (orderInfo) => {
+const createOrder = async (orderInfo, user) => {
+  const productIds = orderInfo.additional_info.items.map((i) =>i.id);
+
+  // console.log(orderInfo.additional_info.items)
   const order = new Order({
-    user: orderInfo.payer.id,
-    products: orderInfo.items.map((i)=>{i.id}),
-    totalPrice: orderInfo.totalPrice,
-    paymentMethod: orderInfo.paymentMethod,
-    transactionDate: orderInfo.transactionDate,
-    transactionStatus:orderInfo.transactionStatus,
+    user,
+    products: productIds,
+    totalPrice: orderInfo.transaction_details.total_paid_amount,
+    paymentMethod: orderInfo.payment_type_id,
+    transactionDate: orderInfo.date_approved,
+    transactionStatus:orderInfo.status,
   });
 
-  await order.save();
-
-  return order;
+   await order.save();
+console.log(order)
+   return order;
   };
   
-  const createSale = async (saleInfo) => {
-  const products = await Products.find({ _id: { $in: saleInfo.productIds } }); 
+  const createSale = async (orderInfo, user) => {
+    const productIds = orderInfo.additional_info.items.map((i) =>i.id);
+  const products = await Products.find({ _id: { $in: productIds } }); 
   const storeIds = products.map((product) => product.storeId);
   //----xx----//
-  const user = await User.findOne({ _id: saleInfo.userId });
-  const userCity = user.address.city;
+  const usuario = await User.findOne({ _id: user });
+  const userCity = usuario.address.city;
     const sale = new Sale({
-      userId: saleInfo.userId, //saco de resp mp
-      date: saleInfo.date, //saco de resp mp
-      amount: saleInfo.amount, //saco de resp mp
-      productIds: saleInfo.productIds,//saco de resp mp
+      userId: user, //saco de resp login
+      date: orderInfo.date_approved, //saco de resp mp
+      amount: orderInfo.transaction_details.total_paid_amount, //saco de resp mp 
+      productIds: productIds,//saco de resp mp
       storeIds: storeIds,//lo saco de los products,
       city: userCity,//saco de products-->user-->city
     });
@@ -58,6 +62,7 @@ const createOrder = async (orderInfo) => {
 
 
     const infoMail = await sendMail(emailOkOrderComprador(user, products, order));//envio el email pasandole el componente del cuerpo dle email, al que le paso la info de la order y del user.
+    
     return infoMail;
     
   };

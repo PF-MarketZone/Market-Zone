@@ -3,6 +3,7 @@ import axios from 'axios';
 import { StyledForm, Input, P, H3, H5, Div, DivPrincipal, CenteredContainer } from "../LogIn/LogInStyledComponent"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { backendUrl } from '../../deployConfig';
 
 const ChangePassword = () => {
   useEffect(() => {
@@ -39,7 +40,7 @@ const ChangePassword = () => {
           };
 //console.log("RB:", requestBody)
           const response = await axios.post(
-            'http://localhost:3004/api/v1/auth/changePassword',
+            `${backendUrl}/auth/changePassword`,
             requestBody
           );
           if (response.status === 200) {

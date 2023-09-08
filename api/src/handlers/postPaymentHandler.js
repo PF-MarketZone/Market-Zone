@@ -43,7 +43,7 @@ const handleNotification = async (req, res) => {
   try {
     const { query } = req;
     const { params } = req;
-    // console.log({ params });
+     //console.log({ params });
     const topic = query.topic || query.type;
     // console.log({ topic });
     var merchantOrder;
@@ -97,21 +97,28 @@ const handleNotification = async (req, res) => {
         //=========================
         // Notificacion
         //========================
-        // console.log({merchantOrder});
+         
+        
+         const mOrder= JSON.stringify(merchantOrder.body);
+         const resOrder = JSON.parse(mOrder)
+         //console.log(resOrder)
+         //console.log({ params });
+         const user= params.id
+
         //Crear Order-----v
-        // const order = await createOrder(merchantOrder);
+        const order = await createOrder(resOrder, user );
 
         // console.log({order});
         // // //Crear Sale-----v
-        // await createSale(merchantOrder);
+         await createSale(resOrder, user );
         // //SendMail(comprador)---v
-        // if (order) {
-        //   await sendConfirmationEmailBuyer(order);
-        //   //SendMail(vendedor)----v
-        //   await sendConfirmationEmailSeller(order);
-        // } else {
-        //   throw Error('No se ha creado una Orden');
-        // }
+        if (order) {
+          await sendConfirmationEmailBuyer(order);
+          //SendMail(vendedor)----v
+          await sendConfirmationEmailSeller(order);
+        } else {
+          throw Error('No se ha creado una Orden');
+        }
       } else {
         console.log('\x1b[32m%s\x1b[0m', 'El pago NO se completo');
         //=========================

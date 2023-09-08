@@ -3,6 +3,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { StyledForm, Input, P, H3, H5, Div, DivPrincipal } from "../LogIn/LogInStyledComponent";
+import { backendUrl } from '../../deployConfig';
 
 const Reset = () => {
   
@@ -26,7 +27,7 @@ const Reset = () => {
       setLoading(true);
 
       const response = await axios.post(
-        'http://localhost:3004/api/v1/auth/recovery',
+        `${backendUrl}/auth/recovery`,
         { email }
       );
 //console.log("En reset FRONT", response)

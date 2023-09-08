@@ -63,7 +63,7 @@ const recoveryPassword = async (email) => {
   }
   const payload = { sub: userFound['_id'] };
   const token = jwt.sign(payload, JWT_SECRET_RECOVERY, { expiresIn: '15min' }); // generar un nuevo jwtsecret para recuperar pass
-  const link = `${DOMAIN_NAME_FRONT}change-password?token=${token}`;
+  const link = `https://marketzone.vercel.app/change-password?token=${token}`;
   console.log("TOKEN", token)
   console.log("URL", link)
   await userUpdate(userFound._id, { recoveryToken: token });

@@ -3,10 +3,10 @@ const { recoveryPassword, changePassword } = require('../controllers/authControl
 const recoveryHandler = async (req, res, next) => {
     try {
         const { email } = req.body;
-        console.log("HANDLER:", email)
+        //console.log("HANDLER:", email)
         const rta = await recoveryPassword(email);
         
-        res.json(rta);
+        res.status(200).json(rta);
     } catch (error) {
         console.log(error); 
         res.status(500).json({ error: 'Error al intentar recuperar la contraseña' });

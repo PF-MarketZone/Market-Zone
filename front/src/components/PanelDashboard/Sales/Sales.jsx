@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { backendUrl } from "../../../deployConfig";
+
 
 const Sales = () => {
   const [stores, setStores] = useState([]);
@@ -9,7 +11,7 @@ const Sales = () => {
 //console.log(user)
   useEffect(() => {
     // me traigo las storeporid
-    axios.get(`https://market-zone-api-v1.onrender.com/api/v1/store?user=${user._id}`)
+    axios.get(`${backendUrl}/store?user=${user._id}`)
       .then((response) => {
         setStores(response.data.data);
       })
