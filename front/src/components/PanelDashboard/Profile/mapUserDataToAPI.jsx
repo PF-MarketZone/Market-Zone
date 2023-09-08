@@ -6,14 +6,14 @@ export function mapUserDataToAPI(idData, userData) {
       last_name: userData.last_name,
       age: parseFloat(userData.age) || null,
       phoneNumber: parseFloat(userData.phoneNumber) || null,
-      address: {
-        street: userData.address.street || "",
-        streetNumber: parseFloat(userData.address.streetNumber) || null,
-        postalCode: parseFloat(userData.address.postalCode) || null,
-        townNeighborhood: userData.address.townNeighborhood || "",
-        floorApartment: userData.address.floorApartment || "",
-        city: userData.address.city || "",
-      },
+      address: userData.address ? {
+        street: userData.address.street,
+        streetNumber: parseFloat(userData.address.streetNumber),
+        postalCode: parseFloat(userData.address.postalCode),
+        townNeighborhood: userData.address.townNeighborhood,
+        floorApartment: userData.address.floorApartment,
+        city: userData.address.city,
+      } : {},
       shippingAddress: userData.shippingAddress.map((address) => ({
         street: address.street || "",
         streetNumber: parseFloat(address.streetNumber) || null,
