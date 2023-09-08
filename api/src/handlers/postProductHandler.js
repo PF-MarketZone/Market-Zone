@@ -5,10 +5,11 @@ const {
   updateStock,
 } = require('../controllers/productController');
 const { responseMaper } = require('../helpers/responseMaper');
-const { uploadProductImages } = require('../utils/cloudinary/uploadProductImage');
+const {
+  uploadProductImages,
+} = require('../utils/cloudinary/uploadProductImage');
 const createProductHandler = async (req, res) => {
   try {
-
     const {
       storeId,
       name,
@@ -23,7 +24,7 @@ const createProductHandler = async (req, res) => {
     // if (!name || !description || !image || !price || !tags) {
     //   res.status(404).json(true, 'Completa los campos requeridos', null);
     // }
-    console.log("IMAGEEE CREATEEE", image)
+    console.log('IMAGEEE CREATEEE', image);
     const newProduct = createNewProduct(
       req,
       storeId,
@@ -55,19 +56,17 @@ const updateProductHandler = async (req, res) => {
       _id,
       storeId,
       name,
-      description,  
+      description,
       color,
       price,
       stock,
       category,
       subcategory,
     } = req.body;
-    // console.log("REQQQQ",  req)
-    console.log(req.body)
-    const imagen = await uploadProductImages(req);
-    // console.log("HANDLER", imagen)
-    
-  
+
+    const newImages = await uploadProductImages(req);
+    const oldImages = JSON.parse(req.body.oldImages);
+    const image = oldImages.concat(newImages);
 
     if (!_id) {
       return res
@@ -79,14 +78,20 @@ const updateProductHandler = async (req, res) => {
       storeId,
       name,
       description,
-      imagen,
+      image,
       color,
       price,
       stock,
       category,
       subcategory
     );
-    res.status(200).json(responseMaper(false, 'Producto actualizado', result));
+
+    console.log(result);
+    if (result) {
+      res
+        .status(200)
+        .json(responseMaper(false, 'Producto actualizado', result));
+    }
   } catch (error) {
     console.error('Error en updateProductHandler:', error);
     res

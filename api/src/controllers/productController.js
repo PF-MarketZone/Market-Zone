@@ -1,9 +1,10 @@
 const Product = require('../models/product');
 const mongoose = require('mongoose');
-const {  deleteImage } = require('../utils/cloudinary/cloudinary');
-const { uploadProductImages } = require('../utils/cloudinary/uploadProductImage');
+const { deleteImage } = require('../utils/cloudinary/cloudinary');
+const {
+  uploadProductImages,
+} = require('../utils/cloudinary/uploadProductImage');
 const fs = require('fs-extra');
-
 
 //=================================================================
 // Busca todos los productos
@@ -65,9 +66,9 @@ const createNewProduct = async (
   console.log(category, subcategory);
   const storeidBody = storeId;
   const storeDefault = '64daf18450c25495a4a6a611';
-console.log(req)
+  console.log(req);
   const imageObjects = await uploadProductImages(req);
-console.log("IMAGE OBJEEEECT!!", imageObjects)
+  console.log('IMAGE OBJEEEECT!!', imageObjects);
   const productData = new Product({
     req: req,
     storeId: storeId ? storeidBody : storeDefault,
@@ -97,12 +98,12 @@ const updateProduct = async (
   storeId,
   name,
   description,
-  image, 
+  image,
   color,
   price,
   stock,
   category,
-  subcategory,
+  subcategory
 ) => {
   try {
     // Find the product to update
@@ -119,8 +120,7 @@ const updateProduct = async (
       productFinded.description = description;
     }
     if (image) {
-      // Append the new image data to the existing images array
-      productFinded.image.push(...image);
+      productFinded.image = image;
     }
     if (color) {
       productFinded.color = color;
@@ -131,7 +131,7 @@ const updateProduct = async (
     if (stock) {
       productFinded.stock = stock;
     }
-    
+
     if (category && subcategory) {
       productFinded.categories = {
         category: category,
@@ -148,7 +148,6 @@ const updateProduct = async (
     throw error;
   }
 };
-
 
 //=================================================================
 // Actualiza el stock de un producto con los parametros recibidos
