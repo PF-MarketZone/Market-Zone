@@ -14,6 +14,15 @@ const Home = () => {
   };
 
   useEffect(() => {
+    // Borrar los valores del localStorage cuando se navega a /home
+    localStorage.removeItem("selectedCategory");
+    localStorage.removeItem("searchQuery");
+    localStorage.removeItem("selectedOrder");
+    localStorage.removeItem("selectedPriceOrder");
+    localStorage.removeItem("selectedColor");
+  }, []);
+
+  useEffect(() => {
     // Hacer la llamada a la API para obtener las tiendas
     axios
       .get("https://market-zone-api-v1.onrender.com/api/v1/store")

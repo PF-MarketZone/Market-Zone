@@ -1,17 +1,19 @@
 // ---Requerimos los modelos de la BD
 const Store = require('../models/store');
+
 const { uploadImage } = require('../utils/cloudinary/cloudinary');
 const fs = require('fs-extra');
+
 //=================================================================
 // Busca todas las tiendas
 //=================================================================
 
-const storeListDb = async () => {
-  //console.log('entramos en el controller de storeList');
-  // Solicitamos la info a la BD
-  const listOfStore = await Store.find();
-  return listOfStore;
-};
+// const storeListDb = async () => {
+//   //console.log('entramos en el controller de storeList');
+//   // Solicitamos la info a la BD
+//   const listOfStore = await Store.find();
+//   return listOfStore;
+// };
 //=================================================================
 // Busca todas las tiendas que coincidan con el nombre recibido
 //=================================================================
@@ -72,7 +74,7 @@ const storeCreate = async (req, user, name, image, description) => {
 };
 
 module.exports = {
-  storeListDb,
+
   storeByName,
   storeById,
   storeCreate,

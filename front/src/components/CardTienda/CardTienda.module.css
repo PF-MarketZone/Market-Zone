@@ -2,8 +2,10 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 14px;
-  width: 250px;
-  height: 230px;
+
+  width: 280px;
+  height: 250px;
+
   margin: 16px;
   text-align: center;
   background-color: #fff;
@@ -35,3 +37,4 @@ p {
   margin-top: 3px;
   color: #777;
 }
+

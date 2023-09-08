@@ -15,6 +15,7 @@ userRouter.get(
   '/',
   verifyToken,
   passport.authenticate('jwt', { session: false }),
+
   getAllUsersHandler
 );
 
