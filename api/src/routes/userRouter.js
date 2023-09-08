@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { singUp } = require('../controllers/singUpController');
 const { singOut } = require('../controllers/singOutController');
-const { checkRoles } = require('../middlewares/checkSellerRole');
+// const { checkRoles } = require('../middlewares/checkSellerRole');
 const {
   updateUserHandler,
   getAllUsersHandler,
@@ -15,7 +15,7 @@ userRouter.get(
   '/',
   verifyToken,
   passport.authenticate('jwt', { session: false }),
-  checkRoles('admin'),
+  // checkRoles('admin'),
   getAllUsersHandler
 );
 
@@ -27,7 +27,7 @@ userRouter.post(
   '/modify',
   verifyToken,
   passport.authenticate('jwt', { session: false }),
-  checkRoles('admin'),
+  // checkRoles('admin'),
   updateUserHandler
 );
 
