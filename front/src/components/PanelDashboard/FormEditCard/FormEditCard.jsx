@@ -63,79 +63,6 @@ const FormEditCard = ({ update, product, onCancelEdit }) => {
     "Tienda de Moda": "64daf18450c25495a4a6a613",
   };
 
-<<<<<<< HEAD
-
-const FormEditCard = ({product, onCancelEdit }) => {
-    const dispatch = useDispatch();
-    const [editedImages, setEditedImages] = useState(product.image.map((image) => ({
-      public_id: image.public_id,
-      url: image.url,
-    })));
-    const [loading, setLoading] = useState(false);
-    const [initialFormValues, setInitialFormValues] = useState({
-          storeId: product.storeId || "",
-          name: product.name || "",
-          description: product.description || "",
-          image: [],
-          color: product.color || "",
-          price: product.price || "",
-          stock: product.stock || "",
-          category: product.categories.category || "",
-          subcategory: product.categories.subcategory || "",
-    });
-    
-   
-    const storesId = {
-        "Tienda Deportiva": "64daf18450c25495a4a6a611",
-        "Tienda de Electrónica": "64daf18450c25495a4a6a612",
-        "Tienda de Moda": "64daf18450c25495a4a6a613"
-      }
-    
- 
-      const formik = useFormik({
-        initialValues: initialFormValues,
-        validationSchema: validationSchema,
-        onSubmit: async (formData) => {
-          try {
-            const updatedImages = editedImages.map((image) => {
-              return image instanceof File ? image : { url: image };
-            });
-        
-            // Update the formData object with the new values
-            formData.storeId = formik.values.storeId;
-            formData.name = formik.values.name;
-            formData.description = formik.values.description;
-            formData.image = updatedImages;
-            formData.color = formik.values.color;
-            formData.price = formik.values.price;
-            formData.stock = formik.values.stock;
-            formData.category = formik.values.category;
-            formData.subcategory = formik.values.subcategory;
-        
-            setLoading(true);
-            await dispatch(updateProduct(formik.values));
-            setLoading(false);
-            alert("Producto actualizado con éxito");
-        
-            console.log("Producto actualizado exitosamente");
-            console.log("Datos actualizados:", formik.values);
-          } catch (error) {
-            console.error("Error al actualizar el producto:", error);
-            setLoading(false);
-            alert("No se pudo actualizar el producto");
-          }
-        },     
-        
-      });
-        
-      const handleImageChange = (newImages) => {
-        // Create a copy of formData and update the image field
-        const updatedFormData = { ...formik.values };
-        updatedFormData.image = newImages;
-        formik.setValues(updatedFormData);
-        setEditedImages(newImages);
-      };
-=======
   const formik = useFormik({
     initialValues: initialFormValues,
     validationSchema: validationSchema,
@@ -162,7 +89,6 @@ const FormEditCard = ({product, onCancelEdit }) => {
       }
     },
   });
->>>>>>> e33cdd88d3a27c7c647aad8b611d87764891655a
 
   const handleImageChange = (newImages) => {
     // Create a copy of formData and update the image field
