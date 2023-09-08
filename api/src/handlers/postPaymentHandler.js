@@ -9,6 +9,8 @@ const {
   // sendConfirmationEmailBuyer,
   // sendConfirmationEmailSeller,
   sendRejectedEmailBuyer,
+  sendConfirmationEmailBuyer,
+  sendConfirmationEmailSeller,
 } = require('../controllers/orderResponseController.js');
 const handleCreateOrder = async (req, res) => {
   try {
@@ -43,7 +45,7 @@ const handleNotification = async (req, res) => {
   try {
     const { query } = req;
     const { params } = req;
-    // console.log({ params });
+    //console.log({ params });
     const topic = query.topic || query.type;
     // console.log({ topic });
     var merchantOrder;
@@ -97,35 +99,43 @@ const handleNotification = async (req, res) => {
         //=========================
         // Notificacion
         //========================
-        // console.log({merchantOrder});
-        //Crear Order-----v
-        // const order = await createOrder(merchantOrder);
 
-        // console.log({order});
-        // // //Crear Sale-----v
-        // await createSale(merchantOrder);
+        const mOrder = JSON.stringify(merchantOrder.body);
+        const resOrder = JSON.parse(mOrder);
+        //console.log(resOrder)
+        //console.log({ params });
+        const user = params.id;
+
+        //Crear Order-----v
+        const order = await createOrder(resOrder, user);
+
+        // console.log({ order });
+        // // //Crear Sale-----
+        await createSale(resOrder, user);
+        // console.log({ sale });
+
         // //SendMail(comprador)---v
-        // if (order) {
-        //   await sendConfirmationEmailBuyer(order);
-        //   //SendMail(vendedor)----v
-        //   await sendConfirmationEmailSeller(order);
-        // } else {
-        //   throw Error('No se ha creado una Orden');
-        // }
+        if (order) {
+          await sendConfirmationEmailBuyer(order);
+          //SendMail(vendedor)----v
+          // await sendConfirmationEmailSeller(order);
+        } else {
+          throw Error('No se ha creado una Orden');
+        }
       } else {
         console.log('\x1b[32m%s\x1b[0m', 'El pago NO se completo');
         //=========================
         // Notificacion
         //========================
         //crear Order-----v
-        const order = await createOrder(merchantOrder);
+        // const order = await createOrder(merchantOrder);
         //SendMail(comprador)----V
-        if (order) {
-          await sendRejectedEmailBuyer();
-        }
-        {
-          throw Error('No se ha creado una Orden');
-        }
+        // if (order) {
+        //   await sendRejectedEmailBuyer();
+        // }
+        // {
+        //   throw Error('No se ha creado una Orden');
+        // }
       }
 
       res.status(200).send('ok');
