@@ -13,11 +13,12 @@ import { AiOutlineStar } from "react-icons/ai";
 import { useSelector } from "react-redux";
 
 const Side = styled.div`
-  width: 250px;
-  background-color: #8b3dff;
+  width: 230px;
+  background-color: #bbbbbb;
   color: #fff;
-  padding: 15px;
-  height: 100vh;
+  padding: 10px;
+  height: 98vh;
+  transition: width 0.3s ease
 `;
 
 const MenuItem = styled(Link)`
@@ -26,16 +27,17 @@ const MenuItem = styled(Link)`
   margin-bottom: 30px;
   cursor: pointer;
   text-decoration: none;
-  color: ${(props) => (props.isActive ? "yellow" : "white")};
-  font-size: 25px;
+  color: ${(props) => (props.isActive ? "white" : "black")};
+  font-size: 23px;
   font-weight: ${(props) => (props.isActive ? "bold" : "normal")};
+  transition: background-color 0.3s ease, padding 0.3s ease;
 
   svg {
     margin-right: 10px;
   }
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: #ccc;
     padding: 10px;
     border-radius: 10px;
   }

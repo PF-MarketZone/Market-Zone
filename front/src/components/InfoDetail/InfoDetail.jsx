@@ -31,7 +31,6 @@ const InfoD = () => {
   const { detailId } = useParams();
   const details = useSelector((state) => state.products.detail);
   const infoDUpdated = useSelector((state) => state.filters.infoDUpdated);
-  console.log(infoDUpdated)
 
   // Obtener el stock temporal para este producto desde el localStorage
   const temporaryStockInStorage =
@@ -57,6 +56,10 @@ const InfoD = () => {
     if (quantity > 0) {
       setQuantity(quantity - 1);
     }
+  };
+
+  const handleContinueShopping = () => {
+    window.location.href = `/${details.storeId}`;
   };
 
   const handleIncrease = () => {
@@ -159,9 +162,8 @@ const InfoD = () => {
           <ButtonAddToCart onClick={agregarAlCarritoClick}>
             Agregar al Carrito
           </ButtonAddToCart>
-          <ButtonFavorito>
-            {<FontAwesomeIcon icon={faHeart} style={{ color: "white" }} />}
-            Agregar a Favorito
+          <ButtonFavorito  onClick={handleContinueShopping}>
+          Seguir Comprando
           </ButtonFavorito>
         </div>
       </DivPrincipal>
