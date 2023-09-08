@@ -18,7 +18,7 @@ const Side = styled.div`
   color: #fff;
   padding: 10px;
   height: 98vh;
-  transition: width 0.3s ease
+  transition: width 0.3s ease;
 `;
 
 const MenuItem = styled(Link)`
@@ -63,13 +63,16 @@ const Sidebar = ({ handleComponentClick }) => {
           <CgProfile />
           Perfil
         </MenuItem>
-        <MenuItem
-          isActive={activeButton === "products"}
-          onClick={() => handleClick("products")}
-        >
-          <LiaProductHunt />
-          Productos
-        </MenuItem>
+
+        {role && (role.includes("admin") || role.includes("seller")) && (
+          <MenuItem
+            isActive={activeButton === "products"}
+            onClick={() => handleClick("products")}
+          >
+            <LiaProductHunt />
+            Productos
+          </MenuItem>
+        )}
 
         {role && (role.includes("admin") || role.includes("seller")) && (
           <MenuItem
@@ -123,7 +126,7 @@ const Sidebar = ({ handleComponentClick }) => {
             onClick={() => handleClick("sales")}
           >
             <FaChartBar />
-            Ventas
+            Mis estadísticas
           </MenuItem>
         )}
       </Side>
