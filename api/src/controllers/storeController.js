@@ -1,5 +1,7 @@
 // ---Requerimos los modelos de la BD
 const Store = require('../models/store');
+const { uploadImage } = require('../utils/cloudinary/cloudinary');
+const fs = require('fs-extra');
 //=================================================================
 // Busca todas las tiendas
 //=================================================================
@@ -35,18 +37,38 @@ const storeById = async (id) => {
 // Crea una Tienda
 //=================================================================
 
-const storeCreate = async (user, name, logo, image, description) => {
-  console.log(name);
+const storeCreate = async (req, user, name, image, description) => {
+  const imageObjects = [];
 
-  // Creamos una tienda nuevo con los parametros recibidos
+  if (req.files && req.files.image) {
+    const images = Array.isArray(req.files.image)
+      ? req.files.image
+      : [req.files.image];
+    for (const imageFile of images) {
+      try {
+        const result = await uploadImage(imageFile.tempFilePath);
+        imageObjects.push({
+          url: result.secure_url,
+          public_id: result.public_id,
+        });
+        await fs.unlink(imageFile.tempFilePath);
+      } catch (uploadError) {
+        console.error('Error al cargar la imagen:', uploadError);
+      }
+    }
+  }
+
   const newStore = new Store({
-    user: user,
-    name: name,
-    logo: logo,
-    image: image,
-    description: description,
+    user,
+    name,
+    logo: imageObjects[0].url,
+    image: imageObjects[0].url,
+    description,
   });
-  await newStore.save();
+
+  const createdNewStore = await newStore.save();
+
+  return createdNewStore;
 };
 
 module.exports = {

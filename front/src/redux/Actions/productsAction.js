@@ -57,6 +57,41 @@ export const postProducts = (payload) => {
           },
         }
       );
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log('El Producto no ha sido creado');
+      throw error;
+    }
+  };
+};
+
+export const createStore = (payload, tkn, rtkn) => {
+  return async function (dispatch) {
+    try {
+      const formData = new FormData();
+
+      for (const key in payload) {
+        if (key === 'image') {
+          payload[key].forEach((image) => {
+            formData.append('image', image);
+          });
+        } else {
+          formData.append(key, payload[key]);
+        }
+      }
+
+      const response = await axios.post(
+        `${backendUrl}/store/create`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${tkn}`,
+            'refresh-token': rtkn,
+          },
+        }
+      );
       return response.data;
     } catch (error) {
       console.log('El Producto no ha sido creado');

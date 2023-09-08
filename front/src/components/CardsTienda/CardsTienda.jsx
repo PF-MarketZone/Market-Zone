@@ -3,7 +3,7 @@ import Card from "../CardTienda/CardTienda";
 import styles from "./CardsTienda.module.css";
 
 const Cards = ({ tiendas }) => {
-  if (tiendas.length === 0) {
+  if (tiendas?.length === 0) {
     return (
       <p style={{ color: "black", fontWeight: "bold" }}>
         No se encontraron tiendas.

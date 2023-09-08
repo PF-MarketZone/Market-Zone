@@ -61,13 +61,15 @@ const Sidebar = ({ handleComponentClick }) => {
           Productos
         </MenuItem>
 
-        <MenuItem
-          isActive={activeButton === "add store"}
-          onClick={() => handleClick("add store")}
-        >
-          <MdStore />
-          Crear Tienda
-        </MenuItem>
+        {role && (role.includes("admin") || role.includes("seller")) && (
+          <MenuItem
+            isActive={activeButton === "add store"}
+            onClick={() => handleClick("add store")}
+          >
+            <MdStore />
+            Crear Tienda
+          </MenuItem>
+        )}
 
         <MenuItem
           isActive={activeButton === "add products"}

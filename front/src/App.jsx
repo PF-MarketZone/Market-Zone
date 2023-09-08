@@ -92,8 +92,7 @@ function App() {
 
         <div>
           {location.pathname === "/" ||
-          location.pathname === "/login" ||
-          location.pathname === "/dashboard" ? null : (
+          location.pathname === "/login" ? null : (
             <Nav onSearch={handleSearch} />
           )}
         </div>
