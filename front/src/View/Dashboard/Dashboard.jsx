@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import Sidebar from '../../components/PanelDashboard/Sidebar/Sidebar';
-import Products from '../../components/PanelDashboard/Products/Products';
-import AddProducts from '../../components/PanelDashboard/AddProducts/AddProducts';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import Sidebar from "../../components/PanelDashboard/Sidebar/Sidebar";
+import Products from "../../components/PanelDashboard/Products/Products";
+import AddProducts from "../../components/PanelDashboard/AddProducts/AddProducts";
 import AddStore from "../../components/PanelDashboard/AddStore/AddStore";
-import Orders from '../../components/PanelDashboard/Orders/Orders';
-import Users from '../../components/PanelDashboard/Users/Users';
-import Sales from '../../components/PanelDashboard/Sales/Sales';
-import Reviews from '../../components/PanelDashboard/Reviews/Reviews'
-import Profile from '../../components/PanelDashboard/Profile/Profile'
-
+import Orders from "../../components/PanelDashboard/Orders/Orders";
+import Users from "../../components/PanelDashboard/Users/Users";
+import Sales from "../../components/PanelDashboard/Sales/Sales";
+import Reviews from "../../components/PanelDashboard/Reviews/Reviews";
+import Profile from "../../components/PanelDashboard/Profile/Profile";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const AdminPanel = styled.div`
   display: flex;
@@ -22,26 +23,35 @@ const Content = styled.div`
 `;
 
 const Dashboard = () => {
+  const { isAuthenticated } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/home");
+    }
+  }, [navigate, isAuthenticated]);
+
   const [selected, setSelected] = useState(null);
 
-   const renderSelected = () => {
-    switch(selected){
-      case 'profile':
-        return <Profile/>;
-      case 'products':
-        return <Products/>;
-      case 'add products':
-        return <AddProducts/>
+  const renderSelected = () => {
+    switch (selected) {
+      case "profile":
+        return <Profile />;
+      case "products":
+        return <Products />;
+      case "add products":
+        return <AddProducts />;
       case "add store":
         return <AddStore />;
-      case 'users':
-        return <Users/>
-      case 'orders':
-        return <Orders/>
-      case 'reviews':
-        return <Reviews/>
-      case 'sales':
-        return <Sales/>
+      case "users":
+        return <Users />;
+      case "orders":
+        return <Orders />;
+      case "reviews":
+        return <Reviews />;
+      case "sales":
+        return <Sales />;
       default:
         return null;
     }
