@@ -4,15 +4,38 @@ import LetteredAvatar from "react-lettered-avatar";
 import { styled } from "styled-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { putInfoProfile } from "../../../redux/Actions/userAction";
+import { putInfoProfile } from "../../../redux/Actions/authAction";
 import { mapUserDataToAPI } from './mapUserDataToAPI';
-import { BiEditAlt } from 'react-icons/bi';
+import { TbPencilMinus, TbPencilPlus, TbCheck, TbBan, TbPlus, TbQuestionMark, TbMapPinPlus, TbDeviceMobilePlus, TbDeviceMobileX, TbDeviceMobileCheck, TbDeviceMobileCog } from 'react-icons/tb';
+import { LiaBirthdayCakeSolid } from 'react-icons/lia';
+
+const ButtonEdit = styled.button`
+background-color: transparent ; 
+padding: 0 3vw; 
+border: none; 
+`
+const ButtonCheckBan = styled.button`
+background-color: transparent ; 
+padding: 0 1vw; 
+border: none; 
+`
+const Input = styled.input`
+ height: 22.4px;
+`
+
+const Form = styled.form`
+    display: flex;
+    align-items: center;
+
+`
+
 
 const DivPrincipal = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
+
 const Div = styled.div`
   display: flex;
   flex-direction: column;
@@ -22,27 +45,93 @@ const DivDirection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  
 `;
 const DivName = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-bottom: 2rem;
+  margin-top: 2vh;
+  
 `;
+const DivNameButton = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+const DivPhone = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 2vh;
+`;
+const DivPhoneButton = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
 const DivRoll = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 `;
+
+const DivRollButton = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 2vh;
+`;
+
+const DivAge = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+
+const DivAgeButton = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 2vh;
+  `;
+
+const DivAddress = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  height: 18vh;
+`;
+
+const DivAddressButton = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 5vh;
+  `;
+
+const DivInputsAddress = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  `
+const DivInputs = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  `
+
 const Avatar = styled.div`
-  margin: 2rem;
-  margin-left: 0;
+  
 `;
 const H6 = styled.h6`
   margin: 0;
 `;
 const H3 = styled.h3`
   margin: 0;
+  width: 70vh;
 `;
 const DivEdit = styled.div`
   display: flex;
@@ -59,9 +148,14 @@ const Profile = () => {
   const dispatch = useDispatch();
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingAge, setIsEditingAge] = useState(false);
+  const [isEditingPhoneNumber, setIsEditingPhoneNumber] = useState(false);
+  const [isEditingAddress, setIsEditingAddress] = useState(false)
+  const [isNewShippingAddress, setIsNewShippingAddress] = useState(false)
   const [isEditingShippingAddress, setIsEditingShippingAddress] = useState(
     Array(user.user.shippingAddress.length).fill(false)
   );
+  const [initialShippingAddress, setInitialShippingAddress] = useState(
+    user.user.shippingAddress.map((address) => ({ ...address })));
 
   // Define un objeto de roles y sus respectivos mensajes
   const roleMessages = {
@@ -84,18 +178,16 @@ const Profile = () => {
       age: user.user.age || "",
       email: user.user.email || "",
       phoneNumber: user.user.phoneNumber || "",
-      address: {
-        street: user.user.address ? user.user.address.street : "",
-        streetNumber: user.user.address ? user.user.address.streetNumber : "",
-        postalCode: user.user.address ? user.user.address.postalCode : "",
-        townNeighborhood: user.user.address
-          ? user.user.address.townNeighborhood
-          : "",
-        floorApartment: user.user.address
-          ? user.user.address.floorApartment
-          : "",
-        city: user.user.address ? user.user.address.city : "",
-      },
+      address: user.user.address
+        ? {
+          street: user.user.address.street,
+          streetNumber: user.user.address.streetNumber,
+          postalCode: user.user.address.postalCode,
+          townNeighborhood: user.user.address.townNeighborhood,
+          floorApartment: user.user.address.floorApartment,
+          city: user.user.address.city,
+        }
+        : {},
       shippingAddress: user.user.shippingAddress.map((address) => ({
         ...address,
       })),
@@ -113,6 +205,9 @@ const Profile = () => {
         alert("Usuario editado con éxito");
         setIsEditingName(false);
         setIsEditingAge(false);
+        setIsEditingPhoneNumber(false);
+        setIsNewShippingAddress(false);
+        setIsEditingAddress(false);
         setIsEditingShippingAddress(false);
       } catch (error) {
         console.error("Error al editar el usuario:", error);
@@ -137,164 +232,442 @@ const Profile = () => {
     setIsEditingAge(false);
   };
 
+  const handleEditPhoneNumber = () => {
+    setIsEditingPhoneNumber(true);
+  };
+
+  const handleCancelEditPhoneNumber = () => {
+    setIsEditingPhoneNumber(false);
+  };
+
+  const handleEditAddress = () => {
+    setIsEditingAddress(true);
+  };
+
+  const handleCancelEditAddress = () => {
+    setIsEditingAddress(false);
+  };
+
+  const handleEditShippingAddress = (index) => {
+    // Hacer una copia de los valores actuales de shippingAddress
+    const currentShippingAddress = [...formik.values.shippingAddress];
+    // Hacer una copia de los valores iniciales
+    const initialAddress = { ...initialShippingAddress[index] };
+
+    // Actualizar los valores actuales con los iniciales
+    currentShippingAddress[index] = initialAddress;
+
+    // Establecer los valores actualizados en el formulario
+    formik.setValues({
+      ...formik.values,
+      shippingAddress: currentShippingAddress,
+    });
+
+    // Activar la edición
+    setIsEditingShippingAddress((prevState) => {
+      const newState = [...prevState];
+      newState[index] = true;
+      return newState;
+    });
+  };
+
+  const handleNewShippingAddress = () => {
+    console.log("apretaste el boton Agregar Dirección de Envío")
+    // Agregar una nueva dirección de envío con valores iniciales vacíos
+    formik.setValues({
+      ...formik.values,
+      shippingAddress: [
+        ...formik.values.shippingAddress,
+        {
+          street: "",
+          streetNumber: "",
+          postalCode: "",
+          townNeighborhood: "",
+          floorApartment: "",
+          city: "",
+        },
+      ],
+    });
+    setIsEditingShippingAddress((prevState) => [...prevState, true]);
+  };
+
+  const handleCancelEditShippingAddress = (index) => {
+    const address = formik.values.shippingAddress[index];
+    const isEmptyAddress =
+      !address.street &&
+      !address.streetNumber &&
+      !address.postalCode &&
+      !address.townNeighborhood &&
+      !address.floorApartment &&
+      !address.city;
+
+    if (isEmptyAddress) {
+      // Eliminar la dirección de envío vacía
+      formik.setValues((prevValues) => {
+        const newShippingAddress = [...prevValues.shippingAddress];
+        newShippingAddress.splice(index, 1); // Eliminar el elemento en el índice especificado
+        return {
+          ...prevValues,
+          shippingAddress: newShippingAddress,
+        };
+      });
+    } else {
+      // Restaurar los valores iniciales al cancelar la edición
+      formik.setValues((prevValues) => {
+        const newShippingAddress = [...prevValues.shippingAddress];
+        newShippingAddress[index] = { ...initialShippingAddress[index] };
+        return {
+          ...prevValues,
+          shippingAddress: newShippingAddress,
+        };
+      });
+
+      // Desactivar la edición
+      setIsEditingShippingAddress((prevState) =>
+        prevState.map((editing, i) => (i === index ? false : editing))
+      );
+    }
+  };
+
+
+
+
+
+
   return (
     <DivPrincipal>
       <Div>
+
         <Avatar>
           <LetteredAvatar name={fullName || "Usuario"} size={96} font />
         </Avatar>
-        <DivRoll>
-          <H6>Rol:</H6>
-          <H3>{roleMessage}</H3>
-          <button>?</button>
-        </DivRoll>
+
         <DivName>
-          <H6>Nombre:</H6>
           {isEditingName ? (
-            <form onSubmit={formik.handleSubmit}>
-              <input
+            <Form onSubmit={formik.handleSubmit}>
+
+              <Input
                 type="text"
                 name="name"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.name}
               />
-              <input
+              <Input
                 type="text"
                 name="last_name"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.last_name}
               />
-              <button type="submit">Guardar</button>
-              <button type="button" onClick={handleCancelEditName}>
-                Cancelar
-              </button>
-            </form>
+              <ButtonCheckBan type="submit">
+                <TbCheck style={{ color: "green", width: "1.5vw", height: "1.5vw" }} />
+              </ButtonCheckBan>
+              <ButtonCheckBan type="button" onClick={handleCancelEditName}>
+                <TbBan style={{ color: "red", width: "1.5vw", height: "1.5vw" }} />
+              </ButtonCheckBan>
+            </Form>
           ) : (
-            <>
+            <DivNameButton>
               <H3>
-                {formik.values.name} {user.user.last_name}
+                Bienvenid@, {formik.values.name} {user.user.last_name}
               </H3>
-              <button onClick={handleEditName}>Editar</button>
-            </>
+              <ButtonEdit onClick={handleEditName}>
+                <TbPencilMinus style={{ width: "1.5vw", height: "1.5vw" }} />
+              </ButtonEdit>
+            </DivNameButton>
           )}
         </DivName>
+
         <div>
-          <H6>edad:</H6>
-          {isEditingAge ? (
-            <form onSubmit={formik.handleSubmit}>
-              <input
-                type="text"
-                name="age"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.age}
-              />
-              <button type="submit">Guardar</button>
-              <button type="button" onClick={handleCancelEditAge}>
-                Cancelar
-              </button>
-            </form>
-          ) : (
-            <>
-              <H3>{user.user.age}</H3>
-              <button onClick={handleEditAge}>Editar</button>
-            </>
-          )}
+          <H6>{user.user.email}</H6>
         </div>
-        <div>
+
+        <DivRollButton>
+          <DivRoll>
+            <H3> Eres {roleMessage}</H3>
+          </DivRoll>
+          <ButtonEdit>
+            <TbQuestionMark style={{ width: "1.5vw", height: "1.5vw" }} />
+          </ButtonEdit>
+        </DivRollButton>
+
+        <DivPhone>
+          {isEditingPhoneNumber ? (
+            <div>
+              <Form onSubmit={formik.handleSubmit}>
+                <Input
+                  type="text"
+                  name="phoneNumber"
+                  placeholder="Cual es tu numero?"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.phoneNumber}
+                />
+                <ButtonCheckBan type="submit">
+                  <TbDeviceMobileCheck style={{ color: "green", width: "1.5vw", height: "1.5vw" }} />
+                </ButtonCheckBan>
+                <ButtonCheckBan type="button" onClick={handleCancelEditPhoneNumber}>
+                  <TbDeviceMobileX style={{ color: "red", width: "1.5vw", height: "1.5vw" }} />
+                </ButtonCheckBan>
+              </Form>
+            </div>
+          ) : user.user.phoneNumber ? (
+            <DivPhoneButton>
+              <H3>{user.user.phoneNumber}</H3>
+              <ButtonEdit onClick={handleEditPhoneNumber}>
+                <TbDeviceMobileCog style={{ width: "1.5vw", height: "1.5vw" }} />
+              </ButtonEdit>
+            </DivPhoneButton>
+          ) : (
+
+            <ButtonEdit onClick={handleEditPhoneNumber}>
+              <TbDeviceMobilePlus style={{ width: "1.5vw", height: "1.5vw" }} />
+            </ButtonEdit>
+          )}
+        </DivPhone>
+
+        <DivAge>
+          {isEditingAge ? (
+            <div>
+
+              <Form onSubmit={formik.handleSubmit}>
+                <input
+                  type="text"
+                  name="age"
+                  placeholder="Que edad tienes"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.age}
+                />
+                <ButtonCheckBan type="submit">
+                  <TbCheck style={{ color: "green", width: "1.5vw", height: "1.5vw" }} />
+                </ButtonCheckBan>
+                <ButtonCheckBan type="button" onClick={handleCancelEditAge}>
+                  <TbBan style={{ color: "red", width: "1.5vw", height: "1.5vw" }} />
+                </ButtonCheckBan>
+              </Form>
+            </div>
+          ) : user.user.age ? (
+            <DivAgeButton>
+
+              <H3><LiaBirthdayCakeSolid style={{ width: "5vw", height: "1.5vw" }} />{""}{user.user.age}</H3>
+              <ButtonEdit onClick={handleEditAge}>
+                <TbPencilMinus style={{ width: "1.5vw", height: "1.5vw" }} />
+              </ButtonEdit>
+            </DivAgeButton>
+          ) : (
+
+            <ButtonEdit onClick={handleEditAge}><LiaBirthdayCakeSolid style={{ width: "5vw", height: "1.5vw" }} /></ButtonEdit>
+          )}
+        </DivAge>
+
+        <DivAddress>
+          {isEditingAddress ? (
+            <div>
+              <H6>Direccion:</H6>
+              <Form onSubmit={formik.handleSubmit}>
+                <DivInputsAddress>
+                  <Input
+                    type="text"
+                    name="address.street"
+                    placeholder="Calle"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.address.street}
+                  />
+                  <Input
+                    type="text"
+                    name="address.streetNumber"
+                    placeholder="Numero de Calle"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.address.streetNumber}
+                  />
+                </DivInputsAddress>
+                <DivInputsAddress>
+                  <Input
+                    type="text"
+                    name="address.postalCode"
+                    placeholder="Código Postal"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.address.postalCode}
+                  />
+                  <Input
+                    type="text"
+                    name="address.townNeighborhood"
+                    placeholder="Barrio"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.address.townNeighborhood}
+                  />
+                </DivInputsAddress>
+                <DivInputsAddress>
+                  <Input
+                    type="text"
+                    name="address.floorApartment"
+                    placeholder="Casa/Apartamento"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.address.floorApartment}
+                  />
+                  <Input
+                    type="text"
+                    name="address.city"
+                    placeholder="Ciudad"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.address.city}
+                  />
+                </DivInputsAddress>
+                <ButtonCheckBan type="submit">
+                  <TbCheck style={{ color: "green", width: "1.5vw", height: "1.5vw" }} />
+                </ButtonCheckBan>
+                <ButtonCheckBan type="button" onClick={handleCancelEditAddress}>
+                  <TbBan style={{ color: "red", width: "1.5vw", height: "1.5vw" }} />
+                </ButtonCheckBan>
+              </Form>
+            </div>
+          ) : user.user.address ? (
+            <div>
+              <div>
+                <H6>Direccion:</H6>
+              </div>
+              <DivAddressButton>
+                <H3>{user.user.address.street} {user.user.address.streetNumber}{" "}
+                  {user.user.address.postalCode && (
+                    <>
+                      CP. {user.user.address.postalCode}{" "}
+                    </>
+                  )} {user.user.address.townNeighborhood}{" "}
+                  {user.user.address.city} {user.user.address.floorApartment}</H3>
+                <ButtonEdit onClick={handleEditAddress}>
+                  <TbPencilMinus style={{ width: "1.5vw", height: "1.5vw" }} />
+                </ButtonEdit>
+              </DivAddressButton>
+            </div>
+          ) : (
+
+            <button onClick={handleEditAddress}> <TbPencilMinus style={{ width: "1.5vw", height: "1.5vw" }} /></button>
+          )}
+        </DivAddress>
+
+        <DivAddress>
           {formik.values.shippingAddress.map((address, index) => (
             <DivDirection key={index}>
               {isEditingShippingAddress[index] ? (
-                <form onSubmit={formik.handleSubmit}>
-                  {/* Campos de dirección de envío */}
-                  <input
-                    type="text"
-                    name={`shippingAddress[${index}].street`}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.shippingAddress[index].street}
-                  />
-                  <input
-                    type="text"
-                    name={`shippingAddress[${index}].streetNumber`}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.shippingAddress[index].streetNumber}
-                  />
-                  <input
-                    type="text"
-                    name={`shippingAddress[${index}].postalCode`}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.shippingAddress[index].postalCode}
-                  />
-                  <input
-                    type="text"
-                    name={`shippingAddress[${index}].townNeighborhood`}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={
-                      formik.values.shippingAddress[index].townNeighborhood
-                    }
-                  />
-                  <input
-                    type="text"
-                    name={`shippingAddress[${index}].floorApartment`}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.shippingAddress[index].floorApartment}
-                  />
-                  <input
-                    type="text"
-                    name={`shippingAddress[${index}].city`}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.shippingAddress[index].city}
-                  />
-                  {/* Otros campos de dirección de envío */}
-                  <button type="submit">Guardar Dirección</button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      // Cancelar la edición
-                      setIsEditingShippingAddress((prevState) =>
-                        prevState.map((editing, i) =>
-                          i === index ? false : editing
-                        )
-                      );
-                    }}
-                  >
-                    Cancelar
-                  </button>
-                </form>
+                <div>
+                  <H6>Direccion de envio:</H6>
+                <Form onSubmit={formik.handleSubmit}>
+                  <DivInputsAddress>
+                    <Input
+                      type="text"
+                      name={`shippingAddress[${index}].street`}
+                      placeholder="Calle"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.shippingAddress[index].street}
+                    />
+                    <Input
+                      type="text"
+                      name={`shippingAddress[${index}].streetNumber`}
+                      placeholder="Numero de Calle"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.shippingAddress[index].streetNumber}
+                    />
+                  </DivInputsAddress>
+                  <DivInputsAddress>
+                    <Input
+                      type="text"
+                      name={`shippingAddress[${index}].postalCode`}
+                      placeholder="Código Postal"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.shippingAddress[index].postalCode}
+                    />
+                    <Input
+                      type="text"
+                      name={`shippingAddress[${index}].townNeighborhood`}
+                      placeholder="Barrio"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={
+                        formik.values.shippingAddress[index].townNeighborhood
+                      }
+                    />
+                  </DivInputsAddress>
+                  <DivInputsAddress>
+                    <Input
+                      type="text"
+                      name={`shippingAddress[${index}].floorApartment`}
+                      placeholder="Casa/Apartamento"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.shippingAddress[index].floorApartment}
+                    />
+                    <Input
+                      type="text"
+                      name={`shippingAddress[${index}].city`}
+                      placeholder="Ciudad"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.shippingAddress[index].city}
+                    />
+                  </DivInputsAddress>
+                  <ButtonCheckBan type="submit">
+                  <TbCheck style={{ color: "green", width: "1.5vw", height: "1.5vw" }} />
+                </ButtonCheckBan>
+                <ButtonCheckBan type="button" onClick={() => handleCancelEditShippingAddress(index)}>
+                  <TbBan style={{ color: "red", width: "1.5vw", height: "1.5vw" }} />
+                </ButtonCheckBan>
+                </Form>
+                </div>
               ) : (
                 <DivEdit>
-                  <H3>
-                    {address.street} {address.streetNumber} CP.{" "}
-                    {address.postalCode} {address.townNeighborhood}{" "}
-                    {address.city} {address.floorApartment}{" "}
-                    {address.additionalInformation}
-                  </H3>
-                  <button
-                    style={{ backgroundColor: "transparent", padding:"0 3vw", border: "none"}}
-                    onClick={() => {
-                      // Iniciar la edición
-                      setIsEditingShippingAddress((prevState) =>
-                        prevState.map((editing, i) =>
-                          i === index ? true : editing
-                        )
-                      );
-                    }}
-                  >
-                  <BiEditAlt style={{ width: "1.5vw", height: "1.5vw"}} />
-                  </button>
+                  <div>
+                    <div>
+                      <H6>Direccion de envio:</H6>
+                    </div>
+                    <DivAddressButton>
+                    <H3>
+                      {address.street} {address.streetNumber} {address.postalCode && (
+                        <>
+                          CP. {address.postalCode}{" "}
+                        </>
+                      )} {address.townNeighborhood}{" "}
+                      {address.city} {address.floorApartment}{" "}
+                      {address.additionalInformation}
+                    </H3>
+                    <ButtonEdit
+                      onClick={() => {
+                        // Iniciar la edición
+                        setIsEditingShippingAddress((prevState) => {
+                          // Verificar si prevState es un array, si no, inicializarlo como un array vacío
+                          if (!Array.isArray(prevState)) {
+                            prevState = [];
+                          }
+                          const newState = [...prevState];
+                          newState[index] = true; // Establecer el valor en true para el índice específico
+                          return newState; // Devolver el nuevo estado
+                        });
+
+                      }}
+                    >
+                      <TbPencilMinus style={{ width: "1.5vw", height: "1.5vw" }} />
+                    </ButtonEdit>
+                    </DivAddressButton>
+                  </div>
                 </DivEdit>
               )}
             </DivDirection>
           ))}
-        </div>
+          {/* Mostrar el botón "Agregar Dirección de Envío" solo si no hay direcciones de envío */}
+          {formik.values.shippingAddress.length === 0 && (
+            <button onClick={handleNewShippingAddress}>Agregar Dirección de Envío</button>
+          )}
+        </DivAddress>
       </Div>
     </DivPrincipal>
   );
