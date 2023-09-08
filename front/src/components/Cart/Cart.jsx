@@ -3,7 +3,6 @@ import axios from "axios";
 import React, { useState } from "react";
 import { BsTrash } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { backendUrl } from "../../deployConfig";
 import {
   aumentarCantidad,
   disminuirCantidad,
@@ -70,8 +69,7 @@ const Cart = () => {
       console.log(data);
 
       const response = await axios.post(
-        "http://localhost:3004/api/v1/create-order/create-preference",
-        { items }`${backendUrl}/create-order/create-preference`,
+        `http://localhost:3004/api/v1/create-order/create-preference`,
         { data }
       );
       const id = response.data.data;
