@@ -5,7 +5,9 @@ const {
   updateStock,
 } = require('../controllers/productController');
 const { responseMaper } = require('../helpers/responseMaper');
-
+const {
+  uploadProductImages,
+} = require('../utils/cloudinary/uploadProductImage');
 const createProductHandler = async (req, res) => {
   try {
     const {
@@ -22,6 +24,7 @@ const createProductHandler = async (req, res) => {
     // if (!name || !description || !image || !price || !tags) {
     //   res.status(404).json(true, 'Completa los campos requeridos', null);
     // }
+    console.log('IMAGEEE CREATEEE', image);
     const newProduct = createNewProduct(
       req,
       storeId,
@@ -48,18 +51,23 @@ const createProductHandler = async (req, res) => {
 
 const updateProductHandler = async (req, res) => {
   try {
+    console.log('Entrando en updateProductHandler');
     const {
       _id,
       storeId,
       name,
       description,
-      image,
       color,
       price,
       stock,
       category,
       subcategory,
     } = req.body;
+
+    const newImages = await uploadProductImages(req);
+    const oldImages = JSON.parse(req.body.oldImages);
+    const image = oldImages.concat(newImages);
+
     if (!_id) {
       return res
         .status(404)
@@ -77,8 +85,15 @@ const updateProductHandler = async (req, res) => {
       category,
       subcategory
     );
-    res.status(200).json(responseMaper(false, 'Producto actualizado', result));
+
+    console.log(result);
+    if (result) {
+      res
+        .status(200)
+        .json(responseMaper(false, 'Producto actualizado', result));
+    }
   } catch (error) {
+    console.error('Error en updateProductHandler:', error);
     res
       .status(500)
       .json(responseMaper(true, 'No se pudo modificar el producto', null));

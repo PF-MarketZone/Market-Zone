@@ -1,6 +1,9 @@
 const Product = require('../models/product');
 const mongoose = require('mongoose');
-const { uploadImage, deleteImage } = require('../utils/cloudinary/cloudinary');
+const { deleteImage } = require('../utils/cloudinary/cloudinary');
+const {
+  uploadProductImages,
+} = require('../utils/cloudinary/uploadProductImage');
 const fs = require('fs-extra');
 
 //=================================================================
@@ -63,27 +66,9 @@ const createNewProduct = async (
   console.log(category, subcategory);
   const storeidBody = storeId;
   const storeDefault = '64daf18450c25495a4a6a611';
-
-  const imageObjects = [];
-
-  if (req.files && req.files.image) {
-    const images = Array.isArray(req.files.image)
-      ? req.files.image
-      : [req.files.image];
-    for (const imageFile of images) {
-      try {
-        const result = await uploadImage(imageFile.tempFilePath);
-        imageObjects.push({
-          url: result.secure_url,
-          public_id: result.public_id,
-        });
-        await fs.unlink(imageFile.tempFilePath);
-      } catch (uploadError) {
-        console.error('Error al cargar la imagen:', uploadError);
-      }
-    }
-  }
-
+  console.log(req);
+  const imageObjects = await uploadProductImages(req);
+  console.log('IMAGE OBJEEEECT!!', imageObjects);
   const productData = new Product({
     req: req,
     storeId: storeId ? storeidBody : storeDefault,
@@ -120,38 +105,48 @@ const updateProduct = async (
   category,
   subcategory
 ) => {
-  // Buscamos el producto a actualizar
-  const productFinded = await searchByIdProduct(_id);
-  if (storeId) {
-    productFinded.storeId = storeId;
-  }
-  if (name) {
-    productFinded.name = name;
-  }
-  if (description) {
-    productFinded.description = description;
-  }
-  if (image) {
-    productFinded.image = image;
-  }
-  if (color) {
-    productFinded.color = color;
-  }
-  if (price) {
-    productFinded.price = price;
-  }
-  if (stock) {
-    productFinded.stock = stock;
-  }
+  try {
+    // Find the product to update
+    const productFinded = await searchByIdProduct(_id);
 
-  if (category && subcategory) {
-    productFinded.categories = {
-      category: category,
-      subcategory: subcategory,
-    };
+    // Update the fields with new values
+    if (storeId) {
+      productFinded.storeId = storeId;
+    }
+    if (name) {
+      productFinded.name = name;
+    }
+    if (description) {
+      productFinded.description = description;
+    }
+    if (image) {
+      productFinded.image = image;
+    }
+    if (color) {
+      productFinded.color = color;
+    }
+    if (price) {
+      productFinded.price = price;
+    }
+    if (stock) {
+      productFinded.stock = stock;
+    }
+
+    if (category && subcategory) {
+      productFinded.categories = {
+        category: category,
+        subcategory: subcategory,
+      };
+    }
+
+    // Save the updated product
+    const updatedProduct = await productFinded.save();
+
+    return updatedProduct;
+  } catch (error) {
+    console.error('Error updating product:', error);
+    throw error;
   }
-  await productFinded.save();
-  console.log(productFinded);
 };
 
 //=================================================================

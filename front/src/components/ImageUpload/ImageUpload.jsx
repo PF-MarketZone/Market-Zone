@@ -20,24 +20,40 @@ const ImageUpload = ({ images, onImageChange }) => {
         multiple
       />
       <div>
-        {images.map((image, index) => (
-          <div key={index} style={{ display: "flex", alignItems: "center" }}>
-            <img
-              src={URL.createObjectURL(image)}
-              alt={`Vista previa de la imagen ${index}`}
-              style={{
-                width: "150px",
-                height: "150px",
-                objectFit: "cover",
-                margin: "5px",
-              }}
-            />
-            <AiOutlineCloseCircle
-              type="button"
-              onClick={() => handleImageRemove(index)}
-            />
-          </div>
-        ))}
+                {images.map((image, index) => (
+            <div key={index} style={{ display: "flex", alignItems: "center" }}>
+              {image instanceof File ? (
+                <img
+                  src={URL.createObjectURL(image)}
+                  alt={`Vista previa de la imagen ${index}`}
+                  style={{
+                    width: "150px",
+                    height: "150px",
+                    objectFit: "cover",
+                    margin: "5px",
+                  }}
+                />
+              ) : (
+                <img
+                  src={image} 
+                  alt={`Vista previa de la imagen ${index}`}
+                  style={{
+                    width: "150px",
+                    height: "150px",
+                    objectFit: "cover",
+                    margin: "5px",
+                  }}
+                />
+              )}
+              <div
+                style={{ cursor: "pointer" }}
+                onClick={() => handleImageRemove(index)}
+              >
+                <AiOutlineCloseCircle />
+              </div>
+            </div>
+          ))}
+
       </div>
     </div>
   );
