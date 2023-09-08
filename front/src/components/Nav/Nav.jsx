@@ -61,7 +61,7 @@ const Nav = () => {
         {isAuthenticated && (
           // Mostrar botón de Dashboard solo si está autenticado
           <Link to="/dashboard">
-            <button className={styles.button1}>Panel de aministración</button>
+            <button className={styles.button1}>Ajustes</button>
           </Link>
         )}
 
