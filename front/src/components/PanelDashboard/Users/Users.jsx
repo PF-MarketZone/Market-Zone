@@ -2,15 +2,16 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import styles from "./users.module.css";
 import WarningUser from "./WarningUser";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { sessionActive } from "../../../redux/Actions/authAction";
 import { backendUrl } from "../../../deployConfig";
 import { AiFillGoogleCircle, AiFillHome } from "react-icons/ai";
 import { Modal } from "../../Modal/Modal";
 
+
 const Users = () => {
   const dispatch = useDispatch();
-  const { user, auth } = dispatch(sessionActive());
+  const { user, token, refreshToken } = useSelector((state) => state.auth.user);
 
   const [users, setUsers] = React.useState(false);
   const [openModal, setOpenModal] = React.useState(false);
@@ -21,29 +22,29 @@ const Users = () => {
   });
 
   const getAllUsers = async () => {
-    if (auth) {
+    
       try {
         const response = await axios({
           url: `${backendUrl}/user`,
           method: "get",
           headers: {
-            Authorization: `Bearer ${user.token}`,
-            "refresh-token": user.refreshToken,
+            Authorization: `Bearer ${token}`,
+            "refresh-token": refreshToken,
           },
         });
-
+console.log(response)
         if (response.data) {
           setUsers(response.data.data);
         }
       } catch (error) {
         console.log("error de algo", error);
       }
-    }
+    
   };
 
   useEffect(() => {
     getAllUsers();
-    return setUsers(false);
+   
   }, []);
 
   const onClick = (id, prop, text) => {
