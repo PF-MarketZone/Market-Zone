@@ -1,9 +1,10 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createStore } from "../../../redux/Actions/productsAction";
 import { useFormik } from "formik";
 import ImageUpload from "../../ImageUpload/ImageUpload";
 import { sessionActive } from "../../../redux/Actions/authAction";
+
 import validationSchema from "./validationSchema";
 import {
   TittleForm,
@@ -15,24 +16,25 @@ import {
 
 const AddStore = () => {
   const dispatch = useDispatch();
-  const { user, auth } = dispatch(sessionActive());
+  const { user, token, refreshToken} = useSelector((state) => state.auth.user);
 
   const formik = useFormik({
     initialValues: {
       name: "",
       description: "",
       image: [],
-      user: user.user._id,
+      user: user._id,
     },
     validationSchema: validationSchema,
     onSubmit: async (formData, { resetForm }) => {
       try {
-        await dispatch(createStore(formData, user.token, user.refreshToken));
-        alert("Producto creado con éxito");
+        console.log(formData)
+        await dispatch(createStore(formData, token, refreshToken));
+        alert("Tienda creada con éxito");
         resetForm();
       } catch (error) {
-        console.error("Error al crear el producto:", error);
-        alert("No se pudo crear el producto");
+        console.error("Error al crear la tienda:", error);
+        alert("No se pudo crear la tienda");
       }
     },
   });
@@ -80,7 +82,7 @@ const AddStore = () => {
           )}
         </FormGroup>
 
-        <button type="submit">Agregar Tienda</button>
+        <button >Agregar Tienda</button>
       </form>
     </ProductFormContainer>
   );
