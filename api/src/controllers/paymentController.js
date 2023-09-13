@@ -19,7 +19,7 @@ const createPreference = async (req) => {
       quantity: item.quantity,
     })),
 
-    notification_url: `https://c69f-190-176-65-17.ngrok.io/api/v1/create-order/notification/${userId}`,
+    notification_url: `https://a058-190-176-29-137.ngrok.io/api/v1/create-order/notification/${userId}`,
 
     back_urls: {
       success: `${DOMAIN_NAME_FRONT}/thankyou`, // crear componente para compra exitosa (componente del front, para mas estilo)
