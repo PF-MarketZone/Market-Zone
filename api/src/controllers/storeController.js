@@ -64,8 +64,8 @@ const storeCreate = async (req, user, name, image, description) => {
   const newStore = new Store({
     user,
     name,
-    // logo: imageObjects[0].url,
-    // image: imageObjects[0].url,
+   //logo: imageObjects[0].url,
+   image: imageObjects[0].url,
     description,
   });
 

@@ -24,10 +24,12 @@ const AddStore = () => {
       description: "",
       image: [],
       user: user._id,
+     
     },
     validationSchema: validationSchema,
     onSubmit: async (formData, { resetForm }) => {
       try {
+         console.log(formik)
         console.log(formData)
         await dispatch(createStore(formData, token, refreshToken));
         alert("Tienda creada con éxito");
@@ -82,7 +84,7 @@ const AddStore = () => {
           )}
         </FormGroup>
 
-        <button >Agregar Tienda</button>
+        <button type="submit">Agregar Tienda</button>
       </form>
     </ProductFormContainer>
   );
