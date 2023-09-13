@@ -115,7 +115,8 @@ const AddProducts = () => {
   const handleStoreChange = (storeId) => {
     setStoresId(storeId);
   };
-console.log(stores)
+  //
+//console.log(stores)
   return (
     <ProductFormContainer>
       <TittleForm>Crea tu producto</TittleForm>
@@ -128,20 +129,21 @@ console.log(stores)
       ) : (
         <form onSubmit={formik.handleSubmit}>
           <FormGroup>
-          <p>Selecciona una tienda:</p>
-      <div>
-        {stores.map((store) => (
-          <label key={store._id}>
-            <input
-              type="checkbox"
-              value={store._id}
-              checked={storesId === store._id}
-              onChange={() => handleStoreChange(store._id)}
-            />
-           {store.name} 
-          </label>
-        ))}
-      </div>
+          
+      
+      <select
+              name="storeId"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.storeId}
+            >
+              <option value="">--Seleciona una de tus tiendas--</option>
+              {stores.map((storeName) => (
+                <option key={storeName._id} value={storeName.name}>
+                  {storeName.name}
+                </option>
+              ))}
+            </select>
             {(formik.touched.storeId && formik.values.storeId === "") ||
             (formik.errors.storeId && formik.values.storeId === "") ? (
               <ErrorMessage>{formik.errors.storeId}</ErrorMessage>
