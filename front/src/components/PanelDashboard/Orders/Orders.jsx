@@ -39,10 +39,10 @@ const Orders = () => {
 
             // Realizar una solicitud para obtener la lista de usuarios basada en los ID
           
-           console.log({
-            Authorization: `Bearer ${token}`,
-            "refresh-token": refreshToken,
-          },)
+          //  //console.log({
+          //   Authorization: `Bearer ${token}`,
+          //   "refresh-token": refreshToken,
+          // },)
                 axios({
                   url: `https://market-zone-api-v1.onrender.com/api/v1/user`,
                   method: "get",
@@ -57,7 +57,7 @@ const Orders = () => {
                     const usersMap = {};
                     usersData.forEach((user) => {
                       usersMap[user._id] = user.name;
-                      console.log(usersData)
+                      //console.log(usersData)
                     });
                     
                  

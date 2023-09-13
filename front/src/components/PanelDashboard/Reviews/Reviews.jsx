@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { sessionActive } from "../../../redux/Actions/authAction";
 import customerFnReview from "./customerFnReview";
 import styles from "./Reviews.module.css";
@@ -13,25 +13,26 @@ import {
 } from "../AddProducts/StyleComponenteAdd";
 
 const Reviews = () => {
-  const dispatch = useDispatch();
-  const { user, auth } = dispatch(sessionActive());
+  //const dispatch = useDispatch();
+  const { user, token, refreshToken } = useSelector((state) => state.auth.user);
+  console.log(token)
 
   const [reviews, setReviews] = React.useState(false);
 
   const getAllReviews = async () => {
-    if (auth) {
+  
       try {
         const reviews = await customerFnReview(
-          user.user._id,
-          user.token,
-          user.refreshToken
+          user._id,
+          token,
+          refreshToken
         );
 
         setReviews(reviews);
       } catch (error) {
         console.log("error de algo", error);
       }
-    }
+    
   };
 
   React.useEffect(() => {
@@ -42,11 +43,12 @@ const Reviews = () => {
   return (
     <ProductFormContainer>
       <TittleForm>Reseñas de productos</TittleForm>
-      {!reviews ? (
+      {/* {!reviews ? (
         <section className={styles["container-loader"]}>
           <div className={styles["loader"]}></div>
         </section>
-      ) : reviews.length === 0 ? (
+      ) : */}
+     { !reviews ? ( 
         <h2>No tienes reseñas creadas</h2>
       ) : (
         <section className={styles["users-table"]}>

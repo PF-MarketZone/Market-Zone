@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { postProducts } from "../../../redux/Actions/productsAction";
 import styles from "./AddProduct.module.css";
 import { useFormik } from "formik";
@@ -9,6 +9,7 @@ import ImageUpload from "../../ImageUpload/ImageUpload";
 import { sessionActive } from "../../../redux/Actions/authAction";
 import { backendUrl } from "../../../deployConfig";
 import axios from "axios";
+
 
 import {
   TittleForm,
@@ -49,12 +50,12 @@ const validationSchema = Yup.object({
 
 const AddProducts = () => {
   const dispatch = useDispatch();
-  const { user, auth } = dispatch(sessionActive());
+  const { user } = useSelector((state) => state.auth.user);
 
   const [storesId, setStoresId] = React.useState(false);
-
+ const [stores, setStores] = useState([]);
   const getMyStores = async () => {
-    if (auth) {
+    
       try {
         const response = await axios({
           url: `${backendUrl}/store`,
@@ -64,24 +65,26 @@ const AddProducts = () => {
             "refresh-token": user.refreshToken,
           },
         });
+       
 
         const allStore = response.data.data;
         const myStores = allStore.filter(
-          (store) => store.user === user.user._id
+          (store) => store.user === user._id
         );
-
+ console.log(myStores.map((e)=>e._id))
         if (!response.data.error) {
-          setStoresId(myStores);
+          setStoresId(myStores.map((e)=>e._id));
+          setStores(myStores)
         }
       } catch (error) {
         console.log("error de algo", error);
       }
-    }
+    
   };
 
   React.useEffect(() => {
     getMyStores();
-    return setStoresId(false);
+    //return setStoresId(false);
   }, []);
 
   const formik = useFormik({
@@ -110,6 +113,8 @@ const AddProducts = () => {
     },
   });
 
+  //
+//console.log(stores)
   return (
     <ProductFormContainer>
       <TittleForm>Crea tu producto</TittleForm>
@@ -122,15 +127,17 @@ const AddProducts = () => {
       ) : (
         <form onSubmit={formik.handleSubmit}>
           <FormGroup>
-            <select
+          
+      
+      <select
               name="storeId"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.storeId}
             >
               <option value="">--Seleciona una de tus tiendas--</option>
-              {storesId.map((storeName) => (
-                <option key={storeName._id} value={storeName.name}>
+              {stores.map((storeName) => (
+                <option key={storeName._id} value={storeName._id}>
                   {storeName.name}
                 </option>
               ))}
