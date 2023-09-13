@@ -1,22 +1,21 @@
+import { useFormik } from "formik";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createStore } from "../../../redux/Actions/productsAction";
-import { useFormik } from "formik";
 import ImageUpload from "../../ImageUpload/ImageUpload";
-import { sessionActive } from "../../../redux/Actions/authAction";
 
-import validationSchema from "./validationSchema";
 import {
-  TittleForm,
-  ProductFormContainer,
+  ErrorMessage,
   FormGroup,
   InputField,
-  ErrorMessage,
+  ProductFormContainer,
+  TittleForm,
 } from "../AddProducts/StyleComponenteAdd";
+import validationSchema from "./validationSchema";
 
 const AddStore = () => {
   const dispatch = useDispatch();
-  const { user, token, refreshToken} = useSelector((state) => state.auth.user);
+  const { user, token, refreshToken } = useSelector((state) => state.auth.user);
 
   const formik = useFormik({
     initialValues: {
@@ -24,13 +23,12 @@ const AddStore = () => {
       description: "",
       image: [],
       user: user._id,
-     
     },
     validationSchema: validationSchema,
     onSubmit: async (formData, { resetForm }) => {
       try {
-         console.log(formik)
-        console.log(formData)
+        console.log(formik);
+        console.log(formData);
         await dispatch(createStore(formData, token, refreshToken));
         alert("Tienda creada con éxito");
         resetForm();
