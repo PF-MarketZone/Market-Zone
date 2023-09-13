@@ -112,9 +112,7 @@ const AddProducts = () => {
       }
     },
   });
-  const handleStoreChange = (storeId) => {
-    setStoresId(storeId);
-  };
+
   //
 //console.log(stores)
   return (
@@ -139,7 +137,7 @@ const AddProducts = () => {
             >
               <option value="">--Seleciona una de tus tiendas--</option>
               {stores.map((storeName) => (
-                <option key={storeName._id} value={storeName.name}>
+                <option key={storeName._id} value={storeName._id}>
                   {storeName.name}
                 </option>
               ))}
