@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import { FaUsers, FaChartBar } from "react-icons/fa";
-import { LiaProductHunt } from "react-icons/lia";
+import { AiOutlineStar } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
+import { FaChartBar, FaUsers } from "react-icons/fa";
+import { LiaProductHunt } from "react-icons/lia";
 import {
   MdOutlineCreateNewFolder,
   MdOutlineShoppingCartCheckout,
   MdStore,
 } from "react-icons/md";
-import { AiOutlineStar } from "react-icons/ai";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 const Side = styled.div`
   width: 230px;
@@ -74,7 +74,7 @@ const Sidebar = ({ handleComponentClick }) => {
           </MenuItem>
         )}
 
-        {role && (role.includes("admin") || role.includes("seller")) && (
+        {role && role.includes("seller") && (
           <MenuItem
             isActive={activeButton === "add store"}
             onClick={() => handleClick("add store")}
@@ -84,7 +84,7 @@ const Sidebar = ({ handleComponentClick }) => {
           </MenuItem>
         )}
 
-        {role && (role.includes("admin") || role.includes("seller")) && (
+        {role && role.includes("seller") && (
           <MenuItem
             isActive={activeButton === "add products"}
             onClick={() => handleClick("add products")}
@@ -120,7 +120,7 @@ const Sidebar = ({ handleComponentClick }) => {
           Reseñas
         </MenuItem>
 
-        {role && (role.includes("admin") || role.includes("seller")) && (
+        {role && role.includes("seller") && (
           <MenuItem
             isActive={activeButton === "sales"}
             onClick={() => handleClick("sales")}
