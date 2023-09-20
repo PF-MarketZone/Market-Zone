@@ -49,8 +49,8 @@ const getReviewsHandler = async (req, res) => {
 
 const getReviewsByIdHandler = async (req, res) => {
   try {
-    const { reviewId } = req.params;
-    const review = await Review.findById(reviewId);
+    const { id } = req.params;
+    const review = await Review.findById(id);
     return res.status(200).json(review);
   } catch (error) {
     return res

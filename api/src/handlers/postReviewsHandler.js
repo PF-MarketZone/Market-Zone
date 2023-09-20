@@ -5,22 +5,23 @@ const createReview = async (req, res, next) => {
   try {
     const { user } = req.query;
     const { products, rating, title, description } = req.body;
-    //Valido que le user tenga una order hecha con su id al mismo product( segun id)
+    //Valido que le user tenga una order hecha con su id al mismo product( según id)
 
-    console.log('ID de usuario ', user);
+    // console.log('ID de usuario ', user);
+    // console.log(req.body);
 
     const order1 = await Order.findOne({
       user: user,
     });
-    console.log(order1);
 
     const order = await Order.findOne({
       user: user,
       products: products,
-      transactionStatus: 'success',
+      transactionStatus: 'approved',
     });
 
-    //si no es asi lanzo eerror
+    // console.log(order);
+    //si no es asi lanzo error
     if (!order) {
       return res
         .status(400)

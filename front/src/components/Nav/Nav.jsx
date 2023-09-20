@@ -1,12 +1,12 @@
-import { useState, useRef, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import styles from "./Nav.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import CartSidebar from "../CartSidebar/CartSidebar";
-import Logo from "../../images/Logo.png";
+import { useEffect, useRef, useState } from "react";
 import { AiOutlineLogin, AiOutlineLogout } from "react-icons/ai";
-import { logoutFn } from "../../redux/Actions/authAction";
 import { FaShoppingCart } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import Logo from "../../images/Logo.png";
+import { logoutFn } from "../../redux/Actions/authAction";
+import CartSidebar from "../CartSidebar/CartSidebar";
+import styles from "./Nav.module.css";
 
 const Nav = () => {
   const dispatch = useDispatch();
@@ -59,7 +59,7 @@ const Nav = () => {
           </Link>
         </div>
         {isAuthenticated && (
-          // Mostrar botón de Dashboard solo si está autenticado
+          // Mostrar botón de Dashboard solo si está autenticado====================== Dashboard
           <Link to="/dashboard">
             <button className={styles.button1}>Ajustes</button>
           </Link>
