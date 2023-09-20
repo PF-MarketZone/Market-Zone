@@ -1,22 +1,22 @@
+import { useFormik } from "formik";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import MyButton from "../Buttons/MainButton";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import * as Yup from "yup";
+import { backendUrl } from "../../deployConfig";
 import { login } from "../../redux/Actions/authAction";
+import MyButton from "../Buttons/MainButton";
 import {
-  StyledForm,
-  Input,
-  P,
+  Div,
+  DivPrincipal,
   H3,
   H3O,
   H5,
-  Div,
-  DivPrincipal
+  Input,
+  P,
+  StyledForm,
 } from "./LogInStyledComponent";
-import { backendUrl } from "../../deployConfig";
 
 const LogIn = () => {
   const [activeField, setActiveField] = useState(null);
@@ -65,7 +65,7 @@ const LogIn = () => {
 
   const openGoogleAuth = () => {
     window.location.href = `${backendUrl}/auth/google`;
-    console.log("precionaste el boton");
+    // console.log("precionaste el boton");
   };
 
   return (
@@ -73,13 +73,13 @@ const LogIn = () => {
       <DivPrincipal>
         <StyledForm onSubmit={formik.handleSubmit}>
           <Div>
-            <H5>Inicia sesion.</H5>
-            <H3>Ya Soy Miembro!</H3>
+            <H3>Ya estoy registrado!</H3>
+            <H5>Inicia sesión.</H5>
           </Div>
 
           <Input
             type="text"
-            placeholder="Tu Correo Electronico"
+            placeholder="Correo Electrónico"
             name="email"
             error={formik.touched.email && formik.errors.email}
             onClick={() => handleFieldClick("email")}
@@ -91,7 +91,7 @@ const LogIn = () => {
 
           <Input
             type="password"
-            placeholder="Tu Contraseña"
+            placeholder="Contraseña"
             name="password"
             error={formik.touched.password && formik.errors.password}
             onClick={() => handleFieldClick("password")}

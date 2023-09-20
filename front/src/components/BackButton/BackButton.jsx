@@ -11,7 +11,7 @@ const BackButton = () => {
 
   return (
     <Link to="#" onClick={handleGoBack} style={{ textDecoration: "none" }}>
-      <MyButton text="Ir Atras" variant="inicio" type="button" />
+      <MyButton text="Volver" variant="inicio" type="button" />
     </Link>
   );
 };

@@ -60,7 +60,7 @@ const AddStore = () => {
           <InputField
             type="text"
             name="description"
-            placeholder="Descripcion de la tienda"
+            placeholder="Descripción de la tienda"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.description}

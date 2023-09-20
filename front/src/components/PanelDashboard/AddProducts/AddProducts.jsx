@@ -1,22 +1,20 @@
 /* eslint-disable no-unused-vars */
+import axios from "axios";
+import { useFormik } from "formik";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { postProducts } from "../../../redux/Actions/productsAction";
-import styles from "./AddProduct.module.css";
-import { useFormik } from "formik";
 import * as Yup from "yup";
-import ImageUpload from "../../ImageUpload/ImageUpload";
-import { sessionActive } from "../../../redux/Actions/authAction";
 import { backendUrl } from "../../../deployConfig";
-import axios from "axios";
-
+import { postProducts } from "../../../redux/Actions/productsAction";
+import ImageUpload from "../../ImageUpload/ImageUpload";
+import styles from "./AddProduct.module.css";
 
 import {
-  TittleForm,
-  ProductFormContainer,
+  ErrorMessage,
   FormGroup,
   InputField,
-  ErrorMessage,
+  ProductFormContainer,
+  TittleForm,
 } from "./StyleComponenteAdd";
 
 const validationSchema = Yup.object({
@@ -53,33 +51,28 @@ const AddProducts = () => {
   const { user } = useSelector((state) => state.auth.user);
 
   const [storesId, setStoresId] = React.useState(false);
- const [stores, setStores] = useState([]);
+  const [stores, setStores] = useState([]);
   const getMyStores = async () => {
-    
-      try {
-        const response = await axios({
-          url: `${backendUrl}/store`,
-          method: "get",
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-            "refresh-token": user.refreshToken,
-          },
-        });
-       
+    try {
+      const response = await axios({
+        url: `${backendUrl}/store`,
+        method: "get",
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+          "refresh-token": user.refreshToken,
+        },
+      });
 
-        const allStore = response.data.data;
-        const myStores = allStore.filter(
-          (store) => store.user === user._id
-        );
- console.log(myStores.map((e)=>e._id))
-        if (!response.data.error) {
-          setStoresId(myStores.map((e)=>e._id));
-          setStores(myStores)
-        }
-      } catch (error) {
-        console.log("error de algo", error);
+      const allStore = response.data.data;
+      const myStores = allStore.filter((store) => store.user === user._id);
+      console.log(myStores.map((e) => e._id));
+      if (!response.data.error) {
+        setStoresId(myStores.map((e) => e._id));
+        setStores(myStores);
       }
-    
+    } catch (error) {
+      console.log("error de algo", error);
+    }
   };
 
   React.useEffect(() => {
@@ -114,7 +107,7 @@ const AddProducts = () => {
   });
 
   //
-//console.log(stores)
+  //console.log(stores)
   return (
     <ProductFormContainer>
       <TittleForm>Crea tu producto</TittleForm>
@@ -127,15 +120,13 @@ const AddProducts = () => {
       ) : (
         <form onSubmit={formik.handleSubmit}>
           <FormGroup>
-          
-      
-      <select
+            <select
               name="storeId"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.storeId}
             >
-              <option value="">--Seleciona una de tus tiendas--</option>
+              <option value="">--Selecciona una de tus tiendas--</option>
               {stores.map((storeName) => (
                 <option key={storeName._id} value={storeName._id}>
                   {storeName.name}
@@ -164,7 +155,7 @@ const AddProducts = () => {
             <InputField
               type="text"
               name="description"
-              placeholder="Descripcion del Producto"
+              placeholder="Descripción del Producto"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.description}
@@ -216,7 +207,7 @@ const AddProducts = () => {
             <InputField
               type="text"
               name="category"
-              placeholder="Categoria"
+              placeholder="Categoría"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.category}
@@ -229,7 +220,7 @@ const AddProducts = () => {
             <InputField
               type="text"
               name="subcategory"
-              placeholder="Subcategoria"
+              placeholder="Sub-categoría"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.subcategory}

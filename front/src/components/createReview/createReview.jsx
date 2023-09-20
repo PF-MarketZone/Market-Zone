@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
+import axios from "axios";
 import { useState } from "react";
 import { backendUrl } from "../../deployConfig";
-import axios from "axios";
 
 const colors = {
   orange: "gold",
@@ -57,7 +57,7 @@ const CreateReview = ({ H1Title, ReviewsDiv, idProduct, idUser }) => {
   return (
     <div style={styles.div}>
       <ReviewsDiv>
-        <h2>Escribe que tal te parecio el producto</h2>
+        <h2>Cuéntanos que te pareció el producto</h2>
 
         <H1Title>Califica tu compra</H1Title>
         <div style={styles.stars}>

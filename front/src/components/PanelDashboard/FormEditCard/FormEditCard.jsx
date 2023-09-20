@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { updateProduct } from "../../../redux/Actions/productsAction";
 import { useFormik } from "formik";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import * as Yup from "yup";
+import { updateProduct } from "../../../redux/Actions/productsAction";
 import ImageUpload from "../../ImageUpload/ImageUpload";
 import {
-  TittleForm,
-  ProductFormContainer,
+  ErrorMessage,
   FormGroup,
   InputField,
-  ErrorMessage,
+  ProductFormContainer,
+  TittleForm,
 } from "../AddProducts/StyleComponenteAdd";
 
 const validationSchema = Yup.object({
@@ -149,7 +149,7 @@ const FormEditCard = ({ update, product, onCancelEdit }) => {
             <InputField
               type="text"
               name="description"
-              placeholder="Descripcion del Producto"
+              placeholder="Descripción del Producto"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.description}
@@ -201,7 +201,7 @@ const FormEditCard = ({ update, product, onCancelEdit }) => {
             <InputField
               type="text"
               name="category"
-              placeholder="Categoria"
+              placeholder="Categoría"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.category}
@@ -214,7 +214,7 @@ const FormEditCard = ({ update, product, onCancelEdit }) => {
             <InputField
               type="text"
               name="subcategory"
-              placeholder="Subcategoria"
+              placeholder="Sub-categoría"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.subcategory}

@@ -1,23 +1,23 @@
 /* eslint-disable react/no-unknown-property */
+import axios from "axios";
+import { useFormik } from "formik";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { useFormik } from "formik";
 import * as Yup from "yup";
+import { backendUrl } from "../../deployConfig";
 import MyButton from "../Buttons/MainButton";
 import {
-  StyledForm,
-  SelectContainer,
-  Input,
   CustomSelect,
-  H3,
-  H3O,
-  H5,
   Div,
   DivName,
   DivPrincipal,
+  H3,
+  H3O,
+  H5,
+  Input,
+  SelectContainer,
+  StyledForm,
 } from "./singUpStyledComponent";
-import { backendUrl } from "../../deployConfig";
-import axios from "axios";
 
 const SignUp = () => {
   const [activeField, setActiveField] = useState(null);
@@ -99,8 +99,8 @@ const SignUp = () => {
       <DivPrincipal>
         <StyledForm onSubmit={formik.handleSubmit}>
           <Div>
-            <H5>Comience gratis.</H5>
-            <H3>Crea tu cuenta.</H3>
+            <H3>Crea tu cuenta gratis.</H3>
+            <H5>Regístrate</H5>
           </Div>
           <DivName>
             <Input
@@ -137,7 +137,7 @@ const SignUp = () => {
 
           <Input
             type="text"
-            placeholder="Tu Correo Electronico"
+            placeholder="Correo Electrónico"
             name="email"
             error={formik.touched.email && formik.errors.email}
             onClick={() => handleFieldClick("email")}
@@ -152,7 +152,7 @@ const SignUp = () => {
 
           <Input
             type="password"
-            placeholder="Tu Contraseña"
+            placeholder="Contraseña"
             name="password"
             error={formik.touched.password && formik.errors.password}
             onClick={() => handleFieldClick("password")}
@@ -166,7 +166,7 @@ const SignUp = () => {
 
           <Input
             type="password"
-            placeholder="Repite Tu Contraseña"
+            placeholder="Repite tu contraseña"
             name="confirmPassword"
             error={
               formik.touched.confirmPassword && formik.errors.confirmPassword
