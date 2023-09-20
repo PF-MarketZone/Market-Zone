@@ -399,7 +399,7 @@ const Profile = () => {
           </DivRollButton>
         </div>
         <div>
-          <H6>Telefono:</H6>
+          <H6>Teléfono:</H6>
           <DivPhone>
             {isEditingPhoneNumber ? (
               <div>
@@ -502,7 +502,7 @@ const Profile = () => {
           </DivAge>
         </div>
         <div>
-          <H6>Direccion:</H6>
+          <H6>Dirección:</H6>
           <DivAddress>
             {isEditingAddress ? (
               <div>
@@ -607,7 +607,7 @@ const Profile = () => {
           </DivAddress>
         </div>
         <div>
-          <H6>Direccion de envio:</H6>
+          <H6>Dirección de envío:</H6>
           <DivAddress>
             {formik.values.shippingAddress.map((address, index) => (
               <DivDirection key={index}>
